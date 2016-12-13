@@ -1,0 +1,8 @@
+
+jar {
+    baseName = 'Srez1'
+    version =  '1'
+}
+
+
+
