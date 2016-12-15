@@ -1,11 +1,15 @@
 package ru.innopolis.uni.course3.ofedorova;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.innopolis.uni.course3.ofedorova.handlers.HandlerForSumOfPositiveEvenNumbers;
+import ru.innopolis.uni.course3.ofedorova.parsers.Parser;
+import ru.innopolis.uni.course3.ofedorova.parsers.ParserForNumber;
+import ru.innopolis.uni.course3.ofedorova.storages.StorageData;
+import ru.innopolis.uni.course3.ofedorova.storages.StorageForSumOfPositiveEvenNumbers;
 
 import java.io.InputStream;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * Класс реализует запуск потоков для обработки ресурсов.
@@ -16,6 +20,8 @@ import java.util.concurrent.Executors;
  */
 public class ManagerOfProgram {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(ManagerOfProgram.class);
+
     /**
      * Метод стартует работу потоков над обработкой ресурсов.
      *
@@ -23,11 +29,12 @@ public class ManagerOfProgram {
      */
     public void start(List<InputStream> resources) {
 
-        final StorageForSumOfPositiveEvenNumbers storage = new StorageForSumOfPositiveEvenNumbers();
-        final ExecutorService service = Executors.newFixedThreadPool(4);
+        final StorageData storage = new StorageForSumOfPositiveEvenNumbers();
+        final Parser parser = new ParserForNumber();
 
         for (InputStream resource : resources) {
-            service.submit(new HandlerForSumOfPositiveEvenNumbers(storage, resource));
+            new Thread(new HandlerForSumOfPositiveEvenNumbers(resource, parser, storage)).start();
         }
+
     }
 }

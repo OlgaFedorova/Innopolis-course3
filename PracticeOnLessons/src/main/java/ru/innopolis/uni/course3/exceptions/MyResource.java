@@ -1,8 +1,5 @@
 package ru.innopolis.uni.course3.exceptions;
 
-import com.sun.org.apache.bcel.internal.generic.IUSHR;
-
-import java.io.Closeable;
 import java.io.IOException;
 
 /**

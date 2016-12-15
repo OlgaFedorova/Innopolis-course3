@@ -53,8 +53,8 @@ public class MyClass {
         Field[] publicFields = c1.getDeclaredFields();
         for (Field field : publicFields) {
             Class fieldType = field.getType();
-            System.out.println("Имя: " + field.getName());
-            System.out.println("Тип: " + fieldType.getName());
+            System.out.println("Name: " + field.getName());
+            System.out.println("Type: " + fieldType.getName());
 
         }
 
@@ -72,11 +72,11 @@ public class MyClass {
 
         Method[] methods = c1.getMethods();
         for (Method method : methods) {
-            System.out.println("Имя: " + method.getName());
-            System.out.println("Возвращаемый тип: " + method.getReturnType().getName());
+            System.out.println("Name: " + method.getName());
+            System.out.println("Return: " + method.getReturnType().getName());
 
             Class[] paramTypes = method.getParameterTypes();
-            System.out.print("Типы параметров: ");
+            System.out.print("Types of parametrs: ");
             for (Class paramType : paramTypes) {
                 System.out.print(" " + paramType.getName());
             }

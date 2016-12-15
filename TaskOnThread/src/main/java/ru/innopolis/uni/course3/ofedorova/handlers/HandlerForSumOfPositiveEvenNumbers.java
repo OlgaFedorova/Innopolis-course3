@@ -2,15 +2,13 @@ package ru.innopolis.uni.course3.ofedorova.handlers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.innopolis.uni.course3.ofedorova.IllegalResourceException;
-import ru.innopolis.uni.course3.ofedorova.StorageForSumOfPositiveEvenNumbers;
+import ru.innopolis.uni.course3.ofedorova.parsers.IllegalResourceException;
+import ru.innopolis.uni.course3.ofedorova.parsers.Parser;
+import ru.innopolis.uni.course3.ofedorova.storages.StorageData;
 
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Класс реализует обработку ресурса, для которого считает сумму всех положительных четных чисел.
@@ -20,81 +18,50 @@ import java.util.regex.Pattern;
  * @since 11.12.2016
  */
 public class HandlerForSumOfPositiveEvenNumbers extends HandlerOfResource {
-
     /**
-     * Объект для логирования.
+     * Объект для логгирования.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(HandlerForSumOfPositiveEvenNumbers.class);
-
     /**
-     * Хранилище для суммы всех положительных четных чисел ресурсов.
+     * Объект для храненения информации.
      */
-    private final StorageForSumOfPositiveEvenNumbers storageForSum;
+    private final StorageData<AtomicLong> storageData;
+
 
     /**
      * Создает новый {@code HandlerForSumOfPositiveEvenNumbers}.
      *
-     * @param sum      значение хранилища для суммы всех положительных четных чисел.
-     * @param resource значение ресурса для обработки.
+     * @param resource    значение поля "resource".
+     * @param parser      значение поля "parser".
+     * @param storageData значение поля "storageData".
      */
-    public HandlerForSumOfPositiveEvenNumbers(StorageForSumOfPositiveEvenNumbers sum, InputStream resource) {
-        super(resource);
-        this.storageForSum = sum;
+    public HandlerForSumOfPositiveEvenNumbers(InputStream resource, Parser parser, StorageData<AtomicLong> storageData) {
+        super(resource, parser, storageData);
+        this.storageData = storageData;
     }
 
     /**
      * Метод обрабатывает ресурс.
-     *
-     * @throws IllegalResourceException ошибка о некорректном формате ресурса.
      */
     @Override
-    public void handleResource() throws IllegalResourceException {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(this.getResource()));) {
-            String stringRead = "";
-            String regexNumber = "(-?\\d+)\\s*";
-            Matcher matcher = Pattern.compile(regexNumber).matcher(stringRead);
-            while (stringRead != null) {
-                stringRead = reader.readLine();
-                if (stringRead != null) {
-                    if (stringRead.matches(String.format("(%s){1,}", regexNumber))) {
-                        matcher.reset(stringRead);
-                        this.checkStringResource(matcher);
-                    } else {
-                        throw new IllegalResourceException();
+    public void handleResource(String stringRead) {
+        try {
+            List<String> list = this.getParser().parse(stringRead);
+            for (String string : list) {
+                final Integer number = Integer.valueOf(string);
+                if (!this.storageData.isInterrupted()) {
+                    if (number > 0 && number % 2 == 0) {
+                        System.out.printf("Сумма: %s%s", this.storageData.getStorageData().addAndGet(number), System.getProperty("line.separator"));
                     }
-
+                } else {
+                    break;
                 }
             }
-        } catch (IOException e) {
-            LOGGER.error("Handle resource.", e);
-        }
-    }
-
-    /**
-     * Метод для запуска в отдельном потоке.
-     */
-    @Override
-    public void run() {
-        try {
-            this.handleResource();
         } catch (IllegalResourceException e) {
-            LOGGER.error("Run.", e);
+            this.storageData.setInterrupted(true);
+            System.out.printf("Program is stopped. Has incorrect resource%s", System.getProperty("line.separator"));
+            LOGGER.error("Parse resource.", e);
         }
     }
 
-    /**
-     * Метод проверяет строку ресурса, считывает все положительные четные числа и суммирует их.
-     * Если строка ресурса содержит не только числа, унарный оператор "-" и пробелы, то будет выброшено исключение.
-     *
-     * @param matcher объект для поиска цифр в строке.
-     */
-    private void checkStringResource(Matcher matcher) {
-        while (matcher.find()) {
-            final Integer number = Integer.valueOf(matcher.group(1));
-            if (number > 0 && number % 2 == 0) {
-                this.storageForSum.addToSum(number);
-                System.out.printf("Сумма: %s%s", this.storageForSum.getSumma(), System.getProperty("line.separator"));
-            }
-        }
-    }
 }
