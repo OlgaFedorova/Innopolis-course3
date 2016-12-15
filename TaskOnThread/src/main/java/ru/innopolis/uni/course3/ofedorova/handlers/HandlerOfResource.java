@@ -1,9 +1,11 @@
 package ru.innopolis.uni.course3.ofedorova.handlers;
 
+import ru.innopolis.uni.course3.ofedorova.IllegalResourceException;
+
 import java.io.InputStream;
 
 /**
- * Abstract class implements of model handling resource.
+ * Абстрактный класс, реализующий модель обработки ресурса, который можно запускать для работы в отдельном потоке.
  *
  * @author Olga Fedorova
  * @version 1.0
@@ -11,28 +13,30 @@ import java.io.InputStream;
  */
 public abstract class HandlerOfResource implements Runnable {
     /**
-     * Object of resource for handling.
+     * Ресур для обработки.
      */
     private final InputStream resource;
 
     /**
-     * Allocates a new {@code HandlerOfResource}.
-     * @param resource value of field "resource".
+     * Создает новый {@code HandlerOfResource}.
+     *
+     * @param resource значение поля "resource".
      */
     public HandlerOfResource(InputStream resource) {
         this.resource = resource;
     }
 
     /**
-     * Getter for field "resource".
-     * @return value of field "resource".
+     * Геттер для поля "resource".
+     *
+     * @return значение поля "resource".
      */
     public InputStream getResource() {
         return this.resource;
     }
 
     /**
-     * Method implements a specific handling model.
+     * Метод реализует конкретный механизм обработки.
      */
-    public abstract void handleResource();
+    public abstract void handleResource() throws IllegalResourceException;
 }

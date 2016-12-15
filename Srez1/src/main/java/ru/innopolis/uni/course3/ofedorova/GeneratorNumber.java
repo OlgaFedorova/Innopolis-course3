@@ -11,7 +11,7 @@ public class GeneratorNumber implements Runnable {
     /**
      * Константа для проверки максимального значения в диапазоне чисел.
      */
-    private static int max = 99;
+    private static int max = 100;
     /**
      * Объект для хранения сгенерированных чисел.
      */
@@ -35,7 +35,7 @@ public class GeneratorNumber implements Runnable {
         while (!Thread.currentThread().isInterrupted()) {
             try {
                 Thread.sleep(1000);
-                this.storage.addNumber((int) (Math.random() * GeneratorNumber.max + 1));
+                this.storage.addNumber((int) (Math.random() * GeneratorNumber.max));
                 synchronized (this.storage) {
                     this.storage.notifyAll();
                 }

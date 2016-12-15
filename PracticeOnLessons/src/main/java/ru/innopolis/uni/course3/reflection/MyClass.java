@@ -2,6 +2,7 @@ package ru.innopolis.uni.course3.reflection;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.LinkedList;
 
@@ -63,6 +64,21 @@ public class MyClass {
             for (Class paramType : paramTypes) {
                 System.out.print(paramType.getName() + " ");
                 System.out.print(paramType.getTypeName() + " ");
+            }
+            System.out.println();
+        }
+
+        System.out.println("Методы:");
+
+        Method[] methods = c1.getMethods();
+        for (Method method : methods) {
+            System.out.println("Имя: " + method.getName());
+            System.out.println("Возвращаемый тип: " + method.getReturnType().getName());
+
+            Class[] paramTypes = method.getParameterTypes();
+            System.out.print("Типы параметров: ");
+            for (Class paramType : paramTypes) {
+                System.out.print(" " + paramType.getName());
             }
             System.out.println();
         }

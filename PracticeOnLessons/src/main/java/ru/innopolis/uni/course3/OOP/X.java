@@ -12,4 +12,15 @@ public class X {
         X x = new X();
         return 2 * x.getX();
     }
+
+    /*
+    public static double sqr(double arg) {
+
+        while (true);
+    }
+*/
+    public double sqr(double arg) {
+        int k = 1;
+        return k;
+    }
 }

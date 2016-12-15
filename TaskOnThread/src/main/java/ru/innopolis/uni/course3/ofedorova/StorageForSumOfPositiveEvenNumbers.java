@@ -1,19 +1,36 @@
 package ru.innopolis.uni.course3.ofedorova;
 
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
- * Created by Olga on 11.12.2016.
+ * Класс реализует хранилище для результата суммы всех положительных четных чисел из ресурсов.
+ *
+ * @author Olga Fedorova
+ * @version 1.0
+ * @since 11.12.2016
  */
 public class StorageForSumOfPositiveEvenNumbers {
 
-    private AtomicInteger sum = new AtomicInteger();
+    /**
+     * Переменная для хранения результата.
+     */
+    private AtomicLong sum = new AtomicLong();
 
-    public int getSumma() {
+    /**
+     * Геттер для результата  суммы.
+     *
+     * @return значение поля "sum".
+     */
+    public long getSumma() {
         return this.sum.get();
     }
 
-    public void addToSum(int number){
+    /**
+     * Суммирует переданное число к результату поля "sum".
+     *
+     * @param number значение для суммирования.
+     */
+    public void addToSum(int number) {
         this.sum.addAndGet(number);
     }
 

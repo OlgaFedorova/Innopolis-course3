@@ -2,7 +2,6 @@ package ru.innopolis.uni.course3.threads;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.RunnableFuture;
 
 /**
  * Created by Olga on 08.12.2016.

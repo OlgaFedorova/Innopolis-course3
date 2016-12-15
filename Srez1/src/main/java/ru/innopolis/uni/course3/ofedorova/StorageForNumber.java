@@ -1,7 +1,7 @@
 package ru.innopolis.uni.course3.ofedorova;
 
-import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.ConcurrentSkipListSet;
 
 /**
  * Класс для хранения множества уникальных сгенерированных чисел.
@@ -14,14 +14,14 @@ public class StorageForNumber {
     /**
      * Множество уникальных сгенерированных чисел.
      */
-    private final Set<Integer> set = new HashSet<>();
+    private final Set<Integer> set = new ConcurrentSkipListSet<>();
 
     /**
      * Геттер для множества.
      *
      * @return
      */
-    public synchronized Set<Integer> getSet() {
+    public  Set<Integer> getSet() {
         return this.set;
     }
 
@@ -30,12 +30,7 @@ public class StorageForNumber {
      *
      * @param number число для добавления.
      */
-    public synchronized void addNumber(int number) {
+    public void addNumber(int number) {
         this.set.add(number);
-    }
-
-    @Override
-    public synchronized String toString() {
-        return this.set.toString();
     }
 }

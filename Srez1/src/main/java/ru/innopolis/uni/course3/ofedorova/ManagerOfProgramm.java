@@ -26,6 +26,7 @@ public class ManagerOfProgramm {
                 break;
             }
         }
+        System.out.println("End program!");
     }
 
 }
