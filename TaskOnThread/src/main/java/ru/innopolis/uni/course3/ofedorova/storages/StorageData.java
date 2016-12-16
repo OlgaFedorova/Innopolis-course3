@@ -25,7 +25,7 @@ public abstract class StorageData<T> {
      *
      * @return значение поля "isInterrupted" .
      */
-    public boolean isInterrupted() {
+    public synchronized boolean isInterrupted() {
         return this.isInterrupted;
     }
 
@@ -34,7 +34,7 @@ public abstract class StorageData<T> {
      *
      * @param interrupted значение для поля "isInterrupted".
      */
-    public void setInterrupted(boolean interrupted) {
+    public synchronized void setInterrupted(boolean interrupted) {
         this.isInterrupted = interrupted;
     }
 }
