@@ -10,6 +10,8 @@ import ru.innopolis.uni.course3.ofedorova.storages.StorageForSumOfPositiveEvenNu
 
 import java.io.InputStream;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Класс реализует запуск потоков для обработки ресурсов.
@@ -31,10 +33,12 @@ public class ManagerOfProgram {
 
         final StorageData storage = new StorageForSumOfPositiveEvenNumbers();
         final Parser parser = new ParserForNumber();
+        final ExecutorService executor = Executors.newFixedThreadPool(4);
 
         for (InputStream resource : resources) {
-            new Thread(new HandlerForSumOfPositiveEvenNumbers(resource, parser, storage)).start();
+            executor.submit(new HandlerForSumOfPositiveEvenNumbers(resource, parser, storage));
         }
 
+        executor.shutdown();
     }
 }
