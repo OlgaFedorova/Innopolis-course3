@@ -51,7 +51,7 @@ public class HandlerForSumOfPositiveEvenNumbers extends HandlerOfResource {
                 final Integer number = Integer.valueOf(string);
                 if (!this.storageData.isInterrupted()) {
                     if (number > 0 && number % 2 == 0) {
-                        System.out.printf("Сумма: %s%s", this.storageData.getStorageData().addAndGet(number), System.getProperty("line.separator"));
+                        System.out.printf("Sum is %s%s", this.storageData.getStorageData().addAndGet(number), System.getProperty("line.separator"));
                     }
                 } else {
                     break;
