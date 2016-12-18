@@ -35,7 +35,7 @@ public class CheckerNumber implements Runnable {
                     this.storage.wait();
                 }
             } catch (InterruptedException e) {
-                break;
+                Thread.currentThread().interrupt();
             }
         }
 

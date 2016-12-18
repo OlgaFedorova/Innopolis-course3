@@ -40,7 +40,7 @@ public class GeneratorNumber implements Runnable {
                     this.storage.notifyAll();
                 }
             } catch (InterruptedException e) {
-                break;
+                Thread.currentThread().interrupt();
             }
         }
     }

@@ -23,7 +23,18 @@ public class StorageForSumOfPositiveEvenNumbers extends StorageData<AtomicLong> 
      */
     @Override
     public AtomicLong getStorageData() {
-        return this.sum;
+        AtomicLong result = null;
+        while(true){
+            if(this.getLock().tryLock()){
+                try{
+                    result = this.sum;
+                } finally{
+                    this.getLock().unlock();
+                }
+                break;
+            }
+        }
+        return result;
     }
 
 }

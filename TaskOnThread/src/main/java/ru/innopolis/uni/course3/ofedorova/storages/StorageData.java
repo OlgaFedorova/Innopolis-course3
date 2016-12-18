@@ -18,7 +18,7 @@ public abstract class StorageData<T> {
     /**
      * Объект для блокировки.
      */
-    private final Lock lock = new ReentrantLock();
+    private final Lock lock = new ReentrantLock(true);
 
     /**
      * Геттер для хранения результата.
@@ -28,18 +28,26 @@ public abstract class StorageData<T> {
     public abstract T getStorageData();
 
     /**
+     * Getter for lock.
+     * @return object for lock.
+     */
+    public Lock getLock() {
+        return lock;
+    }
+
+    /**
      * Геттер для поля "isInterrupted".
      *
      * @return значение поля "isInterrupted" .
      */
-    public synchronized boolean isInterrupted() {
+    public boolean isInterrupted() {
         boolean result = false;
         while(true){
-            if(lock.tryLock()){
+            if(this.lock.tryLock()){
                 try{
                     result = this.isInterrupted;
                 } finally{
-                    lock.unlock();
+                    this.lock.unlock();
                 }
                 break;
             }
@@ -54,11 +62,11 @@ public abstract class StorageData<T> {
      */
     public void setInterrupted(boolean interrupted) {
         while(true){
-            if(lock.tryLock()){
+            if(this.lock.tryLock()){
                 try{
                     this.isInterrupted = interrupted;
                 } finally{
-                    lock.unlock();
+                    this.lock.unlock();
                 }
                 break;
             }
