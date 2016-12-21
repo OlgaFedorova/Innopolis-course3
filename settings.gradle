@@ -3,4 +3,5 @@ rootProject.name = 'Innopolis - corse3'
 include 'PracticeOnLessons', 'Srez1', 'TaskOnThread'
 include 'ISTeachingProgramming'
 include 'ISStudents'
+include 'pet-web-clinic'
 
