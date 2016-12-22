@@ -3,7 +3,7 @@
 
 <html>
 <head>
-    <title></title>
+    <title>Список студентов</title>
 </head>
 <body>
 <a href="${pageContext.servletContext.contextPath}/views/student/CreateStudent.jsp">Добавить студента</a>

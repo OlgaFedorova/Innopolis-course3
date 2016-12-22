@@ -1,7 +1,6 @@
-package ru.innopolis.uni.course3.ofedorova.store.storageofstudents;
+package ru.innopolis.uni.course3.ofedorova.store.lectures;
 
 import ru.innopolis.uni.course3.ofedorova.models.Lecture;
-import ru.innopolis.uni.course3.ofedorova.models.Student;
 import ru.innopolis.uni.course3.ofedorova.service.Settings;
 
 import java.sql.*;
@@ -12,7 +11,7 @@ import java.util.List;
 /**
  * Created by Olga on 22.12.2016.
  */
-public class JdbcStorage implements StorageOfStudent {
+public class JdbcStorage implements StorageOfLecture {
 
     static{
         try {
@@ -34,24 +33,25 @@ public class JdbcStorage implements StorageOfStudent {
     }
 
     @Override
-    public Collection<Student> values() {
-        final List<Student> students = new ArrayList<>();
+    public Collection<Lecture> values() {
+        final List<Lecture> lectures = new ArrayList<>();
         try (final Statement statement = this.connection.createStatement();
-             final ResultSet rs = statement.executeQuery("SELECT * FROM students ORDER BY name")) {
+            final ResultSet rs = statement.executeQuery("SELECT * FROM lectures ORDER BY id")) {
             while (rs.next()) {
-                students.add(new Student(rs.getInt("id"), rs.getString("name"), rs.getString("class")));
+                lectures.add(new Lecture(rs.getInt("id"), rs.getString("subject"), rs.getInt("hours_of_theory"), rs.getInt("hours_of_practice")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return students;
+        return lectures;
     }
 
     @Override
-    public int add(Student student) {
-        try (final PreparedStatement statement = this.connection.prepareStatement("INSERT  INTO students (name, class) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS)) {
-            statement.setString(1, student.getName());
-            statement.setString(2, student.getGroup());
+    public int add(Lecture lecture) {
+        try (final PreparedStatement statement = this.connection.prepareStatement("INSERT  INTO lectures (subject, hours_of_theory, hours_of_practice) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS)) {
+            statement.setString(1, lecture.getSubject());
+            statement.setInt(2, lecture.getHoursOfTheory());
+            statement.setInt(3, lecture.getHoursOfPractice());
             statement.executeUpdate();
             try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
@@ -61,15 +61,16 @@ public class JdbcStorage implements StorageOfStudent {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        throw new IllegalStateException("Could not create new student");
+        throw new IllegalStateException("Could not create new lecture");
     }
 
     @Override
-    public void edit(Student student) {
-        try (final PreparedStatement statement = this.connection.prepareStatement("UPDATE students SET name = ?, class = ? WHERE id = ?")) {
-            statement.setString(1, student.getName());
-            statement.setString(2, student.getGroup());
-            statement.setInt(3, student.getId());
+    public void edit(Lecture lecture) {
+        try (final PreparedStatement statement = this.connection.prepareStatement("UPDATE lectures SET subject = ?, hours_of_theory = ?, hours_of_practice = ? WHERE id = ?")) {
+            statement.setString(1, lecture.getSubject());
+            statement.setInt(2, lecture.getHoursOfTheory());
+            statement.setInt(3, lecture.getHoursOfPractice());
+            statement.setInt(4, lecture.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -78,7 +79,7 @@ public class JdbcStorage implements StorageOfStudent {
 
     @Override
     public void delete(int id) {
-        try (final PreparedStatement statement = this.connection.prepareStatement("DELETE FROM  students WHERE id = ?")) {
+        try (final PreparedStatement statement = this.connection.prepareStatement("DELETE FROM  lectures WHERE id = ?")) {
             statement.setInt(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -87,18 +88,18 @@ public class JdbcStorage implements StorageOfStudent {
     }
 
     @Override
-    public Student get(int id) {
-        try (final PreparedStatement statement = this.connection.prepareStatement("SELECT * FROM students WHERE id = ?")) {
+    public Lecture get(int id) {
+        try (final PreparedStatement statement = this.connection.prepareStatement("SELECT * FROM lectures WHERE id = ?")) {
             statement.setInt(1, id);
             try (final ResultSet rs = statement.executeQuery()) {
                 while (rs.next()) {
-                    return new Student(rs.getInt("id"), rs.getString("name"), rs.getString("class"));
+                    return new Lecture(rs.getInt("id"), rs.getString("subject"), rs.getInt("hours_of_theory"), rs.getInt("hours_of_practice"));
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        throw new IllegalStateException(String.format("Student %s does not exists", id));
+        throw new IllegalStateException(String.format("Lecture %s does not exists", id));
     }
 
     @Override

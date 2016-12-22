@@ -1,4 +1,4 @@
-package ru.innopolis.uni.course3.ofedorova.servlets;
+package ru.innopolis.uni.course3.ofedorova.servlets.students;
 
 import ru.innopolis.uni.course3.ofedorova.store.storageofstudents.StudentCache;
 
@@ -12,19 +12,15 @@ import java.io.IOException;
 /**
  * Created by Olga on 22.12.2016.
  */
-public class StudentEditServlet extends HttpServlet {
+public class StudentViewServlet extends HttpServlet {
 
     private final StudentCache studentCache = new StudentCache();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("student", this.studentCache.get(Integer.valueOf(req.getParameter("id"))));
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/views/student/EditStudent.jsp");
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
+        req.setAttribute("students", this.studentCache.values());
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/views/student/StudentView.jsp");
+        dispatcher.forward(req, resp);
     }
 
     @Override

@@ -13,6 +13,7 @@ create table lectures (
 );
 --Journal
 create table journal (
+    id serial primary key,
 		date_of_record DATE,
 		lecture_id int not null references lectures(id),
 		student_id int not null references students(id)

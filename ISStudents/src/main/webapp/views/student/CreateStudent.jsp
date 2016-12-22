@@ -3,7 +3,7 @@
 
 <html>
 <head>
-    <title></title>
+    <title>Создание студента</title>
 </head>
 <body>
 <form action="${pageContext.servletContext.contextPath}/student/create" method="POST">

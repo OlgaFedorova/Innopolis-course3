@@ -3,26 +3,30 @@
 
 <html>
 <head>
-    <title></title>
+    <title>Редактирование студента</title>
 </head>
 <body>
 <form action="${pageContext.servletContext.contextPath}/student/edit" method="POST">
-    <input type="hidden" name="id" value="${user.id}">
+    <input type="hidden" name="id" value="${id}">
     <table>
         <tr>
-            <td align="right" >Login : </td>
+            <td align="right" >Id : </td>
+            <td align="right" >${id}</td>
+        </tr>
+        <tr>
+            <td align="right" >Имя : </td>
             <td>
-                <input type="text" name="login" value="${user.login}">
+                <input type="text" name="name" value="${name}">
             </td>
         </tr>
         <tr>
-            <td align="right" >Email : </td>
+            <td align="right" >Группа : </td>
             <td>
-                <input type="text" name="email" value="${user.email}">
+                <input type="text" name="group" value="${group}">
             </td>
         </tr>
         <tr>
-            <td><input type="submit" align="center" value="Submit"/></td>
+            <td><input type="submit" align="center" value="Отправить"/></td>
         </tr>
     </table>
 </form>

@@ -1,6 +1,5 @@
-package ru.innopolis.uni.course3.ofedorova.servlets;
+package ru.innopolis.uni.course3.ofedorova.servlets.students;
 
-import ru.innopolis.uni.course3.ofedorova.models.Student;
 import ru.innopolis.uni.course3.ofedorova.store.storageofstudents.StudentCache;
 
 import javax.servlet.ServletException;
@@ -12,13 +11,13 @@ import java.io.IOException;
 /**
  * Created by Olga on 22.12.2016.
  */
-public class StudentCreateServlet extends HttpServlet {
+public class StudentDeleteServlet extends HttpServlet {
 
     private final StudentCache studentCache = new StudentCache();
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        this.studentCache.add(new Student(this.studentCache.generateId(), req.getParameter("name"), req.getParameter("class")));
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        this.studentCache.delete(Integer.valueOf(req.getParameter("id")));
         resp.sendRedirect(String.format("%s%s", req.getContextPath(), "/student/view"));
     }
 
@@ -28,3 +27,4 @@ public class StudentCreateServlet extends HttpServlet {
         this.studentCache.close();
     }
 }
+

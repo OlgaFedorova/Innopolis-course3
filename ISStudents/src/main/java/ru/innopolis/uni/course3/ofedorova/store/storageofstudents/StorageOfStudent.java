@@ -22,4 +22,5 @@ public interface StorageOfStudent {
     public int generateId();
 
     public void close();
+
 }
