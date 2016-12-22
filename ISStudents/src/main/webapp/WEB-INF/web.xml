@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
+
+    <display-name>StudentsIS</display-name>
+
+    <servlet>
+        <servlet-name>StudentViewServlet</servlet-name>
+        <servlet-class>ru.innopolis.uni.course3.ofedorova.servlets.StudentViewServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>StudentViewServlet</servlet-name>
+        <url-pattern>/student/view</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>StudentCreateServlet</servlet-name>
+        <servlet-class>ru.innopolis.uni.course3.ofedorova.servlets.StudentCreateServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>StudentCreateServlet</servlet-name>
+        <url-pattern>/student/create</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>StudentEditServlet</servlet-name>
+        <servlet-class>ru.innopolis.uni.course3.ofedorova.servlets.StudentEditServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>StudentEditServlet</servlet-name>
+        <url-pattern>/student/edit</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>MainServlet</servlet-name>
+        <servlet-class>ru.innopolis.uni.course3.ofedorova.servlets.MainServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MainServlet</servlet-name>
+        <url-pattern>/main</url-pattern>
+    </servlet-mapping>
+</web-app>

@@ -1,60 +1,67 @@
 package ru.innopolis.uni.course3.socket;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by Olga on 21.12.2016.
  */
 public class Server {
 
-    private volatile boolean isExit = false;
+    public void start() {
 
-    public void start(){
+        List<Thread> threadReads = new CopyOnWriteArrayList<>();
+        List<Writer> writerList = new CopyOnWriteArrayList<>();
 
-        try(ServerSocket serverSocket = new ServerSocket(3456);
-            Socket socket = serverSocket.accept();
-            OutputStream outputStream = socket.getOutputStream();
-            BufferedReader readerConsole = new BufferedReader(new InputStreamReader(System.in));
-            BufferedReader readerForRead = new BufferedReader(new InputStreamReader(socket.getInputStream()));){
+        try (ServerSocket serverSocket = new ServerSocket(3456);
+             Socket socket = serverSocket.accept();
+             Writer writer = new PrintWriter(socket.getOutputStream());) {
 
-            // Send data
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    String outputMessage = "";
-                    do {
-                        try {
-                            outputMessage = readerConsole.readLine();
-                            outputStream.write(("Server: " + outputMessage).getBytes());
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    } while ("exit".equalsIgnoreCase(outputMessage));
-                    Server.this.isExit = true;
+                BufferedReader readerConsole = new BufferedReader(new InputStreamReader(System.in));
+
+                //Запускаем поток, который читает информацию от клиента
+                Thread threadRead = new ThreadRead(new BufferedReader(new InputStreamReader(socket.getInputStream())));
+                threadRead.start();
+
+                //Печатаю информацию и отправляю клиентам
+                while (!Thread.currentThread().isInterrupted()) {
+                    String string = readerConsole.readLine();
+                    if ("exit".equalsIgnoreCase(string)) {
+                        Thread.currentThread().interrupt();
+                        threadRead.interrupt();
+                    }
+                    writer.write(String.format("Server: %s\n", string));
+                    writer.flush();
                 }
-            }).start();
 
-            //Read data
-            String inputMessage = "";
-            while (!this.isExit) {
-                try {
-                    inputMessage = readerForRead.readLine();
-                    System.out.println(inputMessage);
+
+            /*
+            Thread serverToClient = new ThreadServerToClient(Thread.currentThread(), threadReads, writerList);
+            serverToClient.start();
+
+            //while (!Thread.currentThread().isInterrupted()){
+                try (Socket socket = serverSocket.accept();) {
+                    Writer writer = new PrintWriter(socket.getOutputStream());
+                    writerList.add(writer);
+
+                    //Запускаем поток, который читает информацию от клиента
+                    Thread threadRead = new ThreadRead(new BufferedReader(new InputStreamReader(socket.getInputStream())));
+                    threadRead.start();
+                    threadReads.add(threadRead);
+
                 } catch (IOException e) {
                     e.printStackTrace();
-                    System.exit(1);
                 }
-            }
+
+            //}*/
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-    }
+        }
 
     public static void main(String[] args) {
         new Server().start();
