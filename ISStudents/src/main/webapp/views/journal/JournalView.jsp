@@ -6,7 +6,7 @@
     <title>Список записей в журнале</title>
 </head>
 <body>
-<a href="${pageContext.servletContext.contextPath}/views/journal/CreateJournal.jsp">Добавить запись</a>
+<a href="${pageContext.servletContext.contextPath}/journal/create">Добавить запись</a>
 <table border="1">
     <tr>
         <td>Дата</td>

@@ -1,6 +1,8 @@
 package ru.innopolis.uni.course3.ofedorova.store.journal;
 
 import ru.innopolis.uni.course3.ofedorova.models.Journal;
+import ru.innopolis.uni.course3.ofedorova.models.Lecture;
+import ru.innopolis.uni.course3.ofedorova.models.Student;
 
 import java.util.Collection;
 
@@ -18,4 +20,10 @@ public interface StorageOfJournal {
     public int generateId();
 
     public void close();
+
+    public Collection<Lecture> getLectures();
+
+    public Lecture getLecture(final int id);
+
+    public Student getStudent(final int id);
 }

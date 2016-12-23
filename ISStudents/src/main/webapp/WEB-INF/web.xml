@@ -97,6 +97,15 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>JournalCreateServlet</servlet-name>
+        <servlet-class>ru.innopolis.uni.course3.ofedorova.servlets.journal.JournalCreateServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>JournalCreateServlet</servlet-name>
+        <url-pattern>/journal/create</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>MainServlet</servlet-name>
         <servlet-class>ru.innopolis.uni.course3.ofedorova.servlets.MainServlet</servlet-class>
     </servlet>

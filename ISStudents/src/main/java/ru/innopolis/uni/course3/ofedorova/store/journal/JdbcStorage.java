@@ -6,6 +6,8 @@ import ru.innopolis.uni.course3.ofedorova.models.Student;
 import ru.innopolis.uni.course3.ofedorova.service.Settings;
 
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -61,7 +63,9 @@ public class JdbcStorage implements StorageOfJournal {
     @Override
     public int add(Journal journal) {
         try (final PreparedStatement statement = this.connection.prepareStatement("INSERT  INTO journal (date_of_record, lecture_id, student_id) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS)) {
-            statement.setString(1, journal.getDateOfRecord());
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            java.util.Date date = formatter.parse(journal.getDateOfRecord());
+            statement.setDate(1, new java.sql.Date(date.getTime()));
             statement.setInt(2, journal.getLecture().getId());
             statement.setInt(3, journal.getStudent().getId());
             statement.executeUpdate();
@@ -71,6 +75,8 @@ public class JdbcStorage implements StorageOfJournal {
                 }
             }
         } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
             e.printStackTrace();
         }
         throw new IllegalStateException("Could not create new record in journal");
@@ -99,5 +105,49 @@ public class JdbcStorage implements StorageOfJournal {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public Collection<Lecture> getLectures() {
+        final List<Lecture> lectures = new ArrayList<>();
+        try (final Statement statement = this.connection.createStatement();
+             final ResultSet rs = statement.executeQuery("SELECT * FROM lectures ORDER BY id")) {
+            while (rs.next()) {
+                lectures.add(new Lecture(rs.getInt("id"), rs.getString("subject"), rs.getInt("hours_of_theory"), rs.getInt("hours_of_practice")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lectures;
+    }
+
+    @Override
+    public Lecture getLecture(int id) {
+        try (final PreparedStatement statement = this.connection.prepareStatement("SELECT * FROM lectures WHERE id = ?")) {
+            statement.setInt(1, id);
+            try (final ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    return new Lecture(rs.getInt("id"), rs.getString("subject"), rs.getInt("hours_of_theory"), rs.getInt("hours_of_practice"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        throw new IllegalStateException(String.format("Lecture %s does not exists", id));
+    }
+
+    @Override
+    public Student getStudent(int id) {
+        try (final PreparedStatement statement = this.connection.prepareStatement("SELECT * FROM students WHERE id = ?")) {
+            statement.setInt(1, id);
+            try (final ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    return new Student(rs.getInt("id"), rs.getString("name"), rs.getString("class"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        throw new IllegalStateException(String.format("Student %s does not exists", id));
     }
 }

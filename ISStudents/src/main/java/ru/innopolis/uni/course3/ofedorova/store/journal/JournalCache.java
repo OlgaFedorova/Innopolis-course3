@@ -1,6 +1,8 @@
 package ru.innopolis.uni.course3.ofedorova.store.journal;
 
 import ru.innopolis.uni.course3.ofedorova.models.Journal;
+import ru.innopolis.uni.course3.ofedorova.models.Lecture;
+import ru.innopolis.uni.course3.ofedorova.models.Student;
 
 import java.util.Collection;
 
@@ -39,5 +41,20 @@ public class JournalCache implements StorageOfJournal {
     @Override
     public void close() {
         this.storage.close();
+    }
+
+    @Override
+    public Collection<Lecture> getLectures() {
+        return this.storage.getLectures();
+    }
+
+    @Override
+    public Lecture getLecture(int id) {
+        return this.storage.getLecture(id);
+    }
+
+    @Override
+    public Student getStudent(int id) {
+        return this.storage.getStudent(id);
     }
 }
