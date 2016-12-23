@@ -40,7 +40,7 @@ public class TestPrivateMethod {
         System.out.println(a1.test());
 
         List<String> list = new CopyOnWriteArrayList<>();
-        //List<String> list = new ArrayList<>();
+        //List<StringTest> list = new ArrayList<>();
 
         list.add("one");
         list.add("two");

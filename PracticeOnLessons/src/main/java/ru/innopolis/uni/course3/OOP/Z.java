@@ -9,7 +9,7 @@ public class Z {
     }
 
     public void print( String str ) {
-        System.out.println( "String" );
+        System.out.println( "StringTest" );
     }
 
     public void print( Integer i ) {

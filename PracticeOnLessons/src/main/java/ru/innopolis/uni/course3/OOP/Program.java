@@ -15,7 +15,7 @@ public class Program {
     static class Sub extends Base {
         private String name = "Sub";
         /*
-        public String getName() {
+        public StringTest getName() {
             return name;
         }*/
     }

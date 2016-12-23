@@ -6,7 +6,7 @@ package ru.innopolis.uni.course3.OOP;
 public class TestObject {
 
     public static void main(String[] args) {
-        Object obj = new String("String object");
+        Object obj = new String("StringTest object");
         String str = (String) new Object();
         System.out.println(obj);
         System.out.println(str);

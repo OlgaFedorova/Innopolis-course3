@@ -52,7 +52,7 @@ public class Deserializator {
                         field.setAccessible(true);
                         if("int".equals(typeField)){
                             field.setInt(object, Integer.valueOf(valueField));
-                        }else if("String".equals(typeField)){
+                        }else if("StringTest".equals(typeField)){
                             field.set(object, valueField);
                         }
                     }
