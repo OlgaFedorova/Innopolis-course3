@@ -24,5 +24,9 @@
         </tr>
     </c:forEach>
 </table>
+<br>
+<br>
+<br>
+<p><a href="/index.html">НА ГЛАВНУЮ</a></p>
 </body>
 </html>

@@ -1,7 +1,7 @@
 package ru.innopolis.uni.course3.ofedorova.store.students;
 
 import ru.innopolis.uni.course3.ofedorova.models.Student;
-import ru.innopolis.uni.course3.ofedorova.service.Settings;
+import ru.innopolis.uni.course3.ofedorova.service.ConnectionPoolFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -13,25 +13,15 @@ import java.util.List;
  */
 public class JdbcStorage implements StorageOfStudent {
 
-    static{
+    private Connection connection;
+
+    public JdbcStorage() {
         try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
+            this.connection = ConnectionPoolFactory.getConnection();
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-
-    private final Connection connection;
-
-    public JdbcStorage() {
-        final Settings settings = Settings.getInstance();
-        try {
-            this.connection = DriverManager.getConnection(settings.value("jdbc.url"), settings.value("jdbc.username"), settings.value("jdbc.password"));
-        } catch (SQLException e) {
-            throw new IllegalStateException(e);
-        }
-    }
-
     @Override
     public Collection<Student> values() {
         final List<Student> students = new ArrayList<>();

@@ -3,7 +3,7 @@ package ru.innopolis.uni.course3.ofedorova.store.journal;
 import ru.innopolis.uni.course3.ofedorova.models.Journal;
 import ru.innopolis.uni.course3.ofedorova.models.Lecture;
 import ru.innopolis.uni.course3.ofedorova.models.Student;
-import ru.innopolis.uni.course3.ofedorova.service.Settings;
+import ru.innopolis.uni.course3.ofedorova.service.ConnectionPoolFactory;
 
 import java.sql.*;
 import java.text.ParseException;
@@ -17,22 +17,13 @@ import java.util.List;
  */
 public class JdbcStorage implements StorageOfJournal {
 
-    static{
-        try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private final Connection connection;
+    private Connection connection;
 
     public JdbcStorage() {
-        final Settings settings = Settings.getInstance();
         try {
-            this.connection = DriverManager.getConnection(settings.value("jdbc.url"), settings.value("jdbc.username"), settings.value("jdbc.password"));
+            this.connection = ConnectionPoolFactory.getConnection();
         } catch (SQLException e) {
-            throw new IllegalStateException(e);
+            e.printStackTrace();
         }
     }
 
