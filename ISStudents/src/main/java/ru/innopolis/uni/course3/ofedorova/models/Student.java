@@ -29,4 +29,9 @@ public class Student extends Base {
     public void setGroup(String group) {
         this.group = group;
     }
+
+    @Override
+    public String toString() {
+        return name + ", " + group;
+    }
 }

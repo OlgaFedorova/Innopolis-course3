@@ -57,4 +57,9 @@ public class JournalCache implements StorageOfJournal {
     public Student getStudent(int id) {
         return this.storage.getStudent(id);
     }
+
+    @Override
+    public Collection<Student> getStudents() {
+        return this.storage.getStudents();
+    }
 }

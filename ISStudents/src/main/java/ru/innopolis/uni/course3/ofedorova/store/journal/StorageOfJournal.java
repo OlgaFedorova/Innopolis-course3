@@ -23,6 +23,8 @@ public interface StorageOfJournal {
 
     public Collection<Lecture> getLectures();
 
+    public Collection<Student> getStudents();
+
     public Lecture getLecture(final int id);
 
     public Student getStudent(final int id);

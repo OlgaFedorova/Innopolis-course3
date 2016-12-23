@@ -28,6 +28,19 @@
             </td>
         </tr>
         <tr>
+            <td align="right" >Студент : </td>
+            <td>
+                <select name="student">
+                    <option value="${selected.getId()}" selected>${selected.toString()}</option>
+                    <c:forEach items="${students}" var="student">
+                        <c:if test="${student != selected}">
+                            <option value="${student.getId()}">${student.toString()}</option>
+                        </c:if>
+                    </c:forEach>
+                </select>
+            </td>
+        </tr>
+        <tr>
             <td><input type="submit" align="center" value="Создать"/></td>
         </tr>
     </table>

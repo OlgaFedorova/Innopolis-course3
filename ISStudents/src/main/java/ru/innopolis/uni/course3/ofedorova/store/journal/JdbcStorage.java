@@ -150,4 +150,18 @@ public class JdbcStorage implements StorageOfJournal {
         }
         throw new IllegalStateException(String.format("Student %s does not exists", id));
     }
+
+    @Override
+    public Collection<Student> getStudents() {
+        final List<Student> students = new ArrayList<>();
+        try (final Statement statement = this.connection.createStatement();
+             final ResultSet rs = statement.executeQuery("SELECT * FROM students ORDER BY name")) {
+            while (rs.next()) {
+                students.add(new Student(rs.getInt("id"), rs.getString("name"), rs.getString("class")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return students;
+    }
 }
