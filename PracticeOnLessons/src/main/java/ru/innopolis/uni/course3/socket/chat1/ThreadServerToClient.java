@@ -1,4 +1,4 @@
-package ru.innopolis.uni.course3.socket;
+package ru.innopolis.uni.course3.socket.chat1;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -39,7 +39,7 @@ public class ThreadServerToClient extends Thread {
                     main.interrupt();
                 }
                 for (Writer writer : writerList) {
-                    writer.write(String.format("Server: %s\n", string));
+                    writer.write(String.format("server: %s\n", string));
                     writer.flush();
                 }
             }

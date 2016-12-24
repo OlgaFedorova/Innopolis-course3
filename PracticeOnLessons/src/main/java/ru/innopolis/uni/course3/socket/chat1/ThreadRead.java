@@ -1,4 +1,4 @@
-package ru.innopolis.uni.course3.socket;
+package ru.innopolis.uni.course3.socket.chat1;
 
 import java.io.BufferedReader;
 import java.io.IOException;

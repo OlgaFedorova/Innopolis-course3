@@ -1,4 +1,4 @@
-package ru.innopolis.uni.course3.socket;
+package ru.innopolis.uni.course3.socket.chat1;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -33,7 +33,7 @@ public class Server {
                         Thread.currentThread().interrupt();
                         threadRead.interrupt();
                     }
-                    writer.write(String.format("Server: %s\n", string));
+                    writer.write(String.format("server: %s\n", string));
                     writer.flush();
                 }
 
@@ -48,7 +48,7 @@ public class Server {
                     writerList.add(writer);
 
                     //Запускаем поток, который читает информацию от клиента
-                    Thread threadRead = new ThreadRead(new BufferedReader(new InputStreamReader(socket.getInputStream())));
+                    Thread threadRead = new ThreadReadInputData(new BufferedReader(new InputStreamReader(socket.getInputStream())));
                     threadRead.start();
                     threadReads.add(threadRead);
 

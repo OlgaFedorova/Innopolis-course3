@@ -1,4 +1,6 @@
-package ru.innopolis.uni.course3.socket;
+package ru.innopolis.uni.course3.socket.chat2.clients;
+
+import ru.innopolis.uni.course3.socket.chat2.common.ThreadReadInputData;
 
 import java.io.*;
 import java.net.Socket;
@@ -9,27 +11,27 @@ import java.net.Socket;
 public class Client {
     private static volatile int port = 3456;
     private static volatile int count = 1;
+    private static volatile int number = Client.count++;
 
     public void start() {
-        int number = Client.count++;
-        boolean isExit = false;
         try (Socket socket = new Socket("localhost", Client.port++);
-             Writer writer = new PrintWriter(socket.getOutputStream());) {
 
-            BufferedReader readerConsole = new BufferedReader(new InputStreamReader(System.in));
+             Writer writer = new PrintWriter(socket.getOutputStream());
+             BufferedReader console = new BufferedReader(new InputStreamReader(System.in));) {
 
             //Запускаем поток, который читает информацию от сервера
-            Thread threadRead = new ThreadRead(new BufferedReader(new InputStreamReader(socket.getInputStream())));
-            threadRead.start();
+            new ThreadReadInputData(socket).start();
 
             //Печатаю информацию и отправляю серверу
             while (!Thread.currentThread().isInterrupted()) {
-                String string = readerConsole.readLine();
+                String string = console.readLine();
                 if ("exit".equalsIgnoreCase(string)) {
                     Thread.currentThread().interrupt();
-                    threadRead.interrupt();
+                    writer.write(String.format("Client%s: %s\n", this.number, string));
+                    writer.write(string);
+                }else{
+                    writer.write(String.format("Client%s: %s\n", this.number, string));
                 }
-                writer.write(String.format("Client%s: %s\n", number, string));
                 writer.flush();
             }
         } catch (IOException e) {
