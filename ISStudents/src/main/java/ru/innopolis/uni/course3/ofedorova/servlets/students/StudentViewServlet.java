@@ -1,6 +1,6 @@
 package ru.innopolis.uni.course3.ofedorova.servlets.students;
 
-import ru.innopolis.uni.course3.ofedorova.store.students.StudentCache;
+import ru.innopolis.uni.course3.ofedorova.dao.students.StudentCache;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;

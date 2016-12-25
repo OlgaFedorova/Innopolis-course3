@@ -1,4 +1,4 @@
-package ru.innopolis.uni.course3.ofedorova.store.journal;
+package ru.innopolis.uni.course3.ofedorova.dao.journal;
 
 import ru.innopolis.uni.course3.ofedorova.models.Journal;
 import ru.innopolis.uni.course3.ofedorova.models.Lecture;

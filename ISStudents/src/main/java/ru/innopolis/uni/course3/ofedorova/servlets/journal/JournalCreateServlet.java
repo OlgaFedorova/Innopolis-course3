@@ -3,7 +3,7 @@ package ru.innopolis.uni.course3.ofedorova.servlets.journal;
 import ru.innopolis.uni.course3.ofedorova.models.Journal;
 import ru.innopolis.uni.course3.ofedorova.models.Lecture;
 import ru.innopolis.uni.course3.ofedorova.models.Student;
-import ru.innopolis.uni.course3.ofedorova.store.journal.JournalCache;
+import ru.innopolis.uni.course3.ofedorova.dao.journal.JournalCache;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;

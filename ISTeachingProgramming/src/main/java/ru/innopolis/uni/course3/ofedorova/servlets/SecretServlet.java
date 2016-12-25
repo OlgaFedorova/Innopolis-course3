@@ -1,6 +1,4 @@
-package ru.innopolis.uni.course3.ofedorova.servlets.journal;
-
-import ru.innopolis.uni.course3.ofedorova.dao.journal.JournalCache;
+package ru.innopolis.uni.course3.ofedorova.servlets;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,20 +10,18 @@ import java.io.IOException;
 /**
  * Created by Olga on 22.12.2016.
  */
-public class JournalViewServlet extends HttpServlet {
-
-    private final JournalCache journalCache = new JournalCache();
+public class SecretServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("records", this.journalCache.values());
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/views/journal/JournalView.jsp");
+        //req.setAttribute("students", this.studentCache.values());
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/main/secret/SecretView.jsp");
         dispatcher.forward(req, resp);
     }
 
     @Override
     public void destroy() {
         super.destroy();
-        this.journalCache.close();
+        //this.studentCache.close();
     }
 }

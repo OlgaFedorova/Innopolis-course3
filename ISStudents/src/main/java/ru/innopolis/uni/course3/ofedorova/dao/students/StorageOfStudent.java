@@ -1,4 +1,4 @@
-package ru.innopolis.uni.course3.ofedorova.store.students;
+package ru.innopolis.uni.course3.ofedorova.dao.students;
 
 import ru.innopolis.uni.course3.ofedorova.models.Student;
 

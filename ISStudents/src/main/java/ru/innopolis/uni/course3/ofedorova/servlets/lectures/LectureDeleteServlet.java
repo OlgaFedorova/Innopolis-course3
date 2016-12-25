@@ -1,6 +1,6 @@
 package ru.innopolis.uni.course3.ofedorova.servlets.lectures;
 
-import ru.innopolis.uni.course3.ofedorova.store.lectures.LectureCache;
+import ru.innopolis.uni.course3.ofedorova.dao.lectures.LectureCache;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
