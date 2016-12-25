@@ -16,7 +16,7 @@ public interface ServiceOfUsers {
      *
      * @param username имя пользователя.
      * @param password пароль пользователя.
-     * @param user пользователь для сверки данных.
+     * @param user     пользователь для сверки данных.
      * @return Если валидация пройдена успешно будет возвращено значения пользователя для сессии, иначе возвращается null.
      */
     User validateLogin(String username, String password, User user);

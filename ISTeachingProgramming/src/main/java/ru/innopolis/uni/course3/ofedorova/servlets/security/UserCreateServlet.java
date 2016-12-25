@@ -1,7 +1,7 @@
 package ru.innopolis.uni.course3.ofedorova.servlets.security;
 
-import ru.innopolis.uni.course3.ofedorova.models.User;
 import ru.innopolis.uni.course3.ofedorova.controllers.ControllerForUsers;
+import ru.innopolis.uni.course3.ofedorova.models.User;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,12 +12,26 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
- * Created by Olga on 22.12.2016.
+ * Сервлет для работы механизма "Регистрация".
+ *
+ * @author Olga Fedorova
+ * @version 1.0
+ * @since 25.12.2016
  */
 public class UserCreateServlet extends HttpServlet {
+    /**
+     * Объект-контроллер для работы с данными пользователя.
+     */
+    private final ControllerForUsers controller = new ControllerForUsers();
 
-    private final ControllerForUsers cashOfUsers = new ControllerForUsers();
-
+    /**
+     * Вызывается сервером и позволяют сервлету обрабатывать GET-запрос.
+     *
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
@@ -31,12 +45,20 @@ public class UserCreateServlet extends HttpServlet {
         }
     }
 
+    /**
+     * Вызывается сервером и позволяют сервлету обрабатывать POST-запрос.
+     *
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String username = req.getParameter("name");
 
-        if (this.cashOfUsers.checkPasswords(req.getParameter("user_password"), req.getParameter("confirm_user_password"))) {
-            User user = this.cashOfUsers.addNewUser(username, req.getParameter("user_password"));
+        if (this.controller.checkPasswords(req.getParameter("user_password"), req.getParameter("confirm_user_password"))) {
+            User user = this.controller.addNewUser(username, req.getParameter("user_password"));
             if (user != null) {
                 HttpSession session = req.getSession();
                 session.setAttribute("user", user);
@@ -51,9 +73,12 @@ public class UserCreateServlet extends HttpServlet {
         }
     }
 
+    /**
+     * Вызывается контейнером сервлета в момент закрытия сервлета.
+     */
     @Override
     public void destroy() {
         super.destroy();
-        this.cashOfUsers.close();
+        this.controller.close();
     }
 }

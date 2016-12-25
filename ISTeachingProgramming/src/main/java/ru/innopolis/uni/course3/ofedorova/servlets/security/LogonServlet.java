@@ -1,7 +1,7 @@
 package ru.innopolis.uni.course3.ofedorova.servlets.security;
 
-import ru.innopolis.uni.course3.ofedorova.models.User;
 import ru.innopolis.uni.course3.ofedorova.controllers.ControllerForUsers;
+import ru.innopolis.uni.course3.ofedorova.models.User;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -20,8 +20,19 @@ import java.io.IOException;
  */
 public class LogonServlet extends HttpServlet {
 
-    private final ControllerForUsers cashOfUsers = new ControllerForUsers();
+    /**
+     * Объект-контроллер для работы с данными пользователя.
+     */
+    private final ControllerForUsers controller = new ControllerForUsers();
 
+    /**
+     * Вызывается сервером и позволяют сервлету обрабатывать GET-запрос.
+     *
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
@@ -35,13 +46,21 @@ public class LogonServlet extends HttpServlet {
         }
     }
 
+    /**
+     * Вызывается сервером и позволяют сервлету обрабатывать POST-запрос.
+     *
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RequestDispatcher requestDispatcher;
         String username = req.getParameter("username");
         String password = req.getParameter("user_password");
 
-        User user = this.cashOfUsers.validateLogin(username, password);
+        User user = this.controller.validateLogin(username, password);
 
         if (user == null) {
             requestDispatcher = req.getRequestDispatcher("/security/logonError.jsp");
@@ -53,9 +72,12 @@ public class LogonServlet extends HttpServlet {
         requestDispatcher.forward(req, resp);
     }
 
+    /**
+     * Вызывается контейнером сервлета в момент закрытия сервлета.
+     */
     @Override
     public void destroy() {
         super.destroy();
-        this.cashOfUsers.close();
+        this.controller.close();
     }
 }
