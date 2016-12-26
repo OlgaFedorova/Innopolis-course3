@@ -35,6 +35,17 @@ public class ControllerForUsers implements DAOtoUsers {
     }
 
     /**
+     * Метод возвращает пользователя по запрашиваемому идентификатору.
+     *
+     * @param id идентификатор пользователя.
+     * @return Если пользователь найден, будет возвращена ссылка на него, иначе возвращается null.
+     */
+    @Override
+    public User getById(int id) {
+        return this.storeOfUsers.getById(id);
+    }
+
+    /**
      * Метод добавляет нового пользователя в БД.
      *
      * @param name     имя пользователя.
@@ -44,6 +55,28 @@ public class ControllerForUsers implements DAOtoUsers {
     @Override
     public User addNewUser(String name, String password) {
         return this.storeOfUsers.addNewUser(name, password);
+    }
+
+    /**
+     * Метод возвращает пароль пользователя.
+     *
+     * @param id идентификатор пользователя.
+     * @return значение пароля пользователя.
+     */
+    @Override
+    public String getPassword(int id) {
+        return this.storeOfUsers.getPassword(id);
+    }
+
+    /**
+     * Метод обновляет пароль у пользователя.
+     * @param id идентификатор пользователя.
+     * @param newPassword значение нового пароля.
+     * @return Обновленный объект пользователя.
+     */
+    @Override
+    public User updatePassword(int id, String newPassword) {
+        return this.storeOfUsers.updatePassword(id, newPassword);
     }
 
     /**
@@ -74,6 +107,19 @@ public class ControllerForUsers implements DAOtoUsers {
      */
     public boolean checkPasswords(String password, String confirm) {
         return this.serviceOfUsers.checkPasswords(password, confirm);
+    }
+
+    /**
+     * Метод проверяет корректность введенных данных для редактирования профиля пользователя.
+     *
+     * @param id идентификатор пользователя.
+     * @param inputCurrentPassword значение введенного текущего пароля.
+     * @param newPassword     значение нового пароля.
+     * @param confirmPassword подтверждение нового пароля.
+     * @return Если данные корректны, возвращается true, иначе else.
+     */
+    public boolean checkDataForEdid(int id, String inputCurrentPassword, String newPassword, String confirmPassword) {
+        return this.serviceOfUsers.checkDataForEdid(inputCurrentPassword, this.getPassword(id), newPassword, confirmPassword);
     }
 
 }

@@ -29,4 +29,15 @@ public interface ServiceOfUsers {
      * @return Если пароль и его подтверждение совпадают возвращается true, иначе false.
      */
     boolean checkPasswords(String password, String confirm);
+
+    /**
+     * Метод проверяет корректность введенных данных для редактирования профиля пользователя.
+     *
+     * @param inputCurrentPassword значение введенного текущего пароля.
+     * @param currentPasswordDB значение сохраненного пароля в БД.
+     * @param newPassword     значение нового пароля.
+     * @param confirmPassword подтверждение нового пароля.
+     * @return Если данные корректны, возвращается true, иначе else.
+     */
+    boolean checkDataForEdid(String inputCurrentPassword, String currentPasswordDB, String newPassword, String confirmPassword);
 }

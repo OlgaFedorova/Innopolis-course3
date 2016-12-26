@@ -60,6 +60,29 @@ public class JdbcOfDAOtoUsers implements DAOtoUsers {
     }
 
     /**
+     * Метод возвращает пользователя по запрашиваемому идентификатору.
+     *
+     * @param id идентификатор пользователя.
+     * @return Если пользователь найден, будет возвращена ссылка на него, иначе возвращается null.
+     */
+    @Override
+    public User getById(int id) {
+        User user = null;
+        try (final PreparedStatement statement = this.connection.prepareStatement("SELECT * FROM users WHERE id = ?")) {
+            statement.setInt(1, id);
+            try (final ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    user = new User(rs.getInt("id"), rs.getString("name"), rs.getString("password"));
+                    break;
+                }
+            }
+        } catch (SQLException e) {
+            JdbcOfDAOtoUsers.LOGGER.info(e.getMessage());
+        }
+        return user;
+    }
+
+    /**
      * Метод добавляет нового пользователя в БД.
      *
      * @param name     имя пользователя.
@@ -82,6 +105,47 @@ public class JdbcOfDAOtoUsers implements DAOtoUsers {
             JdbcOfDAOtoUsers.LOGGER.info(e.getMessage());
         }
         return user;
+    }
+
+    /**
+     * Метод возвращает пароль пользователя.
+     *
+     * @param id идентификатор пользователя.
+     * @return значение пароля пользователя.
+     */
+    @Override
+    public String getPassword(int id) {
+        String password = null;
+        try (final PreparedStatement statement = this.connection.prepareStatement("SELECT password FROM users WHERE id = ?")) {
+            statement.setInt(1, id);
+            try (final ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    password = rs.getString("password");
+                    break;
+                }
+            }
+        } catch (SQLException e) {
+            JdbcOfDAOtoUsers.LOGGER.info(e.getMessage());
+        }
+        return password;
+    }
+
+    /**
+     * Метод обновляет пароль у пользователя.
+     * @param id идентификатор пользователя.
+     * @param newPassword значение нового пароля.
+     * @return Обновленный объект пользователя.
+     */
+    @Override
+    public User updatePassword(int id, String newPassword) {
+        try (final PreparedStatement statement = this.connection.prepareStatement("UPDATE users SET password = ? WHERE id = ?")) {
+            statement.setString(1, newPassword);
+            statement.setInt(2, id);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            JdbcOfDAOtoUsers.LOGGER.info(e.getMessage());
+        }
+        return this.getById(id);
     }
 
     /**

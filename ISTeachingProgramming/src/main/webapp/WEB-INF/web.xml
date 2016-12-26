@@ -70,6 +70,24 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>EditUser</servlet-name>
+        <servlet-class>ru.innopolis.uni.course3.ofedorova.servlets.security.EditUser</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EditUser</servlet-name>
+        <url-pattern>/main/edit-user</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>EditUserSuccessServlet</servlet-name>
+        <servlet-class>ru.innopolis.uni.course3.ofedorova.servlets.security.EditUserSuccessServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EditUserSuccessServlet</servlet-name>
+        <url-pattern>/main/edit-user-success</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <servlet-name>MainServlet</servlet-name>
         <servlet-class>ru.innopolis.uni.course3.ofedorova.servlets.MainServlet</servlet-class>
     </servlet>
@@ -100,10 +118,5 @@
     <welcome-file-list>
         <welcome-file>/index</welcome-file>
     </welcome-file-list>
-
-    <context-param>
-        <param-name>javax.servlet.jsp.jstl.fmt.request.charset</param-name>
-        <param-value>UTF-8</param-value>
-    </context-param>
 
 </web-app>
