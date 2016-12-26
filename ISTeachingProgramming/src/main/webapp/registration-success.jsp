@@ -4,7 +4,7 @@
     <title>Успешная регистрация</title>
 </head>
 <body>
-<h2>Вы зарегистрированы.</h2>
-<p><a href="/index.html">НА ГЛАВНУЮ</a></p>
+<h2>Вы зарегистрированы как ${username}.</h2>
+<p><a href="${pageContext.servletContext.contextPath}/index">НА ГЛАВНУЮ</a></p>
 </body>
 </html>

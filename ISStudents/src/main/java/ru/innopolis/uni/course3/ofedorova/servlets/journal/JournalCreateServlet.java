@@ -1,9 +1,10 @@
 package ru.innopolis.uni.course3.ofedorova.servlets.journal;
 
+import ru.innopolis.uni.course3.ofedorova.dao.journal.JournalCache;
 import ru.innopolis.uni.course3.ofedorova.models.Journal;
 import ru.innopolis.uni.course3.ofedorova.models.Lecture;
 import ru.innopolis.uni.course3.ofedorova.models.Student;
-import ru.innopolis.uni.course3.ofedorova.dao.journal.JournalCache;
+import ru.innopolis.uni.course3.ofedorova.service.Settings;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -17,7 +18,7 @@ import java.io.IOException;
  */
 public class JournalCreateServlet extends HttpServlet {
 
-    private final JournalCache journalCache = new JournalCache();
+    private final JournalCache journalCache = (JournalCache) Settings.APPLICATION_CONTEXT.getBean("journalCache");
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

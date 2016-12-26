@@ -2,11 +2,11 @@ package ru.innopolis.uni.course3.ofedorova;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ru.innopolis.uni.course3.ofedorova.handlers.HandlerForSumOfPositiveEvenNumbers;
 import ru.innopolis.uni.course3.ofedorova.parsers.Parser;
-import ru.innopolis.uni.course3.ofedorova.parsers.ParserForNumber;
 import ru.innopolis.uni.course3.ofedorova.storages.StorageData;
-import ru.innopolis.uni.course3.ofedorova.storages.StorageForSumOfPositiveEvenNumbers;
 
 import java.io.InputStream;
 import java.util.List;
@@ -20,9 +20,19 @@ import java.util.concurrent.Executors;
  * @version 1.0
  * @since 11.12.2016
  */
+@Component
 public class ManagerOfProgram {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ManagerOfProgram.class);
+    @Autowired
+    private StorageData storage;
+    @Autowired
+    private Parser parser;
+
+    public ManagerOfProgram(StorageData storage, Parser parser) {
+        this.storage = storage;
+        this.parser = parser;
+    }
 
     /**
      * Метод стартует работу потоков над обработкой ресурсов.
@@ -31,12 +41,10 @@ public class ManagerOfProgram {
      */
     public void start(List<InputStream> resources) {
 
-        final StorageData storage = new StorageForSumOfPositiveEvenNumbers();
-        final Parser parser = new ParserForNumber();
         final ExecutorService executor = Executors.newFixedThreadPool(4);
 
         for (InputStream resource : resources) {
-            executor.submit(new HandlerForSumOfPositiveEvenNumbers(resource, parser, storage));
+            executor.submit(new HandlerForSumOfPositiveEvenNumbers(resource, this.parser, this.storage));
         }
 
         executor.shutdown();

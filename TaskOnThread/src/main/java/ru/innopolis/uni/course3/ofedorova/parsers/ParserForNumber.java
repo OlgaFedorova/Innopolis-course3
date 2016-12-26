@@ -1,5 +1,7 @@
 package ru.innopolis.uni.course3.ofedorova.parsers;
 
+import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -12,6 +14,7 @@ import java.util.regex.Pattern;
  * @version 1.0
  * @since 11.12.2016
  */
+@Component
 public class ParserForNumber implements Parser {
 
     /**

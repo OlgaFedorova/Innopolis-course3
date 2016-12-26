@@ -30,6 +30,6 @@
     </table>
 </form>
 <h3>${info}</h3>
-<p><a href="/index.html">НА ГЛАВНУЮ</a></p>
+<p><a href="${pageContext.servletContext.contextPath}/index">НА ГЛАВНУЮ</a></p>
 </body>
 </html>

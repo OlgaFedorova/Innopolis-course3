@@ -1,5 +1,6 @@
 package ru.innopolis.uni.course3.ofedorova.dao.students;
 
+import org.springframework.stereotype.Component;
 import ru.innopolis.uni.course3.ofedorova.models.Student;
 import ru.innopolis.uni.course3.ofedorova.service.ConnectionPoolFactory;
 
@@ -11,11 +12,12 @@ import java.util.List;
 /**
  * Created by Olga on 22.12.2016.
  */
-public class JdbcStorage implements StorageOfStudent {
+@Component
+public class JdbcStorageOfStudent implements StorageOfStudent {
 
     private Connection connection;
 
-    public JdbcStorage() {
+    public JdbcStorageOfStudent() {
         try {
             this.connection = ConnectionPoolFactory.getConnection();
         } catch (SQLException e) {

@@ -1,5 +1,6 @@
 package ru.innopolis.uni.course3.ofedorova.dao.journal;
 
+import org.springframework.stereotype.Component;
 import ru.innopolis.uni.course3.ofedorova.models.Journal;
 import ru.innopolis.uni.course3.ofedorova.models.Lecture;
 import ru.innopolis.uni.course3.ofedorova.models.Student;
@@ -15,11 +16,12 @@ import java.util.List;
 /**
  * Created by Olga on 22.12.2016.
  */
-public class JdbcStorage implements StorageOfJournal {
+@Component
+public class JdbcStorageOfJournal implements StorageOfJournal {
 
     private Connection connection;
 
-    public JdbcStorage() {
+    public JdbcStorageOfJournal() {
         try {
             this.connection = ConnectionPoolFactory.getConnection();
         } catch (SQLException e) {

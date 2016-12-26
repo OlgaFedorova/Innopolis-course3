@@ -6,7 +6,7 @@
 </head>
 <body>
 <h2>Неверные имя пользователя или пароль.</h2>
-<p>Введите корректные имя пользователя и пароль. Нажмите <a href="/security/logon.jsp">здесь</a>, чтобы попробовать снова.</p>
-<p><a href="/index.html">НА ГЛАВНУЮ</a></p>
+<p>Введите корректные имя пользователя и пароль. Нажмите <a href="${pageContext.servletContext.contextPath}/security/logon">здесь</a>, чтобы попробовать снова.</p>
+<p><a href="${pageContext.servletContext.contextPath}/index">НА ГЛАВНУЮ</a></p>
 </body>
 </html>

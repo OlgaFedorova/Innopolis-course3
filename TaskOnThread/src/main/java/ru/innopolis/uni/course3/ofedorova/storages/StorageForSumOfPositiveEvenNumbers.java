@@ -1,5 +1,7 @@
 package ru.innopolis.uni.course3.ofedorova.storages;
 
+import org.springframework.stereotype.Component;
+
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -9,6 +11,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * @version 1.0
  * @since 11.12.2016
  */
+@Component
 public class StorageForSumOfPositiveEvenNumbers extends StorageData<AtomicLong> {
 
     /**

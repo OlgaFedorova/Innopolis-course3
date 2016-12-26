@@ -1,6 +1,9 @@
 package ru.innopolis.uni.course3.ofedorova;
 
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -44,9 +47,11 @@ public class Main {
      * @param args аргументы для запуска программы.
      */
     public static void main(String[] args) {
+        ApplicationContext applicationContext = new ClassPathXmlApplicationContext(new String[]{"appContext.xml"});
+        ManagerOfProgram managerOfProgram = (ManagerOfProgram)applicationContext.getBean("managerOfProgram");
 
-        new ManagerOfProgram().start(Main.getResoursesInPath(String.format("%s/TaskOnThread/temp_with_incorrect", System.getProperties().get("user.dir"))));
-        //new ManagerOfProgram().start(Main.getResoursesInPath(String.format("%s/TaskOnThread/temp_without_incorrect", System.getProperties().get("user.dir"))));
+        //managerOfProgram.start(Main.getResoursesInPath(String.format("%s/TaskOnThread/temp_with_incorrect", System.getProperties().get("user.dir"))));
+        managerOfProgram.start(Main.getResoursesInPath(String.format("%s/TaskOnThread/temp_without_incorrect", System.getProperties().get("user.dir"))));
 
     }
 

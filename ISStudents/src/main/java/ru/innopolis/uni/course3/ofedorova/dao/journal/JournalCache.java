@@ -1,5 +1,7 @@
 package ru.innopolis.uni.course3.ofedorova.dao.journal;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ru.innopolis.uni.course3.ofedorova.models.Journal;
 import ru.innopolis.uni.course3.ofedorova.models.Lecture;
 import ru.innopolis.uni.course3.ofedorova.models.Student;
@@ -9,13 +11,14 @@ import java.util.Collection;
 /**
  * Created by Olga on 22.12.2016.
  */
+@Component
 public class JournalCache implements StorageOfJournal {
 
-    private static final StorageOfJournal STORAGE_OF_LECTURE = new JdbcStorage();
+    @Autowired
     private final StorageOfJournal storage;
 
-    public JournalCache() {
-        this.storage = STORAGE_OF_LECTURE;
+    public JournalCache(StorageOfJournal storage) {
+        this.storage = storage;
     }
 
     @Override

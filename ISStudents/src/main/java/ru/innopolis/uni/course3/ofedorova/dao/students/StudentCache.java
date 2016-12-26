@@ -1,5 +1,7 @@
 package ru.innopolis.uni.course3.ofedorova.dao.students;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ru.innopolis.uni.course3.ofedorova.models.Student;
 
 import java.util.Collection;
@@ -7,13 +9,14 @@ import java.util.Collection;
 /**
  * Created by Olga on 22.12.2016.
  */
+@Component
 public class StudentCache implements StorageOfStudent {
 
-    private static final StorageOfStudent STORAGE_OF_STUDENT = new JdbcStorage();
+    @Autowired
     private final StorageOfStudent storage;
 
-    public StudentCache() {
-        this.storage = STORAGE_OF_STUDENT;
+    public StudentCache(StorageOfStudent storage) {
+        this.storage = storage;
     }
 
     @Override

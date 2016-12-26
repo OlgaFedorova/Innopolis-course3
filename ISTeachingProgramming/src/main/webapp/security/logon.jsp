@@ -26,5 +26,5 @@
         </tr>
     </table>
 </form>
-<p><a href="/index.html">НА ГЛАВНУЮ</a></p>
+<p><a href="${pageContext.servletContext.contextPath}/index">НА ГЛАВНУЮ</a></p>
 </html>

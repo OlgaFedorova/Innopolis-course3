@@ -1,6 +1,7 @@
 package ru.innopolis.uni.course3.ofedorova.servlets.students;
 
 import ru.innopolis.uni.course3.ofedorova.dao.students.StudentCache;
+import ru.innopolis.uni.course3.ofedorova.service.Settings;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,7 +15,7 @@ import java.io.IOException;
  */
 public class StudentViewServlet extends HttpServlet {
 
-    private final StudentCache studentCache = new StudentCache();
+    private final StudentCache studentCache  = (StudentCache) Settings.APPLICATION_CONTEXT.getBean("studentCache");
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

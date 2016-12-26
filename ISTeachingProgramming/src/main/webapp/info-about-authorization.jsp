@@ -4,8 +4,8 @@
     <title>Авторизация</title>
 </head>
 <body>
-<h2>Вы авторизованы в системе.</h2>
-<p>Необходимо выйти из системы. Нажмите <a href="/logout">здесь</a>, чтобы выйти.</p>
-<p><a href="/index.html">НА ГЛАВНУЮ</a></p>
+<h2>Вы авторизованы в системе как ${username}.</h2>
+<p>Необходимо выйти из системы. Нажмите <a href="${pageContext.servletContext.contextPath}/logout">здесь</a>, чтобы выйти.</p>
+<p><a href="${pageContext.servletContext.contextPath}/index">НА ГЛАВНУЮ</a></p>
 </body>
 </html>

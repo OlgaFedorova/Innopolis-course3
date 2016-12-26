@@ -4,7 +4,7 @@
     <title>Успешный вход</title>
 </head>
 <body>
-<h2>Вы вошли.</h2>
-<p><a href="/index.html">НА ГЛАВНУЮ</a></p>
+<h2>Вы вошли как ${username}.</h2>
+<p><a href="${pageContext.servletContext.contextPath}/index">НА ГЛАВНУЮ</a></p>
 </body>
 </html>

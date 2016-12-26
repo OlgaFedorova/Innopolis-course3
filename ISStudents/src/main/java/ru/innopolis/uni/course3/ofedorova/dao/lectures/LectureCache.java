@@ -1,5 +1,7 @@
 package ru.innopolis.uni.course3.ofedorova.dao.lectures;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ru.innopolis.uni.course3.ofedorova.models.Lecture;
 
 import java.util.Collection;
@@ -7,13 +9,14 @@ import java.util.Collection;
 /**
  * Created by Olga on 22.12.2016.
  */
+@Component
 public class LectureCache implements StorageOfLecture {
 
-    private static final StorageOfLecture STORAGE_OF_LECTURE = new JdbcStorage();
+    @Autowired
     private final StorageOfLecture storage;
 
-    public LectureCache() {
-        this.storage = STORAGE_OF_LECTURE;
+    public LectureCache(StorageOfLecture storage) {
+        this.storage = storage;
     }
 
     @Override

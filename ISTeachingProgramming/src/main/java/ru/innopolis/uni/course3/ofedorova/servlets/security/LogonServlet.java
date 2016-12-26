@@ -2,13 +2,12 @@ package ru.innopolis.uni.course3.ofedorova.servlets.security;
 
 import ru.innopolis.uni.course3.ofedorova.controllers.ControllerForUsers;
 import ru.innopolis.uni.course3.ofedorova.models.User;
+import ru.innopolis.uni.course3.ofedorova.servlets.ServletsCommon;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
@@ -35,14 +34,11 @@ public class LogonServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession();
-        User user = (User) session.getAttribute("user");
-
+        User user = ServletsCommon.getUserFromSession(req.getSession());
         if (user == null) {
-            RequestDispatcher dispatcher = req.getRequestDispatcher("/security/logon.jsp");
-            dispatcher.forward(req, resp);
+            req.getRequestDispatcher("/security/logon.jsp").forward(req, resp);
         } else {
-            resp.sendRedirect(String.format("%s%s", req.getContextPath(), "/info-about-authorization.jsp"));
+            req.getRequestDispatcher(String.format("%s%s", req.getContextPath(), "/info-about-authorization")).forward(req, resp);
         }
     }
 
@@ -56,20 +52,17 @@ public class LogonServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestDispatcher requestDispatcher;
         String username = req.getParameter("username");
         String password = req.getParameter("user_password");
 
         User user = this.controller.validateLogin(username, password);
 
         if (user == null) {
-            requestDispatcher = req.getRequestDispatcher("/security/logonError.jsp");
+            req.getRequestDispatcher(String.format("%s%s", req.getContextPath(), "/security/logonError.jsp")).forward(req, resp);
         } else {
-            HttpSession session = req.getSession();
-            session.setAttribute("user", user);
-            requestDispatcher = req.getRequestDispatcher("/security/success-logon.jsp");
+            ServletsCommon.setUserInSession(req.getSession(), user);
+            resp.sendRedirect(String.format("%s%s", req.getContextPath(), "/security/success-logon"));
         }
-        requestDispatcher.forward(req, resp);
     }
 
     /**

@@ -5,6 +5,6 @@
 </head>
 <body>
 <h2>Вы вышли.</h2>
-<p><a href="/index.html">НА ГЛАВНУЮ</a></p>
+<p><a href="${pageContext.servletContext.contextPath}/index">НА ГЛАВНУЮ</a></p>
 </body>
 </html>
