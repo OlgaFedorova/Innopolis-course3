@@ -5,36 +5,40 @@ create table users (
 		password varchar(15)
 );
 
-
---Lectures
-create table lectures (
+--Tasks
+create table tasks (
 		id serial primary key,
-		subject varchar(200),
-		hours_of_theory int,
-		hours_of_practice int
-);
---Journal
-create table journal (
-    id serial primary key,
-		date_of_record DATE,
-		lecture_id int not null references lectures(id),
-		student_id int not null references students(id)
+		name varchar(255),
+		content text
 );
 
--- add new student
-insert into students (name, class) values ('Petrov Petr', '1A');
-insert into students (name, class) values ('Petrova Irina', '1A');
-insert into students (name, class) values ('Ivanov Ivan', '2A');
-insert into students (name, class) values ('Ivanova Maria', '2A');
-insert into students (name, class) values ('Sergeev Andrey', '2A');
+-- add new task
+insert into tasks (name, content) values ('Задание №1', 'Содержание задания №1');
+insert into tasks (name, content) values ('Задание №2', 'Содержание задания №2');
+insert into tasks (name, content) values ('Задание №3', 'Содержание задания №3');
+insert into tasks (name, content) values ('Задание №4', 'Содержание задания №4');
+insert into tasks (name, content) values ('Задание №5', 'Содержание задания №5');
+insert into tasks (name, content) values ('Задание №6', 'Содержание задания №6');
+insert into tasks (name, content) values ('Задание №7', 'Содержание задания №7');
+insert into tasks (name, content) values ('Задание №8', 'Содержание задания №8');
+insert into tasks (name, content) values ('Задание №9', 'Содержание задания №9');
+insert into tasks (name, content) values ('Задание №10', 'Содержание задания №10');
+insert into tasks (name, content) values ('Задание №11', 'Содержание задания №11');
+insert into tasks (name, content) values ('Задание №12', 'Содержание задания №12');
+insert into tasks (name, content) values ('Задание №13', 'Содержание задания №13');
 
--- add new lecture
-insert into lectures (subject, hours_of_theory, hours_of_practice) values ('Lecture 1', 2, 5);
-insert into lectures (subject, hours_of_theory, hours_of_practice) values ('Lecture 2', 2, 2);
-insert into lectures (subject, hours_of_theory, hours_of_practice) values ('Lecture 3', 1, 4);
-insert into lectures (subject, hours_of_theory, hours_of_practice) values ('Lecture 4', 2, 3);
+--decision
+create table decisions (
+		id serial primary key,
+		id_task int REFERENCES tasks(id),
+		id_user int REFERENCES users(id),
+		decision text
+);
 
--- add new record in journal
-insert into journal (date_of_record, lecture_id, student_id) values ('2016-12-20', 1, 1);
-insert into journal (date_of_record, lecture_id, student_id) values ('2016-12-20', 1, 2);
-insert into journal (date_of_record, lecture_id, student_id) values ('2016-12-20', 1, 4);
+--mark
+create table mark (
+		id serial primary key,
+		id_task int REFERENCES tasks(id),
+		id_user int REFERENCES users(id),
+		mark int not null
+);

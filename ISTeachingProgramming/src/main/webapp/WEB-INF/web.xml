@@ -7,15 +7,6 @@
     <display-name>Teaching programming</display-name>
 
     <servlet>
-        <servlet-name>SecretServlet</servlet-name>
-        <servlet-class>ru.innopolis.uni.course3.ofedorova.servlets.SecretServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>SecretServlet</servlet-name>
-        <url-pattern>/main/secret</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
         <servlet-name>LogonServlet</servlet-name>
         <servlet-class>ru.innopolis.uni.course3.ofedorova.servlets.security.LogonServlet</servlet-class>
     </servlet>
@@ -85,6 +76,42 @@
     <servlet-mapping>
         <servlet-name>EditUserSuccessServlet</servlet-name>
         <url-pattern>/main/edit-user-success</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>TaskViewServlet</servlet-name>
+        <servlet-class>ru.innopolis.uni.course3.ofedorova.servlets.tasks.TaskViewServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TaskViewServlet</servlet-name>
+        <url-pattern>/main/tasks/view</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>SelectTask</servlet-name>
+        <servlet-class>ru.innopolis.uni.course3.ofedorova.servlets.tasks.SelectTaskServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SelectTask</servlet-name>
+        <url-pattern>/main/tasks/select</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>SendDecisionServlet</servlet-name>
+        <servlet-class>ru.innopolis.uni.course3.ofedorova.servlets.tasks.SendDecisionServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SendDecisionServlet</servlet-name>
+        <url-pattern>/main/tasks/send-decision</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>UserRatingServlet</servlet-name>
+        <servlet-class>ru.innopolis.uni.course3.ofedorova.servlets.marks.UserRatingServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UserRatingServlet</servlet-name>
+        <url-pattern>/main/user-rating</url-pattern>
     </servlet-mapping>
 
     <servlet>

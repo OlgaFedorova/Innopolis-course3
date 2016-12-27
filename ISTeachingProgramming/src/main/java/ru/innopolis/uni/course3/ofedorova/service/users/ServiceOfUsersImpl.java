@@ -48,18 +48,18 @@ public class ServiceOfUsersImpl implements ServiceOfUsers {
      * Метод проверяет корректность введенных данных для редактирования профиля пользователя.
      *
      * @param inputCurrentPassword значение введенного текущего пароля.
-     * @param currentPasswordDB значение сохраненного пароля в БД.
-     * @param newPassword     значение нового пароля.
-     * @param confirmPassword подтверждение нового пароля.
+     * @param currentPasswordDB    значение сохраненного пароля в БД.
+     * @param newPassword          значение нового пароля.
+     * @param confirmPassword      подтверждение нового пароля.
      * @return Если данные корректны, возвращается true, иначе else.
      */
     @Override
     public boolean checkDataForEdid(String inputCurrentPassword, String currentPasswordDB, String newPassword, String confirmPassword) {
         boolean isValidate = false;
-        if(inputCurrentPassword != null && currentPasswordDB != null
+        if (inputCurrentPassword != null && currentPasswordDB != null
                 && inputCurrentPassword.equals(currentPasswordDB)
                 && newPassword != null && confirmPassword != null
-                && newPassword.equals(confirmPassword)){
+                && newPassword.equals(confirmPassword)) {
             isValidate = true;
         }
         return isValidate;

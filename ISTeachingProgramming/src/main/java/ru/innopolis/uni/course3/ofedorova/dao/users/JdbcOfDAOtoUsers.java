@@ -6,6 +6,9 @@ import ru.innopolis.uni.course3.ofedorova.models.User;
 import ru.innopolis.uni.course3.ofedorova.service.ConnectionPoolFactory;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Класс реализует модель доступа к данным модели "User" с помощью JDBC.
@@ -34,6 +37,34 @@ public class JdbcOfDAOtoUsers implements DAOtoUsers {
         } catch (SQLException e) {
             JdbcOfDAOtoUsers.LOGGER.info(e.getMessage());
         }
+    }
+
+    /**
+     * Метод возвращает список рейтинга пользователей.
+     *
+     * @return список рейтинга пользователей.
+     */
+    @Override
+    public Collection<User> valuesRating() {
+        final List<User> users = new ArrayList<>();
+        try (final Statement statement = this.connection.createStatement()) {
+            try (final ResultSet rs = statement.executeQuery(new StringBuilder().append("SELECT u.id, u.name, Sum(CASE\n").
+                    append("WHEN m.mark IS NULL THEN 0\n").
+                    append("ELSE m.mark\n").
+                    append("END) as mark\n").
+                    append("FROM users as u\n").
+                    append("LEFT JOIN marks as m\n").
+                    append("ON u.id = m.id_user\n").
+                    append("GROUP BY u.id, u.name\n").
+                    append("ORDER BY mark desc").toString())) {
+                while (rs.next()) {
+                    users.add(new User(rs.getInt("id"), rs.getString("name"), rs.getInt("mark")));
+                }
+            }
+        } catch (SQLException e) {
+            JdbcOfDAOtoUsers.LOGGER.info(e.getMessage());
+        }
+        return users;
     }
 
     /**
@@ -132,7 +163,8 @@ public class JdbcOfDAOtoUsers implements DAOtoUsers {
 
     /**
      * Метод обновляет пароль у пользователя.
-     * @param id идентификатор пользователя.
+     *
+     * @param id          идентификатор пользователя.
      * @param newPassword значение нового пароля.
      * @return Обновленный объект пользователя.
      */

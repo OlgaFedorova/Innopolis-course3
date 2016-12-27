@@ -20,6 +20,7 @@ public class LogonSuccessServlet extends HttpServlet {
 
     /**
      * Вызывается сервером и позволяют сервлету обрабатывать GET-запрос.
+     *
      * @param req
      * @param resp
      * @throws ServletException

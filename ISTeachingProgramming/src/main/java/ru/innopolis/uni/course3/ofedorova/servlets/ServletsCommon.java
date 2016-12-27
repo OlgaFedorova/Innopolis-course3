@@ -34,6 +34,7 @@ public class ServletsCommon {
      * @param session текущая сессия.
      */
     public static void setUserInSession(HttpSession session, User user) {
-        session.setAttribute("user", user);;
+        session.setAttribute("user", user);
+        ;
     }
 }

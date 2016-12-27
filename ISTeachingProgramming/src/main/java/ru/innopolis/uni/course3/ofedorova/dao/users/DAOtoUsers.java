@@ -2,6 +2,8 @@ package ru.innopolis.uni.course3.ofedorova.dao.users;
 
 import ru.innopolis.uni.course3.ofedorova.models.User;
 
+import java.util.Collection;
+
 /**
  * Интерфейс реализует модель доступа к данным модели "User".
  *
@@ -10,6 +12,13 @@ import ru.innopolis.uni.course3.ofedorova.models.User;
  * @since 25.12.2016
  */
 public interface DAOtoUsers {
+
+    /**
+     * Метод возвращает список рейтинга пользователей.
+     *
+     * @return список рейтинга пользователей.
+     */
+    Collection<User> valuesRating();
 
     /**
      * Метод возвращает пользователя по запрашиваемому имени.
@@ -46,7 +55,8 @@ public interface DAOtoUsers {
 
     /**
      * Метод обновляет пароль у пользователя.
-     * @param id идентификатор пользователя.
+     *
+     * @param id          идентификатор пользователя.
      * @param newPassword значение нового пароля.
      * @return Обновленный объект пользователя.
      */

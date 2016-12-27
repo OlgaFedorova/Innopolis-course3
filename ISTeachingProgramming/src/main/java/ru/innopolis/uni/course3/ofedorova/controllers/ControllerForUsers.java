@@ -6,6 +6,8 @@ import ru.innopolis.uni.course3.ofedorova.models.User;
 import ru.innopolis.uni.course3.ofedorova.service.users.ServiceOfUsers;
 import ru.innopolis.uni.course3.ofedorova.service.users.ServiceOfUsersImpl;
 
+import java.util.Collection;
+
 /**
  * Класс реализует контроллер для работы с моделью данных "User".
  *
@@ -22,6 +24,16 @@ public class ControllerForUsers implements DAOtoUsers {
      * Сервисные объект для обработки данных пользователя.
      */
     private final ServiceOfUsers serviceOfUsers = new ServiceOfUsersImpl();
+
+    /**
+     * Метод возвращает список рейтинга пользователей.
+     *
+     * @return список рейтинга пользователей.
+     */
+    @Override
+    public Collection<User> valuesRating() {
+        return this.storeOfUsers.valuesRating();
+    }
 
     /**
      * Метод возвращает пользователя по запрашиваемому имени.
@@ -70,7 +82,8 @@ public class ControllerForUsers implements DAOtoUsers {
 
     /**
      * Метод обновляет пароль у пользователя.
-     * @param id идентификатор пользователя.
+     *
+     * @param id          идентификатор пользователя.
      * @param newPassword значение нового пароля.
      * @return Обновленный объект пользователя.
      */
@@ -112,10 +125,10 @@ public class ControllerForUsers implements DAOtoUsers {
     /**
      * Метод проверяет корректность введенных данных для редактирования профиля пользователя.
      *
-     * @param id идентификатор пользователя.
+     * @param id                   идентификатор пользователя.
      * @param inputCurrentPassword значение введенного текущего пароля.
-     * @param newPassword     значение нового пароля.
-     * @param confirmPassword подтверждение нового пароля.
+     * @param newPassword          значение нового пароля.
+     * @param confirmPassword      подтверждение нового пароля.
      * @return Если данные корректны, возвращается true, иначе else.
      */
     public boolean checkDataForEdid(int id, String inputCurrentPassword, String newPassword, String confirmPassword) {

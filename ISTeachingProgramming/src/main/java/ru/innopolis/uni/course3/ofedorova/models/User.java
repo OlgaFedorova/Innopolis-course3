@@ -15,7 +15,11 @@ public class User extends Base {
     /**
      * Пароль пользователя.
      */
-    private final String password;
+    private String password;
+    /**
+     * Общий балл.
+     */
+    private int mark;
 
     /**
      * Создает новый {@code User}.
@@ -41,6 +45,19 @@ public class User extends Base {
     }
 
     /**
+     * Создает новый {@code User}.
+     *
+     * @param id   значение для поля "id".
+     * @param name значение для поля "name".
+     * @param mark значение поля "mark".
+     */
+    public User(int id, String name, int mark) {
+        super(id);
+        this.name = name;
+        this.mark = mark;
+    }
+
+    /**
      * Метод возвращает значение поля "name".
      *
      * @return значение поля "name".
@@ -56,5 +73,14 @@ public class User extends Base {
      */
     public String getPassword() {
         return this.password;
+    }
+
+    /**
+     * Метод возвращает значение поля "mark".
+     *
+     * @return значение поля "mark".
+     */
+    public int getMark() {
+        return this.mark;
     }
 }

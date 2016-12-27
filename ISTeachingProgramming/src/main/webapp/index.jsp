@@ -11,7 +11,7 @@
 <p><a href="${pageContext.servletContext.contextPath}/security/logon">Вход</a></p>
 <p><a href="${pageContext.servletContext.contextPath}/logout">Выход</a></p>
 <p><a href="${pageContext.servletContext.contextPath}/main/edit-user">Редактирование профиля</a></p>
-<p><a href="${pageContext.servletContext.contextPath}/main/secret">Задания</a></p>
-<p><a href="${pageContext.servletContext.contextPath}/main/secret">Рейтинг пользователей</a></p>
+<p><a href="${pageContext.servletContext.contextPath}/main/tasks/view">Задания</a></p>
+<p><a href="${pageContext.servletContext.contextPath}/main/user-rating">Рейтинг пользователей</a></p>
 </body>
 </html>
