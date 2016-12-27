@@ -29,11 +29,7 @@ public class JdbcOfDAOtoMarks implements DAOtoMarks {
      * Создает новый {@code JdbcOfDAOtoMarks}.
      */
     public JdbcOfDAOtoMarks() {
-        try {
-            this.connection = ConnectionPoolFactory.getConnection();
-        } catch (SQLException e) {
-            JdbcOfDAOtoMarks.LOGGER.info(e.getMessage());
-        }
+        this.connection = ConnectionPoolFactory.getConnection();
     }
 
     /**

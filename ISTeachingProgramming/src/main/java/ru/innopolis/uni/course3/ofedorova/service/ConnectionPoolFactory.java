@@ -41,7 +41,13 @@ public class ConnectionPoolFactory {
      * @return соединение для работы с БД.
      * @throws SQLException
      */
-    public static Connection getConnection() throws SQLException {
-        return ConnectionPoolFactory.ds.getConnection();
+    public static Connection getConnection(){
+        Connection connection = null;
+        try {
+            connection = ConnectionPoolFactory.ds.getConnection();
+        } catch (SQLException e) {
+            ConnectionPoolFactory.LOGGER.info(e.getMessage());
+        }
+        return connection;
     }
 }

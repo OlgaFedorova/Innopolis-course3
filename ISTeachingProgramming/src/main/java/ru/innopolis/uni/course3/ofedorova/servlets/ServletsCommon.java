@@ -35,6 +35,5 @@ public class ServletsCommon {
      */
     public static void setUserInSession(HttpSession session, User user) {
         session.setAttribute("user", user);
-        ;
     }
 }

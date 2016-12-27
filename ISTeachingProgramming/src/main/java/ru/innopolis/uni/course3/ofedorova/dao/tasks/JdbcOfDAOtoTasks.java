@@ -38,11 +38,7 @@ public class JdbcOfDAOtoTasks implements DAOtoTasks {
      * Создает новый {@code JdbcOfDAOtoTasks}.
      */
     public JdbcOfDAOtoTasks() {
-        try {
-            this.connection = ConnectionPoolFactory.getConnection();
-        } catch (SQLException e) {
-            JdbcOfDAOtoTasks.LOGGER.info(e.getMessage());
-        }
+        this.connection = ConnectionPoolFactory.getConnection();
     }
 
     /**

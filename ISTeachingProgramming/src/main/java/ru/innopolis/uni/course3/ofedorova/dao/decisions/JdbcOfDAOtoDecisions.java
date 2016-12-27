@@ -28,11 +28,7 @@ public class JdbcOfDAOtoDecisions implements DAOtoDecisions {
      * Создает новый {@code JdbcOfDAOtoDecisions}.
      */
     public JdbcOfDAOtoDecisions() {
-        try {
-            this.connection = ConnectionPoolFactory.getConnection();
-        } catch (SQLException e) {
-            JdbcOfDAOtoDecisions.LOGGER.info(e.getMessage());
-        }
+        this.connection = ConnectionPoolFactory.getConnection();
     }
 
     /**

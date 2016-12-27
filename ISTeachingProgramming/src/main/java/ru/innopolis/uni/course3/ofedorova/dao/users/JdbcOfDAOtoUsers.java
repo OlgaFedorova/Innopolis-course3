@@ -32,11 +32,7 @@ public class JdbcOfDAOtoUsers implements DAOtoUsers {
      * Создает новый {@code JdbcOfDAOtoUsers}.
      */
     public JdbcOfDAOtoUsers() {
-        try {
-            this.connection = ConnectionPoolFactory.getConnection();
-        } catch (SQLException e) {
-            JdbcOfDAOtoUsers.LOGGER.info(e.getMessage());
-        }
+        this.connection = ConnectionPoolFactory.getConnection();
     }
 
     /**
