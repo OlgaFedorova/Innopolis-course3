@@ -63,6 +63,7 @@ public class EditUserSuccessServletTest {
 
     /**
      * Метод тестирует вызов метода "doGet".
+     *
      * @throws Exception
      */
     @Test

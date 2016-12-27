@@ -63,6 +63,7 @@ public class InfoAboutAuthorizationServletTest {
 
     /**
      * Метод тестирует вызов метода "doGet".
+     *
      * @throws Exception
      */
     @Test

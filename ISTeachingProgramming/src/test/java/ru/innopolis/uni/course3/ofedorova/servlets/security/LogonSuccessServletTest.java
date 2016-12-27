@@ -63,6 +63,7 @@ public class LogonSuccessServletTest {
 
     /**
      * Метод тестирует вызов метода "doGet".
+     *
      * @throws Exception
      */
     @Test

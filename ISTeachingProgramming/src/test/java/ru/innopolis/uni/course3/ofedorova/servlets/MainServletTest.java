@@ -64,6 +64,7 @@ public class MainServletTest {
 
     /**
      * Метод тестирует вызов метода "doGet".
+     *
      * @throws Exception
      */
     @Test

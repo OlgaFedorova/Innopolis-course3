@@ -64,6 +64,7 @@ public class EditUserTest {
 
     /**
      * Метод проверяет вызов метода "doGet" и переход на страницу авторизации.
+     *
      * @throws Exception
      */
     @Test
@@ -81,6 +82,7 @@ public class EditUserTest {
 
     /**
      * Метод проверяет вызов метода "doGet" и переход на страницу редактирования профиля.
+     *
      * @throws Exception
      */
     @Test
@@ -98,6 +100,7 @@ public class EditUserTest {
 
     /**
      * Метод тестирует вызов метода "doPost" и сообщает об успешном редактировании.
+     *
      * @throws Exception
      */
     @Test
@@ -129,6 +132,7 @@ public class EditUserTest {
 
     /**
      * Метод тестирует вызов метода "doPost" и сообщает об ошибке редактирования профиля.
+     *
      * @throws Exception
      */
     @Test

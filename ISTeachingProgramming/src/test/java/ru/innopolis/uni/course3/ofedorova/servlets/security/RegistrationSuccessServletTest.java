@@ -65,6 +65,7 @@ public class RegistrationSuccessServletTest {
 
     /**
      * Метод тестирует вызов метода "doGet".
+     *
      * @throws Exception
      */
     @Test

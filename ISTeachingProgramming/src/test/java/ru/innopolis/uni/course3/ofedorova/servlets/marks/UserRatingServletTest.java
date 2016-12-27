@@ -66,6 +66,7 @@ public class UserRatingServletTest {
 
     /**
      * Meтод тестирует вызов метода "doGet" и получение информации о рейтинге пользователей.
+     *
      * @throws Exception
      */
     @Test

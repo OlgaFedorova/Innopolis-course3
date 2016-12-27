@@ -64,6 +64,7 @@ public class LogonServletTest {
 
     /**
      * Метод тестирует вызов "doGet" и переход на страницу авторизации.
+     *
      * @throws Exception
      */
     @Test
@@ -81,6 +82,7 @@ public class LogonServletTest {
 
     /**
      * Метод тестирует вызов "doGet" и переход на страницу информирования о том, что пользователь уже авторизован.
+     *
      * @throws Exception
      */
     @Test
@@ -98,6 +100,7 @@ public class LogonServletTest {
 
     /**
      * Метод тестирует вызов "doPost" и переход на страницу ошибки авторизации.
+     *
      * @throws Exception
      */
     @Test
@@ -124,6 +127,7 @@ public class LogonServletTest {
 
     /**
      * Метод тестирует вызов "doPost" и переход на страницу об успешной авторизации.
+     *
      * @throws Exception
      */
     @Test

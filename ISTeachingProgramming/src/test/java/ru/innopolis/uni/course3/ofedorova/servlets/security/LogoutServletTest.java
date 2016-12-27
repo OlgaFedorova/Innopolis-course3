@@ -64,6 +64,7 @@ public class LogoutServletTest {
 
     /**
      * Метод тестирует вызов метода "doGet".
+     *
      * @throws Exception
      */
     @Test
