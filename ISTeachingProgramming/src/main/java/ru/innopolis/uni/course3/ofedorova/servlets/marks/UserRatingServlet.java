@@ -1,6 +1,7 @@
 package ru.innopolis.uni.course3.ofedorova.servlets.marks;
 
 import ru.innopolis.uni.course3.ofedorova.controllers.ControllerForUsers;
+import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoUsersException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -31,8 +32,12 @@ public class UserRatingServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("users", this.controller.valuesRating());
-        req.getRequestDispatcher("/main/marks/UserRatingView.jsp").forward(req, resp);
+        try {
+            req.setAttribute("users", this.controller.valuesRating());
+            req.getRequestDispatcher("/main/marks/UserRatingView.jsp").forward(req, resp);
+        } catch (DAOtoUsersException e) {
+            resp.sendRedirect(String.format("%s%s", req.getContextPath(), "/error.jsp"));
+        }
     }
 
     /**

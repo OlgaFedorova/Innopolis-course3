@@ -48,6 +48,28 @@ public class ServiceOfUsersImplTest {
     }
 
     /**
+     * Проверку пароля на заполненность: пароль пустой.
+     */
+    @Test
+    public void whenPasswordEmpty(){
+        final String password = "";
+        final String confirm = "";
+
+        assertTrue(this.serviceOfUsers.passwordEmpty(password, confirm));
+    }
+
+    /**
+     * Проверку пароля на заполненность: пароль ytпустой.
+     */
+    @Test
+    public void whenPasswordNotEmpty(){
+        final String password = "123";
+        final String confirm = "123";
+
+        assertFalse(this.serviceOfUsers.passwordEmpty(password, confirm));
+    }
+
+    /**
      * Метод проверяет проверку паролей при условии, что они совпадают.
      */
     @Test
@@ -67,6 +89,32 @@ public class ServiceOfUsersImplTest {
         final String passwordConfirm = "567";
 
         assertFalse(this.serviceOfUsers.checkPasswords(password, passwordConfirm));
+    }
+
+    /**
+     * Метод проверяет имя пользователя на соответствие шаблону.
+     * Тестируем некорректно заполненное имя.
+     */
+    @Test
+    public void whenCheckNameAndReturnFalse(){
+        final String name1 = "";
+        final String name2 = "4ffgfd";
+        final String name3 = "sseaыва8";
+        final String name4 = "qwertyuiopasdfghjklzxcvbnm";
+
+        assertTrue(!this.serviceOfUsers.checkName(name1) && !this.serviceOfUsers.checkName(name2)
+                &&!this.serviceOfUsers.checkName(name3) && !this.serviceOfUsers.checkName(name4));
+    }
+
+    /**
+     * Метод проверяет имя пользователя на соответствие шаблону.
+     * Тестируем корректно заполненное имя.
+     */
+    @Test
+    public void whenCheckNameAndReturnTrue(){
+        final String name = "user1";
+
+        assertTrue(this.serviceOfUsers.checkName(name));
     }
 
     /**

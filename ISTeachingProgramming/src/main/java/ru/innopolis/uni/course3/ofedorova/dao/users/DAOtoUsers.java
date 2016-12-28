@@ -1,5 +1,6 @@
 package ru.innopolis.uni.course3.ofedorova.dao.users;
 
+import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoUsersException;
 import ru.innopolis.uni.course3.ofedorova.models.User;
 
 import java.util.Collection;
@@ -18,7 +19,7 @@ public interface DAOtoUsers {
      *
      * @return список рейтинга пользователей.
      */
-    Collection<User> valuesRating();
+    Collection<User> valuesRating() throws DAOtoUsersException;
 
     /**
      * Метод возвращает пользователя по запрашиваемому имени.
@@ -26,7 +27,7 @@ public interface DAOtoUsers {
      * @param name имя пользователя.
      * @return Если пользователь найден, будет возвращена ссылка на него, иначе возвращается null.
      */
-    User getByName(String name);
+    User getByName(String name) throws DAOtoUsersException;
 
     /**
      * Метод возвращает пользователя по запрашиваемому идентификатору.
@@ -34,16 +35,17 @@ public interface DAOtoUsers {
      * @param id идентификатор пользователя.
      * @return Если пользователь найден, будет возвращена ссылка на него, иначе возвращается null.
      */
-    User getById(int id);
+    User getById(int id) throws DAOtoUsersException;
 
     /**
      * Метод добавляет нового пользователя в БД.
      *
      * @param name     имя пользователя.
      * @param password пароль пользователя.
+     * @param salt соль для хеширования пароля.
      * @return Если пользователя удалось создать будет возвращена ссылка на него, иначе возвращается null.
      */
-    User addNewUser(String name, String password);
+    User addNewUser(String name, String password, String salt) throws DAOtoUsersException;
 
     /**
      * Метод возвращает пароль пользователя.
@@ -51,7 +53,7 @@ public interface DAOtoUsers {
      * @param id идентификатор пользователя.
      * @return значение пароля пользователя.
      */
-    String getPassword(int id);
+    String getPassword(int id) throws DAOtoUsersException;
 
     /**
      * Метод обновляет пароль у пользователя.
@@ -60,7 +62,7 @@ public interface DAOtoUsers {
      * @param newPassword значение нового пароля.
      * @return Обновленный объект пользователя.
      */
-    User updatePassword(int id, String newPassword);
+    User updatePassword(int id, String newPassword) throws DAOtoUsersException;
 
     /**
      * Метод закрывает соединение для работы с данными.

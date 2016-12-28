@@ -2,6 +2,7 @@ package ru.innopolis.uni.course3.ofedorova.dao.decisions;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoDecisionsException;
 import ru.innopolis.uni.course3.ofedorova.service.ConnectionPoolFactory;
 
 import java.sql.*;
@@ -39,7 +40,7 @@ public class JdbcOfDAOtoDecisions implements DAOtoDecisions {
      * @param decision текст решения.
      */
     @Override
-    public void add(int idTask, int idUser, String decision) {
+    public void add(int idTask, int idUser, String decision) throws DAOtoDecisionsException {
         try (final PreparedStatement statement = this.connection.prepareStatement("INSERT  INTO decisions (id_task , id_user, decision) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS)) {
             statement.setInt(1, idTask);
             statement.setInt(2, idUser);
@@ -50,8 +51,9 @@ public class JdbcOfDAOtoDecisions implements DAOtoDecisions {
                     int id = generatedKeys.getInt(1);
                 }
             }
-        } catch (SQLException e) {
+        } catch (SQLException|NullPointerException e) {
             JdbcOfDAOtoDecisions.LOGGER.info(e.getMessage());
+            throw new DAOtoDecisionsException();
         }
     }
 
@@ -62,7 +64,7 @@ public class JdbcOfDAOtoDecisions implements DAOtoDecisions {
     public void close() {
         try {
             this.connection.close();
-        } catch (SQLException e) {
+        } catch (SQLException|NullPointerException e) {
             JdbcOfDAOtoDecisions.LOGGER.info(e.getMessage());
         }
     }

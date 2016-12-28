@@ -70,11 +70,11 @@ public class RegistrationSuccessServletTest {
      */
     @Test
     public void whenDoGet() throws Exception {
-        when(request.getRequestDispatcher("/registration-success.jsp")).thenReturn(dispatcher);
+        when(request.getRequestDispatcher("/registration/registration-success.jsp")).thenReturn(dispatcher);
 
         final RegistrationSuccessServlet registrationSuccessServlet = new RegistrationSuccessServlet();
         registrationSuccessServlet.doGet(request, response);
 
-        verify(request, atLeastOnce()).getRequestDispatcher("/registration-success.jsp");
+        verify(request, atLeastOnce()).getRequestDispatcher("/registration/registration-success.jsp");
     }
 }

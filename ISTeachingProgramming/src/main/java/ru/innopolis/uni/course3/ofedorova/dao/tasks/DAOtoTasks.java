@@ -1,5 +1,6 @@
 package ru.innopolis.uni.course3.ofedorova.dao.tasks;
 
+import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoTasksException;
 import ru.innopolis.uni.course3.ofedorova.models.Task;
 
 import java.util.Collection;
@@ -19,7 +20,7 @@ public interface DAOtoTasks {
      * @param idUser идентификатор пользователя.
      * @return список заданий в БД.
      */
-    Collection<Task> values(int idUser);
+    Collection<Task> values(int idUser) throws DAOtoTasksException;
 
     /**
      * Метод возвращает задание по переданному id.
@@ -28,7 +29,7 @@ public interface DAOtoTasks {
      * @param idUser идентификатор пользователя.
      * @return задание найденное по id.
      */
-    Task getById(int id, int idUser);
+    Task getById(int id, int idUser) throws DAOtoTasksException;
 
     /**
      * Метод закрывает соединение для работы с данными.

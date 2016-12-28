@@ -1,6 +1,7 @@
 package ru.innopolis.uni.course3.ofedorova.servlets.tasks;
 
 import ru.innopolis.uni.course3.ofedorova.controllers.ControllerForTasks;
+import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoTasksException;
 import ru.innopolis.uni.course3.ofedorova.models.User;
 import ru.innopolis.uni.course3.ofedorova.servlets.ServletsCommon;
 
@@ -33,14 +34,18 @@ public class TaskViewServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        User user = ServletsCommon.getUserFromSession(req.getSession());
-        if (user == null) {
-            req.getRequestDispatcher("/error.jsp").forward(req, resp);
-        } else {
-            req.setAttribute("tasks", this.controller.values(user.getId()));
-            req.getRequestDispatcher("/main/tasks/TasksView.jsp").forward(req, resp);
-        }
 
+        try {
+            User user = ServletsCommon.getUserFromSession(req.getSession());
+            if (user == null) {
+                resp.sendRedirect(String.format("%s%s", req.getContextPath(), "/error.jsp"));
+            } else {
+                req.setAttribute("tasks", this.controller.values(user.getId()));
+                req.getRequestDispatcher("/main/tasks/TasksView.jsp").forward(req, resp);
+            }
+        } catch (DAOtoTasksException e) {
+            resp.sendRedirect(String.format("%s%s", req.getContextPath(), "/error.jsp"));
+        }
     }
 
     /**

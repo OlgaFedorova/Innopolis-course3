@@ -31,6 +31,6 @@ public class InfoAboutAuthorizationServlet extends HttpServlet {
         User user = ServletsCommon.getUserFromSession(req.getSession());
         req.setCharacterEncoding(ServletsCommon.UTF_8);
         req.setAttribute("username", user == null ? "не авторизован" : user.getName());
-        req.getRequestDispatcher("/info-about-authorization.jsp").forward(req, resp);
+        req.getRequestDispatcher("/security/info-about-authorization.jsp").forward(req, resp);
     }
 }

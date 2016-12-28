@@ -1,5 +1,6 @@
 package ru.innopolis.uni.course3.ofedorova.controllers;
 
+import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoTasksException;
 import ru.innopolis.uni.course3.ofedorova.dao.tasks.DAOtoTasks;
 import ru.innopolis.uni.course3.ofedorova.dao.tasks.JdbcOfDAOtoTasks;
 import ru.innopolis.uni.course3.ofedorova.models.Task;
@@ -27,7 +28,7 @@ public class ControllerForTasks implements DAOtoTasks {
      * @return список заданий в БД.
      */
     @Override
-    public Collection<Task> values(int idUser) {
+    public Collection<Task> values(int idUser) throws DAOtoTasksException {
         return this.storeOfTasks.values(idUser);
     }
 
@@ -39,7 +40,7 @@ public class ControllerForTasks implements DAOtoTasks {
      * @return задание найденное по id.
      */
     @Override
-    public Task getById(int id, int idUser) {
+    public Task getById(int id, int idUser) throws DAOtoTasksException {
         return this.storeOfTasks.getById(id, idUser);
     }
 

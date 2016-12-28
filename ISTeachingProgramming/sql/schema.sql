@@ -1,8 +1,12 @@
 --Users
-create table users (
-		id serial primary key,
-		name varchar(25) UNIQUE,
-		password varchar(15)
+CREATE TABLE users
+(
+  id serial NOT NULL,
+  name character varying(25),
+  password character varying(15),
+  salt character varying(10) DEFAULT ''::character varying,
+  CONSTRAINT users_pkey PRIMARY KEY (id),
+  CONSTRAINT users_name_key UNIQUE (name)
 );
 
 --Tasks

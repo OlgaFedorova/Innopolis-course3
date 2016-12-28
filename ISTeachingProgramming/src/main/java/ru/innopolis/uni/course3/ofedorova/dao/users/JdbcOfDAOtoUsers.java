@@ -2,6 +2,7 @@ package ru.innopolis.uni.course3.ofedorova.dao.users;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoUsersException;
 import ru.innopolis.uni.course3.ofedorova.models.User;
 import ru.innopolis.uni.course3.ofedorova.service.ConnectionPoolFactory;
 
@@ -41,7 +42,7 @@ public class JdbcOfDAOtoUsers implements DAOtoUsers {
      * @return список рейтинга пользователей.
      */
     @Override
-    public Collection<User> valuesRating() {
+    public Collection<User> valuesRating() throws DAOtoUsersException {
         final List<User> users = new ArrayList<>();
         try (final Statement statement = this.connection.createStatement()) {
             try (final ResultSet rs = statement.executeQuery(new StringBuilder().append("SELECT u.id, u.name, Sum(CASE\n").
@@ -57,8 +58,9 @@ public class JdbcOfDAOtoUsers implements DAOtoUsers {
                     users.add(new User(rs.getInt("id"), rs.getString("name"), rs.getInt("mark")));
                 }
             }
-        } catch (SQLException e) {
+        } catch (SQLException|NullPointerException e) {
             JdbcOfDAOtoUsers.LOGGER.info(e.getMessage());
+            throw new DAOtoUsersException();
         }
         return users;
     }
@@ -70,7 +72,7 @@ public class JdbcOfDAOtoUsers implements DAOtoUsers {
      * @return Если пользователь найден, будет возвращена ссылка на него, иначе возвращается null.
      */
     @Override
-    public User getByName(String name) {
+    public User getByName(String name) throws DAOtoUsersException {
         User user = null;
         try (final PreparedStatement statement = this.connection.prepareStatement("SELECT * FROM users WHERE name = ?")) {
             statement.setString(1, name);
@@ -80,8 +82,9 @@ public class JdbcOfDAOtoUsers implements DAOtoUsers {
                     break;
                 }
             }
-        } catch (SQLException e) {
+        } catch (SQLException|NullPointerException e) {
             JdbcOfDAOtoUsers.LOGGER.info(e.getMessage());
+            throw new DAOtoUsersException();
         }
         return user;
     }
@@ -93,7 +96,7 @@ public class JdbcOfDAOtoUsers implements DAOtoUsers {
      * @return Если пользователь найден, будет возвращена ссылка на него, иначе возвращается null.
      */
     @Override
-    public User getById(int id) {
+    public User getById(int id) throws DAOtoUsersException {
         User user = null;
         try (final PreparedStatement statement = this.connection.prepareStatement("SELECT * FROM users WHERE id = ?")) {
             statement.setInt(1, id);
@@ -103,8 +106,9 @@ public class JdbcOfDAOtoUsers implements DAOtoUsers {
                     break;
                 }
             }
-        } catch (SQLException e) {
+        } catch (SQLException|NullPointerException e) {
             JdbcOfDAOtoUsers.LOGGER.info(e.getMessage());
+            throw new DAOtoUsersException();
         }
         return user;
     }
@@ -114,22 +118,25 @@ public class JdbcOfDAOtoUsers implements DAOtoUsers {
      *
      * @param name     имя пользователя.
      * @param password пароль пользователя.
+     * @param salt соль для хеширования пароля.
      * @return Если пользователя удалось создать будет возвращена ссылка на него, иначе возвращается null.
      */
     @Override
-    public User addNewUser(String name, String password) {
+    public User addNewUser(String name, String password, String salt) throws DAOtoUsersException {
         User user = null;
-        try (final PreparedStatement statement = this.connection.prepareStatement("INSERT  INTO users (name, password) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS)) {
+        try (final PreparedStatement statement = this.connection.prepareStatement("INSERT  INTO users (name, password, salt) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, name);
             statement.setString(2, password);
+            statement.setString(3, salt);
             statement.executeUpdate();
             try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
                     user = new User(generatedKeys.getInt(1), name, password);
                 }
             }
-        } catch (SQLException e) {
+        } catch (SQLException|NullPointerException e) {
             JdbcOfDAOtoUsers.LOGGER.info(e.getMessage());
+            throw new DAOtoUsersException();
         }
         return user;
     }
@@ -141,7 +148,7 @@ public class JdbcOfDAOtoUsers implements DAOtoUsers {
      * @return значение пароля пользователя.
      */
     @Override
-    public String getPassword(int id) {
+    public String getPassword(int id) throws DAOtoUsersException {
         String password = null;
         try (final PreparedStatement statement = this.connection.prepareStatement("SELECT password FROM users WHERE id = ?")) {
             statement.setInt(1, id);
@@ -151,8 +158,9 @@ public class JdbcOfDAOtoUsers implements DAOtoUsers {
                     break;
                 }
             }
-        } catch (SQLException e) {
+        } catch (SQLException|NullPointerException e) {
             JdbcOfDAOtoUsers.LOGGER.info(e.getMessage());
+            throw new DAOtoUsersException();
         }
         return password;
     }
@@ -165,13 +173,14 @@ public class JdbcOfDAOtoUsers implements DAOtoUsers {
      * @return Обновленный объект пользователя.
      */
     @Override
-    public User updatePassword(int id, String newPassword) {
+    public User updatePassword(int id, String newPassword) throws DAOtoUsersException {
         try (final PreparedStatement statement = this.connection.prepareStatement("UPDATE users SET password = ? WHERE id = ?")) {
             statement.setString(1, newPassword);
             statement.setInt(2, id);
             statement.executeUpdate();
-        } catch (SQLException e) {
+        } catch (SQLException|NullPointerException e) {
             JdbcOfDAOtoUsers.LOGGER.info(e.getMessage());
+            throw new DAOtoUsersException();
         }
         return this.getById(id);
     }
@@ -183,7 +192,7 @@ public class JdbcOfDAOtoUsers implements DAOtoUsers {
     public void close() {
         try {
             this.connection.close();
-        } catch (SQLException e) {
+        } catch (SQLException|NullPointerException e) {
             JdbcOfDAOtoUsers.LOGGER.info(e.getMessage());
         }
     }

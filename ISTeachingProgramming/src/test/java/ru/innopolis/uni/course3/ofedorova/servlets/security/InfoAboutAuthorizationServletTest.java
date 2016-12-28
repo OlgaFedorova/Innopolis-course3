@@ -68,12 +68,12 @@ public class InfoAboutAuthorizationServletTest {
      */
     @Test
     public void whenDoGet() throws Exception {
-        when(request.getRequestDispatcher("/info-about-authorization.jsp")).thenReturn(dispatcher);
+        when(request.getRequestDispatcher("/security/info-about-authorization.jsp")).thenReturn(dispatcher);
 
         final InfoAboutAuthorizationServlet infoAboutAuthorizationServlet = new InfoAboutAuthorizationServlet();
         infoAboutAuthorizationServlet.doGet(request, response);
 
-        verify(request, atLeastOnce()).getRequestDispatcher("/info-about-authorization.jsp");
+        verify(request, atLeastOnce()).getRequestDispatcher("/security/info-about-authorization.jsp");
     }
 
 

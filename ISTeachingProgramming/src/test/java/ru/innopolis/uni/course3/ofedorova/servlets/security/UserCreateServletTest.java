@@ -10,12 +10,15 @@ import ru.innopolis.uni.course3.ofedorova.controllers.ControllerForUsers;
 import ru.innopolis.uni.course3.ofedorova.dao.users.JdbcOfDAOtoUsers;
 import ru.innopolis.uni.course3.ofedorova.models.User;
 import ru.innopolis.uni.course3.ofedorova.service.ConnectionPoolFactory;
+import ru.innopolis.uni.course3.ofedorova.service.users.ServiceOfUsers;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.sql.Connection;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
@@ -46,6 +49,8 @@ public class UserCreateServletTest {
     JdbcOfDAOtoUsers jdbcOfDAOtoUsers;
     @Mock
     Connection connection;
+    @Mock
+    ServiceOfUsers serviceOfUsers;
 
     /**
      * Инициализация.
@@ -92,13 +97,102 @@ public class UserCreateServletTest {
         final User user = null;
 
         when(session.getAttribute("user")).thenReturn(user);
-        when(request.getRequestDispatcher("/registration.jsp")).thenReturn(dispatcher);
+        when(request.getRequestDispatcher("/registration/registration.jsp")).thenReturn(dispatcher);
 
         final UserCreateServlet userCreateServlet = new UserCreateServlet();
         userCreateServlet.doGet(request, response);
 
-        verify(request, atLeastOnce()).getRequestDispatcher("/registration.jsp");
+        verify(request, atLeastOnce()).getRequestDispatcher("/registration/registration.jsp");
 
+    }
+
+    /**
+     * Метод проверяет вызов метода "doPost" и ситуацию, когда пользователь не создан по причине того,
+     * что введенное имя некорректно.
+     *
+     * @throws Exception
+     */
+    @Test
+    public void whenDoPostAndUserNotCreatePasswordNameLengthIncorrect() throws Exception {
+        final String name = "qwertyuiopasdfghjklzxcvbnm";
+        final String password = "test_password";
+        final String confirm_password = "test_password";
+        final User user = new User(1, name, password);
+
+        when(request.getParameter("name")).thenReturn(name);
+        when(request.getParameter("user_password")).thenReturn(password);
+        when(request.getParameter("confirm_user_password")).thenReturn(confirm_password);
+        when(jdbcOfDAOtoUsers.addNewUser(any(), any(), any())).thenReturn(user);
+        when(request.getRequestDispatcher("/registration/registrationErrorNameIncorrect.jsp")).thenReturn(dispatcher);
+
+        final UserCreateServlet userCreateServlet = new UserCreateServlet();
+        userCreateServlet.doPost(request, response);
+
+        verify(request, atLeastOnce()).getParameter("name");
+        verify(request, atLeast(0)).getParameter("user_password");
+        verify(request, atLeast(0)).getParameter("confirm_user_password");
+        verify(jdbcOfDAOtoUsers, atLeast(0)).addNewUser(name, password, "");
+        verify(request, atLeastOnce()).getRequestDispatcher("/registration/registrationErrorNameIncorrect.jsp");
+    }
+
+    /**
+     * Метод проверяет вызов метода "doPost" и ситуацию, когда пользователь не создан по причине того,
+     * что пользователь с таким именем уже существует.
+     *
+     * @throws Exception
+     */
+    @Test
+    public void whenDoPostAndUserNotCreateUserDuplicate() throws Exception {
+        final String name = "user1";
+        final String password = "test_password";
+        final String confirm_password = "test_password";
+        final User user = new User(1, name, password);
+        final User userDuplicate = new User(1, name, password);
+
+        when(request.getParameter("name")).thenReturn(name);
+        when(request.getParameter("user_password")).thenReturn(password);
+        when(request.getParameter("confirm_user_password")).thenReturn(confirm_password);
+        when(jdbcOfDAOtoUsers.addNewUser(any(), any(), any())).thenReturn(user);
+        when(jdbcOfDAOtoUsers.getByName(name)).thenReturn(userDuplicate);
+        when(request.getRequestDispatcher(String.format("%s%s", request.getContextPath(), "/registration/registrationErrorUserDuplicate.jsp"))).thenReturn(dispatcher);
+
+        final UserCreateServlet userCreateServlet = new UserCreateServlet();
+        userCreateServlet.doPost(request, response);
+
+        verify(request, atLeastOnce()).getParameter("name");
+        verify(request, atLeast(0)).getParameter("user_password");
+        verify(request, atLeast(0)).getParameter("confirm_user_password");
+        verify(jdbcOfDAOtoUsers, atLeast(0)).addNewUser(name, password, "");
+        verify(request, atLeastOnce()).getRequestDispatcher(String.format("%s%s", request.getContextPath(), "/registration/registrationErrorUserDuplicate.jsp"));
+    }
+
+    /**
+     * Метод проверяет вызов метода "doPost" и ситуацию, когда пользователь не создан по причине того,
+     * что пароль не заполнен.
+     *
+     * @throws Exception
+     */
+    @Test
+    public void whenDoPostAndUserNotCreatePasswordEmpty() throws Exception {
+        final String name = "user1";
+        final String password = "";
+        final String confirm_password = "";
+        final User user = new User(1, name, password);
+
+        when(request.getParameter("name")).thenReturn(name);
+        when(request.getParameter("user_password")).thenReturn(password);
+        when(request.getParameter("confirm_user_password")).thenReturn(confirm_password);
+        when(jdbcOfDAOtoUsers.addNewUser(any(), any(), any())).thenReturn(user);
+        when(request.getRequestDispatcher(String.format("%s%s", request.getContextPath(), "/registration/registrationErrorPasswordEmpty.jsp"))).thenReturn(dispatcher);
+
+        final UserCreateServlet userCreateServlet = new UserCreateServlet();
+        userCreateServlet.doPost(request, response);
+
+        verify(request, atLeastOnce()).getParameter("name");
+        verify(request, atLeast(0)).getParameter("user_password");
+        verify(request, atLeast(0)).getParameter("confirm_user_password");
+        verify(jdbcOfDAOtoUsers, atLeast(0)).addNewUser(name, password, "");
+        verify(request, atLeastOnce()).getRequestDispatcher(String.format("%s%s", request.getContextPath(), "/registration/registrationErrorPasswordEmpty.jsp"));
     }
 
     /**
@@ -108,14 +202,19 @@ public class UserCreateServletTest {
      */
     @Test
     public void whenDoPostAndUserCreate() throws Exception {
-        final String name = "test_name";
+        final String name = "testname";
         final String password = "test_password";
         final User user = new User(1, name, password);
+        final Map<String, String> map = new HashMap<>();
+        map.put("password", password);
+        map.put("salt", "");
 
         when(request.getParameter("name")).thenReturn(name);
         when(request.getParameter("user_password")).thenReturn(password);
         when(request.getParameter("confirm_user_password")).thenReturn(password);
-        when(jdbcOfDAOtoUsers.addNewUser(any(), any())).thenReturn(user);
+        when(jdbcOfDAOtoUsers.addNewUser(any(), any(), any())).thenReturn(user);
+        when(controller.addNewUser(name, password)).thenReturn(user);
+        when(serviceOfUsers.hashPasswordAndReturnWithSalt(password)).thenReturn(map);
 
         final UserCreateServlet userCreateServlet = new UserCreateServlet();
         userCreateServlet.doPost(request, response);
@@ -123,17 +222,18 @@ public class UserCreateServletTest {
         verify(request, atLeastOnce()).getParameter("name");
         verify(request, atLeastOnce()).getParameter("user_password");
         verify(request, atLeastOnce()).getParameter("confirm_user_password");
-        verify(jdbcOfDAOtoUsers, atLeastOnce()).addNewUser(name, password);
+        verify(response).sendRedirect(String.format("%s%s", request.getContextPath(), "/registration-success"));
     }
 
     /**
-     * Метод проверяет вызов метода "doPost" и ситуацию, когда пользователь не создан.
+     * Метод проверяет вызов метода "doPost" и ситуацию, когда пользователь не создан по причине того,
+     * что пароли не совпадают.
      *
      * @throws Exception
      */
     @Test
-    public void whenDoPostAndUserNotCreate() throws Exception {
-        final String name = "test_name";
+    public void whenDoPostAndUserNotCreatePasswordNotMatch() throws Exception {
+        final String name = "testname";
         final String password = "test_password";
         final String confirm_password = "test_password1";
         final User user = new User(1, name, password);
@@ -141,8 +241,8 @@ public class UserCreateServletTest {
         when(request.getParameter("name")).thenReturn(name);
         when(request.getParameter("user_password")).thenReturn(password);
         when(request.getParameter("confirm_user_password")).thenReturn(confirm_password);
-        when(jdbcOfDAOtoUsers.addNewUser(any(), any())).thenReturn(user);
-        when(request.getRequestDispatcher("/registration.jsp")).thenReturn(dispatcher);
+        when(jdbcOfDAOtoUsers.addNewUser(any(), any(), any())).thenReturn(user);
+        when(request.getRequestDispatcher("/registration/registration.jsp")).thenReturn(dispatcher);
 
         final UserCreateServlet userCreateServlet = new UserCreateServlet();
         userCreateServlet.doPost(request, response);
@@ -150,6 +250,6 @@ public class UserCreateServletTest {
         verify(request, atLeastOnce()).getParameter("name");
         verify(request, atLeastOnce()).getParameter("user_password");
         verify(request, atLeastOnce()).getParameter("confirm_user_password");
-        verify(jdbcOfDAOtoUsers, atLeast(0)).addNewUser(name, password);
+        verify(jdbcOfDAOtoUsers, atLeast(0)).addNewUser(name, password, "");
     }
 }

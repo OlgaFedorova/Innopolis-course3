@@ -1,6 +1,7 @@
 package ru.innopolis.uni.course3.ofedorova.servlets.security;
 
 import ru.innopolis.uni.course3.ofedorova.controllers.ControllerForUsers;
+import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoUsersException;
 import ru.innopolis.uni.course3.ofedorova.models.User;
 import ru.innopolis.uni.course3.ofedorova.servlets.ServletsCommon;
 
@@ -53,16 +54,20 @@ public class EditUser extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String currentPassword = req.getParameter("current_password");
-        String newPassword = req.getParameter("new_password");
-        String confirmPassword = req.getParameter("confirm_password");
-        if (ServletsCommon.getUserFromSession(req.getSession()) != null
-                && this.controller.checkDataForEdid(ServletsCommon.getUserFromSession(req.getSession()).getId(), currentPassword, newPassword, confirmPassword)) {
-            User user = this.controller.updatePassword(ServletsCommon.getUserFromSession(req.getSession()).getId(), newPassword);
-            ServletsCommon.setUserInSession(req.getSession(), user);
-            resp.sendRedirect(String.format("%s%s", req.getContextPath(), "/main/edit-user-success"));
-        } else {
-            req.getRequestDispatcher("/security/edit-user-error.jsp").forward(req, resp);
+        try {
+            String currentPassword = req.getParameter("current_password");
+            String newPassword = req.getParameter("new_password");
+            String confirmPassword = req.getParameter("confirm_password");
+            if (ServletsCommon.getUserFromSession(req.getSession()) != null
+                    && this.controller.checkDataForEdid(ServletsCommon.getUserFromSession(req.getSession()).getId(), currentPassword, newPassword, confirmPassword)) {
+                User user = this.controller.updatePassword(ServletsCommon.getUserFromSession(req.getSession()).getId(), newPassword);
+                ServletsCommon.setUserInSession(req.getSession(), user);
+                resp.sendRedirect(String.format("%s%s", req.getContextPath(), "/main/edit-user-success"));
+            } else {
+                req.getRequestDispatcher("/security/edit-user-error.jsp").forward(req, resp);
+            }
+        } catch (DAOtoUsersException e) {
+            resp.sendRedirect(String.format("%s%s", req.getContextPath(), "/error.jsp"));
         }
     }
 

@@ -15,4 +15,8 @@ dependencies {
     compile group: 'taglibs', name: 'standard', version: '1.1.2'
     compile group: 'org.postgresql', name: 'postgresql', version: '9.4-1200-jdbc41'
     compile group: 'commons-dbcp', name: 'commons-dbcp', version: '1.4'
+    compile group: 'org.bouncycastle', name: 'bcprov-jdk15on', version: '1.56'
+    compile group: 'org.bouncycastle', name: 'bcpkix-jdk15on', version: '1.56'
+
+
 }

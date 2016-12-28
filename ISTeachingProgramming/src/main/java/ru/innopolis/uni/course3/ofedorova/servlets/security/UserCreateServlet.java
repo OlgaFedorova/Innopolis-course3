@@ -1,6 +1,7 @@
 package ru.innopolis.uni.course3.ofedorova.servlets.security;
 
 import ru.innopolis.uni.course3.ofedorova.controllers.ControllerForUsers;
+import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoUsersException;
 import ru.innopolis.uni.course3.ofedorova.models.User;
 import ru.innopolis.uni.course3.ofedorova.servlets.ServletsCommon;
 
@@ -34,7 +35,7 @@ public class UserCreateServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (ServletsCommon.getUserFromSession(req.getSession()) == null) {
-            req.getRequestDispatcher("/registration.jsp").forward(req, resp);
+            req.getRequestDispatcher("/registration/registration.jsp").forward(req, resp);
         } else {
             req.getRequestDispatcher(String.format("%s%s", req.getContextPath(), "/info-about-authorization")).forward(req, resp);
         }
@@ -50,21 +51,33 @@ public class UserCreateServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String username = req.getParameter("name");
 
-        if (this.controller.checkPasswords(req.getParameter("user_password"), req.getParameter("confirm_user_password"))) {
-            User user = this.controller.addNewUser(username, req.getParameter("user_password"));
-            if (user != null) {
-                ServletsCommon.setUserInSession(req.getSession(), user);
-                resp.sendRedirect(String.format("%s%s", req.getContextPath(), "/registration-success"));
-            } else {
-                req.getRequestDispatcher(String.format("%s%s", req.getContextPath(), "/registrationError.jsp")).forward(req, resp);
+        try {
+            String username = req.getParameter("name");
+
+            if (!this.controller.checkName(username)) {
+                req.getRequestDispatcher("/registration/registrationErrorNameIncorrect.jsp").forward(req, resp);
+            }else if(this.controller.getByName(username) != null){
+                req.getRequestDispatcher(String.format("%s%s", req.getContextPath(), "/registration/registrationErrorUserDuplicate.jsp")).forward(req, resp);
+            }else {
+                if(this.controller.passwordEmpty(req.getParameter("user_password"), req.getParameter("confirm_user_password"))){
+                    req.getRequestDispatcher(String.format("%s%s", req.getContextPath(), "/registration/registrationErrorPasswordEmpty.jsp")).forward(req, resp);
+                }else{
+                    if (this.controller.checkPasswords(req.getParameter("user_password"), req.getParameter("confirm_user_password"))) {
+                        User user = null;
+                        user = this.controller.addNewUser(username, req.getParameter("user_password"));
+                        ServletsCommon.setUserInSession(req.getSession(), user);
+                        resp.sendRedirect(String.format("%s%s", req.getContextPath(), "/registration-success"));
+                    } else {
+                        req.setCharacterEncoding(ServletsCommon.UTF_8);
+                        req.setAttribute("info", "Пароли не совпадают, попробуйте снова.");
+                        req.setAttribute("username", username);
+                        req.getRequestDispatcher("/registration/registration.jsp").forward(req, resp);
+                    }
+                }
             }
-        } else {
-            req.setCharacterEncoding(ServletsCommon.UTF_8);
-            req.setAttribute("info", "Пароли не совпадают, попробуйте снова.");
-            req.setAttribute("username", username);
-            req.getRequestDispatcher("/registration.jsp").forward(req, resp);
+        } catch (DAOtoUsersException e) {
+            resp.sendRedirect(String.format("%s%s", req.getContextPath(), "/error.jsp"));
         }
     }
 

@@ -1,5 +1,8 @@
 package ru.innopolis.uni.course3.ofedorova.dao.decisions;
 
+import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoDecisionsException;
+import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoMarksException;
+
 /**
  * Интерфейс реализует модель доступа к данным модели "Decision".
  *
@@ -16,7 +19,7 @@ public interface DAOtoDecisions {
      * @param idUser   идентификатор пользователя.
      * @param decision текст решения.
      */
-    void add(int idTask, int idUser, String decision);
+    void add(int idTask, int idUser, String decision) throws DAOtoDecisionsException, DAOtoMarksException;
 
     /**
      * Метод закрывает соединение для работы с данными.

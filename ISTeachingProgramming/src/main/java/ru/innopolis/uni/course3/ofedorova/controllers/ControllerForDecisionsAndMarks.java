@@ -2,6 +2,8 @@ package ru.innopolis.uni.course3.ofedorova.controllers;
 
 import ru.innopolis.uni.course3.ofedorova.dao.decisions.DAOtoDecisions;
 import ru.innopolis.uni.course3.ofedorova.dao.decisions.JdbcOfDAOtoDecisions;
+import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoDecisionsException;
+import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoMarksException;
 import ru.innopolis.uni.course3.ofedorova.dao.marks.DAOtoMarks;
 import ru.innopolis.uni.course3.ofedorova.dao.marks.JdbcOfDAOtoMarks;
 import ru.innopolis.uni.course3.ofedorova.service.marks.ServiceOfMarks;
@@ -37,7 +39,7 @@ public class ControllerForDecisionsAndMarks implements DAOtoDecisions {
      * @param decision текст решения.
      */
     @Override
-    public void add(int idTask, int idUser, String decision) {
+    public void add(int idTask, int idUser, String decision) throws DAOtoDecisionsException, DAOtoMarksException {
         this.storeOfDecisions.add(idTask, idUser, decision);
         this.storeOfMarks.add(idTask, idUser, this.serviceOfMarks.getMark());
     }

@@ -15,5 +15,11 @@ public class Generator {
             set.add((int) ((Math.random() * 5) + 1));
         }
         System.out.println(set);
+
+        int i = 0;
+        while ((i = (int)(Math.random() * 6) )!= 5){
+            //set.add((int) ((Math.random() * 5) + 1));
+        }
+        System.out.println(i);
     }
 }

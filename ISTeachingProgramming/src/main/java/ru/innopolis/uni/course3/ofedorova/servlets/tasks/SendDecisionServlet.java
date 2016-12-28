@@ -1,6 +1,8 @@
 package ru.innopolis.uni.course3.ofedorova.servlets.tasks;
 
 import ru.innopolis.uni.course3.ofedorova.controllers.ControllerForDecisionsAndMarks;
+import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoDecisionsException;
+import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoMarksException;
 import ru.innopolis.uni.course3.ofedorova.models.User;
 import ru.innopolis.uni.course3.ofedorova.servlets.ServletsCommon;
 
@@ -33,17 +35,22 @@ public class SendDecisionServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setCharacterEncoding(ServletsCommon.UTF_8);
-        String decision = req.getParameter("decision");
-        Integer idTask = Integer.valueOf(req.getParameter("id"));
-        User user = ServletsCommon.getUserFromSession(req.getSession());
-        if (idTask == null && user == null) {
-            req.getRequestDispatcher("/error.jsp").forward(req, resp);
-        } else {
-            if (decision != null && !decision.isEmpty()) {
-                this.controller.add(idTask, user.getId(), decision);
+
+        try {
+            req.setCharacterEncoding(ServletsCommon.UTF_8);
+            String decision = req.getParameter("decision");
+            Integer idTask = Integer.valueOf(req.getParameter("id"));
+            User user = ServletsCommon.getUserFromSession(req.getSession());
+            if (idTask == null && user == null) {
+                resp.sendRedirect(String.format("%s%s", req.getContextPath(), "/error.jsp"));
+            } else {
+                if (decision != null && !decision.isEmpty()) {
+                    this.controller.add(idTask, user.getId(), decision);
+                }
+                resp.sendRedirect(String.format("%s%s%s", req.getContextPath(), "/main/tasks/select?id=", idTask));
             }
-            resp.sendRedirect(String.format("%s%s%s", req.getContextPath(), "/main/tasks/select?id=", idTask));
+        } catch (DAOtoDecisionsException | DAOtoMarksException e) {
+            resp.sendRedirect(String.format("%s%s", req.getContextPath(), "/error.jsp"));
         }
     }
 }

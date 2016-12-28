@@ -1,5 +1,6 @@
 package ru.innopolis.uni.course3.ofedorova.controllers;
 
+import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoUsersException;
 import ru.innopolis.uni.course3.ofedorova.dao.users.DAOtoUsers;
 import ru.innopolis.uni.course3.ofedorova.dao.users.JdbcOfDAOtoUsers;
 import ru.innopolis.uni.course3.ofedorova.models.User;
@@ -7,6 +8,7 @@ import ru.innopolis.uni.course3.ofedorova.service.users.ServiceOfUsers;
 import ru.innopolis.uni.course3.ofedorova.service.users.ServiceOfUsersImpl;
 
 import java.util.Collection;
+import java.util.Map;
 
 /**
  * Класс реализует контроллер для работы с моделью данных "User".
@@ -31,7 +33,7 @@ public class ControllerForUsers implements DAOtoUsers {
      * @return список рейтинга пользователей.
      */
     @Override
-    public Collection<User> valuesRating() {
+    public Collection<User> valuesRating() throws DAOtoUsersException {
         return this.storeOfUsers.valuesRating();
     }
 
@@ -42,7 +44,7 @@ public class ControllerForUsers implements DAOtoUsers {
      * @return Если пользователь найден, будет возвращена ссылка на него, иначе возвращается null.
      */
     @Override
-    public User getByName(String name) {
+    public User getByName(String name) throws DAOtoUsersException {
         return this.storeOfUsers.getByName(name);
     }
 
@@ -53,7 +55,7 @@ public class ControllerForUsers implements DAOtoUsers {
      * @return Если пользователь найден, будет возвращена ссылка на него, иначе возвращается null.
      */
     @Override
-    public User getById(int id) {
+    public User getById(int id) throws DAOtoUsersException {
         return this.storeOfUsers.getById(id);
     }
 
@@ -64,9 +66,22 @@ public class ControllerForUsers implements DAOtoUsers {
      * @param password пароль пользователя.
      * @return Если пользователя удалось создать будет возвращена ссылка на него, иначе возвращается null.
      */
+    public User addNewUser(String name, String password) throws DAOtoUsersException {
+        Map<String, String> hashAndSalt = this.serviceOfUsers.hashPasswordAndReturnWithSalt(password);
+        return this.storeOfUsers.addNewUser(name, hashAndSalt.get("password"), hashAndSalt.get("salt"));
+    }
+
+    /**
+     * Метод добавляет нового пользователя в БД.
+     *
+     * @param name     имя пользователя.
+     * @param password пароль пользователя.
+     * @param salt соль для хеширования пароля.
+     * @return Если пользователя удалось создать будет возвращена ссылка на него, иначе возвращается null.
+     */
     @Override
-    public User addNewUser(String name, String password) {
-        return this.storeOfUsers.addNewUser(name, password);
+    public User addNewUser(String name, String password, String salt) throws DAOtoUsersException {
+        return this.storeOfUsers.addNewUser(name, password, salt);
     }
 
     /**
@@ -76,7 +91,7 @@ public class ControllerForUsers implements DAOtoUsers {
      * @return значение пароля пользователя.
      */
     @Override
-    public String getPassword(int id) {
+    public String getPassword(int id) throws DAOtoUsersException {
         return this.storeOfUsers.getPassword(id);
     }
 
@@ -88,7 +103,7 @@ public class ControllerForUsers implements DAOtoUsers {
      * @return Обновленный объект пользователя.
      */
     @Override
-    public User updatePassword(int id, String newPassword) {
+    public User updatePassword(int id, String newPassword) throws DAOtoUsersException {
         return this.storeOfUsers.updatePassword(id, newPassword);
     }
 
@@ -107,8 +122,19 @@ public class ControllerForUsers implements DAOtoUsers {
      * @param password пароль пользователя.
      * @return Если валидация пройдена успешно будет возвращено значения пользователя для сессии, иначе возвращается null.
      */
-    public User validateLogin(String username, String password) {
+    public User validateLogin(String username, String password) throws DAOtoUsersException {
         return this.serviceOfUsers.validateLogin(username, password, this.getByName(username));
+    }
+
+    /**
+     * Метод проверяет, что пароль заполнен.
+     *
+     * @param password пароль пользователя.
+     * @param confirm  подтверждение пароля.
+     * @return Если пароль заполне возвращается true, иначе false.
+     */
+    public boolean passwordEmpty(String password, String confirm) {
+        return this.serviceOfUsers.passwordEmpty(password, confirm);
     }
 
     /**
@@ -123,6 +149,16 @@ public class ControllerForUsers implements DAOtoUsers {
     }
 
     /**
+     * Метод проверяет корректность введенного имени.
+     *
+     * @param name имя для проверки.
+     * @return Если имя корректно возвращается true, иначе возвращается false.
+     */
+    public boolean checkName(String name) {
+        return this.serviceOfUsers.checkName(name);
+    }
+
+    /**
      * Метод проверяет корректность введенных данных для редактирования профиля пользователя.
      *
      * @param id                   идентификатор пользователя.
@@ -131,7 +167,7 @@ public class ControllerForUsers implements DAOtoUsers {
      * @param confirmPassword      подтверждение нового пароля.
      * @return Если данные корректны, возвращается true, иначе else.
      */
-    public boolean checkDataForEdid(int id, String inputCurrentPassword, String newPassword, String confirmPassword) {
+    public boolean checkDataForEdid(int id, String inputCurrentPassword, String newPassword, String confirmPassword) throws DAOtoUsersException {
         return this.serviceOfUsers.checkDataForEdid(inputCurrentPassword, this.getPassword(id), newPassword, confirmPassword);
     }
 

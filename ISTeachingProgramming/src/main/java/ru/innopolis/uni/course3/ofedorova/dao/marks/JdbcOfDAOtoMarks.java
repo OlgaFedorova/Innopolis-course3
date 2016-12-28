@@ -2,6 +2,7 @@ package ru.innopolis.uni.course3.ofedorova.dao.marks;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoMarksException;
 import ru.innopolis.uni.course3.ofedorova.service.ConnectionPoolFactory;
 
 import java.sql.*;
@@ -40,7 +41,7 @@ public class JdbcOfDAOtoMarks implements DAOtoMarks {
      * @param mark   оценка за задание.
      */
     @Override
-    public void add(int idTask, int idUser, int mark) {
+    public void add(int idTask, int idUser, int mark) throws DAOtoMarksException {
         try (final PreparedStatement statement = this.connection.prepareStatement("INSERT  INTO marks (id_task , id_user, mark) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS)) {
             statement.setInt(1, idTask);
             statement.setInt(2, idUser);
@@ -51,8 +52,9 @@ public class JdbcOfDAOtoMarks implements DAOtoMarks {
                     int id = generatedKeys.getInt(1);
                 }
             }
-        } catch (SQLException e) {
+        } catch (SQLException|NullPointerException e) {
             JdbcOfDAOtoMarks.LOGGER.info(e.getMessage());
+            throw new DAOtoMarksException();
         }
     }
 }

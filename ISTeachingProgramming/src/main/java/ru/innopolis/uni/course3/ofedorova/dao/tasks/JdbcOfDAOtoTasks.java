@@ -2,6 +2,7 @@ package ru.innopolis.uni.course3.ofedorova.dao.tasks;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoTasksException;
 import ru.innopolis.uni.course3.ofedorova.models.Decision;
 import ru.innopolis.uni.course3.ofedorova.models.Mark;
 import ru.innopolis.uni.course3.ofedorova.models.Task;
@@ -48,7 +49,7 @@ public class JdbcOfDAOtoTasks implements DAOtoTasks {
      * @return список заданий в БД.
      */
     @Override
-    public Collection<Task> values(int idUser) {
+    public Collection<Task> values(int idUser) throws DAOtoTasksException {
         final List<Task> tasks = new ArrayList<>();
         try (final PreparedStatement statement = this.connection.prepareStatement(new StringBuilder().append("SELECT t.id, t.name, d.id as id_decision, d.decision, m.id as id_mark, m.mark ").
                 append("FROM tasks AS t ").
@@ -74,8 +75,9 @@ public class JdbcOfDAOtoTasks implements DAOtoTasks {
                     tasks.add(new Task(rs.getInt("id"), rs.getString("name"), decision, mark));
                 }
             }
-        } catch (SQLException e) {
+        } catch (SQLException|NullPointerException e) {
             JdbcOfDAOtoTasks.LOGGER.info(e.getMessage());
+            throw new DAOtoTasksException();
         }
         return tasks;
     }
@@ -88,7 +90,7 @@ public class JdbcOfDAOtoTasks implements DAOtoTasks {
      * @return задание найденное по id.
      */
     @Override
-    public Task getById(int id, int idUser) {
+    public Task getById(int id, int idUser) throws DAOtoTasksException {
         Task task = null;
         try (final PreparedStatement statement = this.connection.prepareStatement(new StringBuilder().append("SELECT t.*, d.id as id_decision, d.decision, m.id as id_mark, m.mark ").
                 append("FROM tasks AS t ").
@@ -116,8 +118,9 @@ public class JdbcOfDAOtoTasks implements DAOtoTasks {
                     break;
                 }
             }
-        } catch (SQLException e) {
+        } catch (SQLException|NullPointerException e) {
             JdbcOfDAOtoTasks.LOGGER.info(e.getMessage());
+            throw new DAOtoTasksException();
         }
         return task;
     }
@@ -129,7 +132,7 @@ public class JdbcOfDAOtoTasks implements DAOtoTasks {
     public void close() {
         try {
             this.connection.close();
-        } catch (SQLException e) {
+        } catch (SQLException|NullPointerException e) {
             JdbcOfDAOtoTasks.LOGGER.info(e.getMessage());
         }
     }

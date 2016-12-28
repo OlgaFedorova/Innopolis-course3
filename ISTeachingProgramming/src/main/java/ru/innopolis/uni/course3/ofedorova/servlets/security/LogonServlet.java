@@ -1,6 +1,7 @@
 package ru.innopolis.uni.course3.ofedorova.servlets.security;
 
 import ru.innopolis.uni.course3.ofedorova.controllers.ControllerForUsers;
+import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoUsersException;
 import ru.innopolis.uni.course3.ofedorova.models.User;
 import ru.innopolis.uni.course3.ofedorova.servlets.ServletsCommon;
 
@@ -52,16 +53,20 @@ public class LogonServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String username = req.getParameter("username");
-        String password = req.getParameter("user_password");
+        try {
+            String username = req.getParameter("username");
+            String password = req.getParameter("user_password");
 
-        User user = this.controller.validateLogin(username, password);
-
-        if (user == null) {
-            req.getRequestDispatcher(String.format("%s%s", req.getContextPath(), "/security/logonError.jsp")).forward(req, resp);
-        } else {
-            ServletsCommon.setUserInSession(req.getSession(), user);
-            resp.sendRedirect(String.format("%s%s", req.getContextPath(), "/security/success-logon"));
+            User user = null;
+            user = this.controller.validateLogin(username, password);
+            if (user == null) {
+                req.getRequestDispatcher(String.format("%s%s", req.getContextPath(), "/security/logonError.jsp")).forward(req, resp);
+            } else {
+                ServletsCommon.setUserInSession(req.getSession(), user);
+                resp.sendRedirect(String.format("%s%s", req.getContextPath(), "/security/success-logon"));
+            }
+        } catch (DAOtoUsersException e) {
+            resp.sendRedirect(String.format("%s%s", req.getContextPath(), "/error.jsp"));
         }
     }
 
