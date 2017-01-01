@@ -24,23 +24,10 @@ import java.util.List;
  * @since 27.12.2016
  */
 public class JdbcOfDAOtoTasks implements DAOtoTasks {
-
     /**
      * Объект для логгирования.
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(JdbcOfDAOtoTasks.class);
-
-    /**
-     * Соединение для работы с БД.
-     */
-    private Connection connection;
-
-    /**
-     * Создает новый {@code JdbcOfDAOtoTasks}.
-     */
-    public JdbcOfDAOtoTasks() {
-        this.connection = ConnectionPoolFactory.getConnection();
-    }
 
     /**
      * Метод возвращает список заданий в БД.
@@ -51,13 +38,14 @@ public class JdbcOfDAOtoTasks implements DAOtoTasks {
     @Override
     public Collection<Task> values(int idUser) throws DAOtoTasksException {
         final List<Task> tasks = new ArrayList<>();
-        try (final PreparedStatement statement = this.connection.prepareStatement(new StringBuilder().append("SELECT t.id, t.name, d.id as id_decision, d.decision, m.id as id_mark, m.mark ").
-                append("FROM tasks AS t ").
-                append("LEFT JOIN decisions AS d ").
-                append("ON t.id = d.id_task AND  d.id_user = ? ").
-                append("LEFT JOIN marks AS m ").
-                append("ON t.id = m.id_task AND  m.id_user = ? ").
-                append("ORDER BY id").toString())) {
+        try (final Connection connection = ConnectionPoolFactory.getConnection();
+             final PreparedStatement statement = connection.prepareStatement(new StringBuilder().append("SELECT t.id, t.name, d.id as id_decision, d.decision, m.id as id_mark, m.mark ").
+                     append("FROM tasks AS t ").
+                     append("LEFT JOIN decisions AS d ").
+                     append("ON t.id = d.id_task AND  d.id_user = ? ").
+                     append("LEFT JOIN marks AS m ").
+                     append("ON t.id = m.id_task AND  m.id_user = ? ").
+                     append("ORDER BY id").toString())) {
             statement.setInt(1, idUser);
             statement.setInt(2, idUser);
             try (final ResultSet rs = statement.executeQuery()) {
@@ -75,7 +63,7 @@ public class JdbcOfDAOtoTasks implements DAOtoTasks {
                     tasks.add(new Task(rs.getInt("id"), rs.getString("name"), decision, mark));
                 }
             }
-        } catch (SQLException|NullPointerException e) {
+        } catch (SQLException | NullPointerException e) {
             JdbcOfDAOtoTasks.LOGGER.info(e.getMessage());
             throw new DAOtoTasksException();
         }
@@ -92,13 +80,14 @@ public class JdbcOfDAOtoTasks implements DAOtoTasks {
     @Override
     public Task getById(int id, int idUser) throws DAOtoTasksException {
         Task task = null;
-        try (final PreparedStatement statement = this.connection.prepareStatement(new StringBuilder().append("SELECT t.*, d.id as id_decision, d.decision, m.id as id_mark, m.mark ").
-                append("FROM tasks AS t ").
-                append("LEFT JOIN decisions AS d ").
-                append("ON t.id = d.id_task AND d.id_user = ? ").
-                append("LEFT JOIN marks AS m ").
-                append("ON t.id = m.id_task AND m.id_user = ? ").
-                append("WHERE t.id = ?").toString())) {
+        try (final Connection connection = ConnectionPoolFactory.getConnection();
+             final PreparedStatement statement = connection.prepareStatement(new StringBuilder().append("SELECT t.*, d.id as id_decision, d.decision, m.id as id_mark, m.mark ").
+                     append("FROM tasks AS t ").
+                     append("LEFT JOIN decisions AS d ").
+                     append("ON t.id = d.id_task AND d.id_user = ? ").
+                     append("LEFT JOIN marks AS m ").
+                     append("ON t.id = m.id_task AND m.id_user = ? ").
+                     append("WHERE t.id = ?").toString())) {
             statement.setInt(1, idUser);
             statement.setInt(2, idUser);
             statement.setInt(3, id);
@@ -118,24 +107,10 @@ public class JdbcOfDAOtoTasks implements DAOtoTasks {
                     break;
                 }
             }
-        } catch (SQLException|NullPointerException e) {
+        } catch (SQLException | NullPointerException e) {
             JdbcOfDAOtoTasks.LOGGER.info(e.getMessage());
             throw new DAOtoTasksException();
         }
         return task;
     }
-
-    /**
-     * Метод закрывает соединение для работы с данными.
-     */
-    @Override
-    public void close() {
-        try {
-            this.connection.close();
-        } catch (SQLException|NullPointerException e) {
-            JdbcOfDAOtoTasks.LOGGER.info(e.getMessage());
-        }
-    }
-
-
 }

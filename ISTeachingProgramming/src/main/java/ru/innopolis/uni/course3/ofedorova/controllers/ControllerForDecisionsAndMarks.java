@@ -43,12 +43,4 @@ public class ControllerForDecisionsAndMarks implements DAOtoDecisions {
         this.storeOfDecisions.add(idTask, idUser, decision);
         this.storeOfMarks.add(idTask, idUser, this.serviceOfMarks.getMark());
     }
-
-    /**
-     * Метод закрывает соединение для работы с данными.
-     */
-    @Override
-    public void close() {
-        this.storeOfDecisions.close();
-    }
 }

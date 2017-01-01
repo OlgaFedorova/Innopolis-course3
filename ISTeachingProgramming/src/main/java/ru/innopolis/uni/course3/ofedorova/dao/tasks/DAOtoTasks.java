@@ -30,9 +30,4 @@ public interface DAOtoTasks {
      * @return задание найденное по id.
      */
     Task getById(int id, int idUser) throws DAOtoTasksException;
-
-    /**
-     * Метод закрывает соединение для работы с данными.
-     */
-    void close();
 }

@@ -17,6 +17,10 @@ public class User extends Base {
      */
     private String password;
     /**
+     * Salt для хеширования пароля.
+     */
+    private String salt;
+    /**
      * Общий балл.
      */
     private int mark;
@@ -27,11 +31,13 @@ public class User extends Base {
      * @param id       значение для поля "id".
      * @param name     значение для поля "name".
      * @param password значение для поля "password".
+     * @param salt     значение для поля "salt".
      */
-    public User(int id, String name, String password) {
+    public User(int id, String name, String password, String salt) {
         super(id);
         this.name = name;
         this.password = password;
+        this.salt = salt;
     }
 
     /**
@@ -39,9 +45,10 @@ public class User extends Base {
      *
      * @param name     значение для поля "name".
      * @param password значение для поля "password".
+     * @param salt     значение для поля "salt".
      */
-    public User(String name, String password) {
-        this(-1, name, password);
+    public User(String name, String password, String salt) {
+        this(-1, name, password, salt);
     }
 
     /**
@@ -84,6 +91,25 @@ public class User extends Base {
         return this.mark;
     }
 
+    /**
+     * Метод возвращает значение поля "salt".
+     *
+     * @return значение поля "salt".
+     */
+    public String getSalt() {
+        return this.salt;
+    }
+
+    /**
+     * Compares this object to the specified object.  The result is
+     * {@code true} if and only if the argument is not
+     * {@code null} and is an {@code Item} object that
+     * contains the same values of field "id", "mark", "name", "password", "salt" as this object.
+     *
+     * @param o the object to compare with.
+     * @return {@code true} if the objects are the same;
+     * {@code false} otherwise.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -91,17 +117,26 @@ public class User extends Base {
 
         User user = (User) o;
 
+        if (this.getId() != user.getId()) return false;
         if (mark != user.mark) return false;
         if (name != null ? !name.equals(user.name) : user.name != null) return false;
-        return password != null ? password.equals(user.password) : user.password == null;
+        if (password != null ? !password.equals(user.password) : user.password != null) return false;
+        return salt != null ? salt.equals(user.salt) : user.salt == null;
 
     }
 
+    /**
+     * Returns a hash code for this {@code User}.
+     *
+     * @return a hash code value for this object.
+     */
     @Override
     public int hashCode() {
         int result = name != null ? name.hashCode() : 0;
         result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + (salt != null ? salt.hashCode() : 0);
         result = 31 * result + mark;
+        result = 31 * result + this.getId();
         return result;
     }
 }

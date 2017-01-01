@@ -43,12 +43,4 @@ public class ControllerForTasks implements DAOtoTasks {
     public Task getById(int id, int idUser) throws DAOtoTasksException {
         return this.storeOfTasks.getById(id, idUser);
     }
-
-    /**
-     * Метод закрывает соединение для работы с данными.
-     */
-    @Override
-    public void close() {
-        this.storeOfTasks.close();
-    }
 }

@@ -20,9 +20,4 @@ public interface DAOtoDecisions {
      * @param decision текст решения.
      */
     void add(int idTask, int idUser, String decision) throws DAOtoDecisionsException, DAOtoMarksException;
-
-    /**
-     * Метод закрывает соединение для работы с данными.
-     */
-    void close();
 }

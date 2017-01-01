@@ -76,7 +76,7 @@ public class ControllerForUsers implements DAOtoUsers {
      *
      * @param name     имя пользователя.
      * @param password пароль пользователя.
-     * @param salt соль для хеширования пароля.
+     * @param salt     соль для хеширования пароля.
      * @return Если пользователя удалось создать будет возвращена ссылка на него, иначе возвращается null.
      */
     @Override
@@ -88,11 +88,12 @@ public class ControllerForUsers implements DAOtoUsers {
      * Метод возвращает пароль пользователя.
      *
      * @param id идентификатор пользователя.
-     * @return значение пароля пользователя.
+     * @return Map, в котором ключ "password" соответствует значению пароля;
+     * ключ "salt" соответствует значение соли, используемой для хеширования.
      */
     @Override
-    public String getPassword(int id) throws DAOtoUsersException {
-        return this.storeOfUsers.getPassword(id);
+    public Map<String, String> getPasswordAndSalt(int id) throws DAOtoUsersException {
+        return this.storeOfUsers.getPasswordAndSalt(id);
     }
 
     /**
@@ -102,17 +103,22 @@ public class ControllerForUsers implements DAOtoUsers {
      * @param newPassword значение нового пароля.
      * @return Обновленный объект пользователя.
      */
-    @Override
     public User updatePassword(int id, String newPassword) throws DAOtoUsersException {
-        return this.storeOfUsers.updatePassword(id, newPassword);
+        Map<String, String> hashAndSalt = this.serviceOfUsers.hashPasswordAndReturnWithSalt(newPassword);
+        return this.updatePassword(id, hashAndSalt.get("password"), hashAndSalt.get("salt"));
     }
 
     /**
-     * Метод закрывает соединение для работы с данными.
+     * Метод обновляет пароль у пользователя.
+     *
+     * @param id          идентификатор пользователя.
+     * @param newPassword значение нового пароля.
+     * @param salt        соль для хеширования пароля.
+     * @return Обновленный объект пользователя.
      */
     @Override
-    public void close() {
-        this.storeOfUsers.close();
+    public User updatePassword(int id, String newPassword, String salt) throws DAOtoUsersException {
+        return this.storeOfUsers.updatePassword(id, newPassword, salt);
     }
 
     /**
@@ -168,7 +174,7 @@ public class ControllerForUsers implements DAOtoUsers {
      * @return Если данные корректны, возвращается true, иначе else.
      */
     public boolean checkDataForEdid(int id, String inputCurrentPassword, String newPassword, String confirmPassword) throws DAOtoUsersException {
-        return this.serviceOfUsers.checkDataForEdid(inputCurrentPassword, this.getPassword(id), newPassword, confirmPassword);
+        return this.serviceOfUsers.checkDataForEdid(inputCurrentPassword, this.getPasswordAndSalt(id), newPassword, confirmPassword);
     }
 
 }

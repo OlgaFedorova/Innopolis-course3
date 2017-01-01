@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import ru.innopolis.uni.course3.ofedorova.controllers.ControllerForUsers;
@@ -34,6 +35,7 @@ import static org.powermock.api.mockito.PowerMockito.whenNew;
  */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ConnectionPoolFactory.class, JdbcOfDAOtoUsers.class, ControllerForUsers.class})
+@PowerMockIgnore("javax.crypto.*")
 public class UserCreateServletTest {
     @Mock
     HttpServletRequest request;
@@ -75,7 +77,7 @@ public class UserCreateServletTest {
      */
     @Test
     public void whenDoGetAndGoAuthorization() throws Exception {
-        final User user = new User(1, "name", "password");
+        final User user = new User(1, "name", "password", "");
 
         when(session.getAttribute("user")).thenReturn(user);
         when(request.getRequestDispatcher(String.format("%s%s", request.getContextPath(), "/info-about-authorization"))).thenReturn(dispatcher);
@@ -117,7 +119,7 @@ public class UserCreateServletTest {
         final String name = "qwertyuiopasdfghjklzxcvbnm";
         final String password = "test_password";
         final String confirm_password = "test_password";
-        final User user = new User(1, name, password);
+        final User user = new User(1, name, password, "");
 
         when(request.getParameter("name")).thenReturn(name);
         when(request.getParameter("user_password")).thenReturn(password);
@@ -146,8 +148,8 @@ public class UserCreateServletTest {
         final String name = "user1";
         final String password = "test_password";
         final String confirm_password = "test_password";
-        final User user = new User(1, name, password);
-        final User userDuplicate = new User(1, name, password);
+        final User user = new User(1, name, password, "");
+        final User userDuplicate = new User(1, name, password, "");
 
         when(request.getParameter("name")).thenReturn(name);
         when(request.getParameter("user_password")).thenReturn(password);
@@ -177,7 +179,7 @@ public class UserCreateServletTest {
         final String name = "user1";
         final String password = "";
         final String confirm_password = "";
-        final User user = new User(1, name, password);
+        final User user = new User(1, name, password, "");
 
         when(request.getParameter("name")).thenReturn(name);
         when(request.getParameter("user_password")).thenReturn(password);
@@ -204,7 +206,7 @@ public class UserCreateServletTest {
     public void whenDoPostAndUserCreate() throws Exception {
         final String name = "testname";
         final String password = "test_password";
-        final User user = new User(1, name, password);
+        final User user = new User(1, name, password, "");
         final Map<String, String> map = new HashMap<>();
         map.put("password", password);
         map.put("salt", "");
@@ -236,7 +238,7 @@ public class UserCreateServletTest {
         final String name = "testname";
         final String password = "test_password";
         final String confirm_password = "test_password1";
-        final User user = new User(1, name, password);
+        final User user = new User(1, name, password, "");
 
         when(request.getParameter("name")).thenReturn(name);
         when(request.getParameter("user_password")).thenReturn(password);

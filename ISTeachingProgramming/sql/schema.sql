@@ -3,7 +3,7 @@ CREATE TABLE users
 (
   id serial NOT NULL,
   name character varying(25),
-  password character varying(15),
+  password character varying(255),
   salt character varying(10) DEFAULT ''::character varying,
   CONSTRAINT users_pkey PRIMARY KEY (id),
   CONSTRAINT users_name_key UNIQUE (name)

@@ -57,12 +57,12 @@ public class UserCreateServlet extends HttpServlet {
 
             if (!this.controller.checkName(username)) {
                 req.getRequestDispatcher("/registration/registrationErrorNameIncorrect.jsp").forward(req, resp);
-            }else if(this.controller.getByName(username) != null){
+            } else if (this.controller.getByName(username) != null) {
                 req.getRequestDispatcher(String.format("%s%s", req.getContextPath(), "/registration/registrationErrorUserDuplicate.jsp")).forward(req, resp);
-            }else {
-                if(this.controller.passwordEmpty(req.getParameter("user_password"), req.getParameter("confirm_user_password"))){
+            } else {
+                if (this.controller.passwordEmpty(req.getParameter("user_password"), req.getParameter("confirm_user_password"))) {
                     req.getRequestDispatcher(String.format("%s%s", req.getContextPath(), "/registration/registrationErrorPasswordEmpty.jsp")).forward(req, resp);
-                }else{
+                } else {
                     if (this.controller.checkPasswords(req.getParameter("user_password"), req.getParameter("confirm_user_password"))) {
                         User user = null;
                         user = this.controller.addNewUser(username, req.getParameter("user_password"));
@@ -79,14 +79,5 @@ public class UserCreateServlet extends HttpServlet {
         } catch (DAOtoUsersException e) {
             resp.sendRedirect(String.format("%s%s", req.getContextPath(), "/error.jsp"));
         }
-    }
-
-    /**
-     * Вызывается контейнером сервлета в момент закрытия сервлета.
-     */
-    @Override
-    public void destroy() {
-        super.destroy();
-        this.controller.close();
     }
 }

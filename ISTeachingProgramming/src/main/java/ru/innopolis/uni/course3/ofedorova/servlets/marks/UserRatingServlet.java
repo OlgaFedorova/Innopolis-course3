@@ -39,13 +39,4 @@ public class UserRatingServlet extends HttpServlet {
             resp.sendRedirect(String.format("%s%s", req.getContextPath(), "/error.jsp"));
         }
     }
-
-    /**
-     * Вызывается контейнером сервлета в момент закрытия сервлета.
-     */
-    @Override
-    public void destroy() {
-        super.destroy();
-        this.controller.close();
-    }
 }

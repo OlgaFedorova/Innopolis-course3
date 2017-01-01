@@ -1,7 +1,11 @@
 package ru.innopolis.uni.course3.ofedorova.service.users;
 
 import org.junit.Test;
+import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoUsersException;
 import ru.innopolis.uni.course3.ofedorova.models.User;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -23,12 +27,13 @@ public class ServiceOfUsersImplTest {
      * Метод тестирует вылидацию входа при корректных данных.
      */
     @Test
-    public void whenValidateLoginTrue() {
+    public void whenValidateLoginTrue() throws DAOtoUsersException {
+        final byte[] salt = new byte[]{1, 2, 3};
         final String username = "name";
         final String password = "123";
-        final String passwordCorrect = "123";
+        final String passwordCorrect = this.serviceOfUsers.hashPassword("123", salt);
         final int id = 1;
-        final User user = new User(id, username, passwordCorrect);
+        final User user = new User(id, username, passwordCorrect, new String(salt));
 
         assertTrue(user == this.serviceOfUsers.validateLogin(username, password, user));
     }
@@ -37,12 +42,13 @@ public class ServiceOfUsersImplTest {
      * Метод тестирует вылидацию входа при некорректных данных.
      */
     @Test
-    public void whenValidateLoginFalse() {
+    public void whenValidateLoginFalse() throws DAOtoUsersException {
+        final byte[] salt = new byte[]{1, 2, 3};
         final String username = "name";
         final String password = "123";
-        final String passwordCorrect = "567";
+        final String passwordCorrect = this.serviceOfUsers.hashPassword("567", salt);
         final int id = 1;
-        final User user = new User(id, username, passwordCorrect);
+        final User user = new User(id, username, passwordCorrect, new String(salt));
 
         assertTrue(this.serviceOfUsers.validateLogin(username, password, user) == null);
     }
@@ -51,7 +57,7 @@ public class ServiceOfUsersImplTest {
      * Проверку пароля на заполненность: пароль пустой.
      */
     @Test
-    public void whenPasswordEmpty(){
+    public void whenPasswordEmpty() {
         final String password = "";
         final String confirm = "";
 
@@ -62,7 +68,7 @@ public class ServiceOfUsersImplTest {
      * Проверку пароля на заполненность: пароль ytпустой.
      */
     @Test
-    public void whenPasswordNotEmpty(){
+    public void whenPasswordNotEmpty() {
         final String password = "123";
         final String confirm = "123";
 
@@ -96,14 +102,14 @@ public class ServiceOfUsersImplTest {
      * Тестируем некорректно заполненное имя.
      */
     @Test
-    public void whenCheckNameAndReturnFalse(){
+    public void whenCheckNameAndReturnFalse() {
         final String name1 = "";
         final String name2 = "4ffgfd";
         final String name3 = "sseaыва8";
         final String name4 = "qwertyuiopasdfghjklzxcvbnm";
 
         assertTrue(!this.serviceOfUsers.checkName(name1) && !this.serviceOfUsers.checkName(name2)
-                &&!this.serviceOfUsers.checkName(name3) && !this.serviceOfUsers.checkName(name4));
+                && !this.serviceOfUsers.checkName(name3) && !this.serviceOfUsers.checkName(name4));
     }
 
     /**
@@ -111,7 +117,7 @@ public class ServiceOfUsersImplTest {
      * Тестируем корректно заполненное имя.
      */
     @Test
-    public void whenCheckNameAndReturnTrue(){
+    public void whenCheckNameAndReturnTrue() {
         final String name = "user1";
 
         assertTrue(this.serviceOfUsers.checkName(name));
@@ -121,13 +127,17 @@ public class ServiceOfUsersImplTest {
      * Метод тестирует проверку данных для редактирования профиля пользователя в ситуации корректно введенных данных.
      */
     @Test
-    public void whenCheckDataForEdidTrue() {
+    public void whenCheckDataForEdidTrue() throws DAOtoUsersException {
+        final byte[] salt = new byte[]{1, 2, 3};
         final String inputCurrentPassword = "123";
-        final String currentPasswordDB = "123";
+        final String currentPasswordDB = this.serviceOfUsers.hashPassword("123", salt);
         final String newPassword = "456";
         final String confirmPassword = "456";
+        final Map<String, String> saltWithPassword = new HashMap<>();
+        saltWithPassword.put("password", currentPasswordDB);
+        saltWithPassword.put("salt", new String(salt));
 
-        assertTrue(this.serviceOfUsers.checkDataForEdid(inputCurrentPassword, currentPasswordDB, newPassword, confirmPassword));
+        assertTrue(this.serviceOfUsers.checkDataForEdid(inputCurrentPassword, saltWithPassword, newPassword, confirmPassword));
     }
 
     /**
@@ -135,13 +145,17 @@ public class ServiceOfUsersImplTest {
      * введенный текущий пароль не совпадает с сохраненным в базе.
      */
     @Test
-    public void whenCheckDataForEdidFalseInputCurrentPasswordNotEqualsCurrentPasswordDB() {
+    public void whenCheckDataForEdidFalseInputCurrentPasswordNotEqualsCurrentPasswordDB() throws DAOtoUsersException {
+        final byte[] salt = new byte[]{1, 2, 3};
         final String inputCurrentPassword = "123";
-        final String currentPasswordDB = "789";
+        final String currentPasswordDB = this.serviceOfUsers.hashPassword("789", salt);
         final String newPassword = "456";
         final String confirmPassword = "456";
+        final Map<String, String> saltWithPassword = new HashMap<>();
+        saltWithPassword.put("password", currentPasswordDB);
+        saltWithPassword.put("salt", new String(salt));
 
-        assertFalse(this.serviceOfUsers.checkDataForEdid(inputCurrentPassword, currentPasswordDB, newPassword, confirmPassword));
+        assertFalse(this.serviceOfUsers.checkDataForEdid(inputCurrentPassword, saltWithPassword, newPassword, confirmPassword));
     }
 
     /**
@@ -149,13 +163,17 @@ public class ServiceOfUsersImplTest {
      * новый пароль и его подтверждение не совпадают.
      */
     @Test
-    public void whenCheckDataForEdidFalseNewPasswordNotEqualsConfirmPassword() {
+    public void whenCheckDataForEdidFalseNewPasswordNotEqualsConfirmPassword() throws DAOtoUsersException {
+        final byte[] salt = new byte[]{1, 2, 3};
         final String inputCurrentPassword = "123";
-        final String currentPasswordDB = "123";
+        final String currentPasswordDB = this.serviceOfUsers.hashPassword("123", salt);
         final String newPassword = "456";
         final String confirmPassword = "789";
+        final Map<String, String> saltWithPassword = new HashMap<>();
+        saltWithPassword.put("password", currentPasswordDB);
+        saltWithPassword.put("salt", new String(salt));
 
-        assertFalse(this.serviceOfUsers.checkDataForEdid(inputCurrentPassword, currentPasswordDB, newPassword, confirmPassword));
+        assertFalse(this.serviceOfUsers.checkDataForEdid(inputCurrentPassword, saltWithPassword, newPassword, confirmPassword));
     }
 
 }

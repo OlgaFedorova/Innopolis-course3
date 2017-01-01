@@ -21,8 +21,9 @@ public interface ServiceOfUsers {
      * @param password пароль пользователя.
      * @param user     пользователь для сверки данных.
      * @return Если валидация пройдена успешно будет возвращено значения пользователя для сессии, иначе возвращается null.
+     * @throws DAOtoUsersException ошибка в работе с данными.
      */
-    User validateLogin(String username, String password, User user);
+    User validateLogin(String username, String password, User user) throws DAOtoUsersException;
 
     /**
      * Метод проверяет, что пароль заполнен.
@@ -54,20 +55,33 @@ public interface ServiceOfUsers {
      * Метод проверяет корректность введенных данных для редактирования профиля пользователя.
      *
      * @param inputCurrentPassword значение введенного текущего пароля.
-     * @param currentPasswordDB    значение сохраненного пароля в БД.
+     * @param passwordAndSalt      Map, в котором ключ "password" соответствует значению пароля;
+     *                             ключ "salt" соответствует значение соли, используемой для хеширования.
      * @param newPassword          значение нового пароля.
      * @param confirmPassword      подтверждение нового пароля.
      * @return Если данные корректны, возвращается true, иначе else.
+     * @throws DAOtoUsersException ошибка в работе с данными.
      */
-    boolean checkDataForEdid(String inputCurrentPassword, String currentPasswordDB, String newPassword, String confirmPassword);
+    boolean checkDataForEdid(String inputCurrentPassword, Map<String, String> passwordAndSalt, String newPassword, String confirmPassword) throws DAOtoUsersException;
 
     /**
      * Метод хеширует пароль и возвращает его значение и значение соли, используемое для хеширования.
+     *
      * @param password пароль для хеширования.
      * @return Map, в котором ключ "password" соответствует значению пароля;
      * ключ "salt" соответствует значение соли, используемой для хеширования.
      * @throws DAOtoUsersException ошибка в работе с данными.
      */
     Map<String, String> hashPasswordAndReturnWithSalt(String password) throws DAOtoUsersException;
+
+    /**
+     * Методе хеширует переданный пароль с солью и возвращает захешированное значение.
+     *
+     * @param password пароль для хеширования.
+     * @param salt     соль для хеширования.
+     * @return захешированное значение пароля.
+     * @throws DAOtoUsersException ошибка в работе с данными.
+     */
+    String hashPassword(String password, byte[] salt) throws DAOtoUsersException;
 
 }

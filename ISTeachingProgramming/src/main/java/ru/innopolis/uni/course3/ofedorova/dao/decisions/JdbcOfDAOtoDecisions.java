@@ -21,18 +21,6 @@ public class JdbcOfDAOtoDecisions implements DAOtoDecisions {
     private static final Logger LOGGER = LoggerFactory.getLogger(JdbcOfDAOtoDecisions.class);
 
     /**
-     * Соединение для работы с БД.
-     */
-    private Connection connection;
-
-    /**
-     * Создает новый {@code JdbcOfDAOtoDecisions}.
-     */
-    public JdbcOfDAOtoDecisions() {
-        this.connection = ConnectionPoolFactory.getConnection();
-    }
-
-    /**
      * Метод добавляет решение пользователя в систему.
      *
      * @param idTask   идентификатор задачи.
@@ -41,7 +29,8 @@ public class JdbcOfDAOtoDecisions implements DAOtoDecisions {
      */
     @Override
     public void add(int idTask, int idUser, String decision) throws DAOtoDecisionsException {
-        try (final PreparedStatement statement = this.connection.prepareStatement("INSERT  INTO decisions (id_task , id_user, decision) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS)) {
+        try (final Connection connection = ConnectionPoolFactory.getConnection();
+             final PreparedStatement statement = connection.prepareStatement("INSERT  INTO decisions (id_task , id_user, decision) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS)) {
             statement.setInt(1, idTask);
             statement.setInt(2, idUser);
             statement.setString(3, decision);
@@ -51,21 +40,9 @@ public class JdbcOfDAOtoDecisions implements DAOtoDecisions {
                     int id = generatedKeys.getInt(1);
                 }
             }
-        } catch (SQLException|NullPointerException e) {
+        } catch (SQLException | NullPointerException e) {
             JdbcOfDAOtoDecisions.LOGGER.info(e.getMessage());
             throw new DAOtoDecisionsException();
-        }
-    }
-
-    /**
-     * Метод закрывает соединение для работы с данными.
-     */
-    @Override
-    public void close() {
-        try {
-            this.connection.close();
-        } catch (SQLException|NullPointerException e) {
-            JdbcOfDAOtoDecisions.LOGGER.info(e.getMessage());
         }
     }
 }

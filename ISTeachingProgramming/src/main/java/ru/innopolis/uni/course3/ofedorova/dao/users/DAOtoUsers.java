@@ -4,6 +4,7 @@ import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoUsersException;
 import ru.innopolis.uni.course3.ofedorova.models.User;
 
 import java.util.Collection;
+import java.util.Map;
 
 /**
  * Интерфейс реализует модель доступа к данным модели "User".
@@ -42,7 +43,7 @@ public interface DAOtoUsers {
      *
      * @param name     имя пользователя.
      * @param password пароль пользователя.
-     * @param salt соль для хеширования пароля.
+     * @param salt     соль для хеширования пароля.
      * @return Если пользователя удалось создать будет возвращена ссылка на него, иначе возвращается null.
      */
     User addNewUser(String name, String password, String salt) throws DAOtoUsersException;
@@ -51,22 +52,18 @@ public interface DAOtoUsers {
      * Метод возвращает пароль пользователя.
      *
      * @param id идентификатор пользователя.
-     * @return значение пароля пользователя.
+     * @return Map, в котором ключ "password" соответствует значению пароля;
+     * ключ "salt" соответствует значение соли, используемой для хеширования.
      */
-    String getPassword(int id) throws DAOtoUsersException;
+    Map<String, String> getPasswordAndSalt(int id) throws DAOtoUsersException;
 
     /**
      * Метод обновляет пароль у пользователя.
      *
      * @param id          идентификатор пользователя.
      * @param newPassword значение нового пароля.
+     * @param salt        соль для хеширования пароля.
      * @return Обновленный объект пользователя.
      */
-    User updatePassword(int id, String newPassword) throws DAOtoUsersException;
-
-    /**
-     * Метод закрывает соединение для работы с данными.
-     */
-    void close();
-
+    User updatePassword(int id, String newPassword, String salt) throws DAOtoUsersException;
 }

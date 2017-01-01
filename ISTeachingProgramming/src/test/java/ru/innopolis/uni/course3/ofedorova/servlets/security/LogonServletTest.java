@@ -4,12 +4,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import ru.innopolis.uni.course3.ofedorova.controllers.ControllerForUsers;
 import ru.innopolis.uni.course3.ofedorova.dao.users.JdbcOfDAOtoUsers;
 import ru.innopolis.uni.course3.ofedorova.models.User;
 import ru.innopolis.uni.course3.ofedorova.service.ConnectionPoolFactory;
+import ru.innopolis.uni.course3.ofedorova.service.users.ServiceOfUsersImpl;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
@@ -30,6 +32,7 @@ import static org.powermock.api.mockito.PowerMockito.whenNew;
  */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ConnectionPoolFactory.class, JdbcOfDAOtoUsers.class, ControllerForUsers.class})
+@PowerMockIgnore("javax.crypto.*")
 public class LogonServletTest {
     @Mock
     HttpServletRequest request;
@@ -87,7 +90,7 @@ public class LogonServletTest {
      */
     @Test
     public void whenDoGetAndGoInfoAuthorization() throws Exception {
-        final User user = new User(1, "name", "password");
+        final User user = new User(1, "name", "password", "");
 
         when(session.getAttribute("user")).thenReturn(user);
         when(request.getRequestDispatcher(String.format("%s%s", request.getContextPath(), "/info-about-authorization"))).thenReturn(dispatcher);
@@ -105,11 +108,12 @@ public class LogonServletTest {
      */
     @Test
     public void whenDoPostAndGoLogonError() throws Exception {
+        final byte[] salt = new byte[]{1, 2, 3};
         final String name = "test_name";
         final String password = "test_password";
-        final String passwordDB = "test_password1";
+        final String passwordDB = new ServiceOfUsersImpl().hashPassword("test_password1", salt);
         final int id = 1;
-        final User user = new User(id, name, passwordDB);
+        final User user = new User(id, name, passwordDB, new String(salt));
 
         when(request.getParameter("username")).thenReturn(name);
         when(request.getParameter("user_password")).thenReturn(password);
@@ -132,10 +136,11 @@ public class LogonServletTest {
      */
     @Test
     public void whenDoPostAndGoLogonSuccess() throws Exception {
+        final byte[] salt = new byte[]{1, 2, 3};
         final String name = "test_name";
-        final String password = "test_password";
+        final String password = new ServiceOfUsersImpl().hashPassword("test_password", salt);
         final int id = 1;
-        final User user = new User(id, name, password);
+        final User user = new User(id, name, password, new String(salt));
 
         when(request.getParameter("username")).thenReturn(name);
         when(request.getParameter("user_password")).thenReturn(password);

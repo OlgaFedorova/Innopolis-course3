@@ -28,9 +28,11 @@ public class ServiceOfUsersImpl implements ServiceOfUsers {
      * Для работы криптографии.
      */
     static private SecretKeyFactory secretKeyFactory;
+
     static {
         Security.addProvider(new BouncyCastleProvider());
     }
+
     /**
      * Объект для логгирования.
      */
@@ -43,11 +45,13 @@ public class ServiceOfUsersImpl implements ServiceOfUsers {
      * @param password пароль пользователя.
      * @param user     пользователь для сверки данных.
      * @return Если валидация пройдена успешно будет возвращено значения пользователя для сессии, иначе возвращается null.
+     * @throws DAOtoUsersException ошибка в работе с данными.
      */
     @Override
-    public User validateLogin(String username, String password, User user) {
+    public User validateLogin(String username, String password, User user) throws DAOtoUsersException {
         User result = null;
-        if (user != null && user.getPassword().equals(password.trim())) {
+        if (user != null && user.getPassword() != null && user.getSalt() != null &&
+                user.getPassword().equals(this.hashPassword(password, user.getSalt().getBytes()))) {
             result = user;
         }
         return result;
@@ -96,16 +100,17 @@ public class ServiceOfUsersImpl implements ServiceOfUsers {
      * Метод проверяет корректность введенных данных для редактирования профиля пользователя.
      *
      * @param inputCurrentPassword значение введенного текущего пароля.
-     * @param currentPasswordDB    значение сохраненного пароля в БД.
+     * @param passwordAndSalt      Map, в котором ключ "password" соответствует значению пароля;
+     *                             ключ "salt" соответствует значение соли, используемой для хеширования.
      * @param newPassword          значение нового пароля.
      * @param confirmPassword      подтверждение нового пароля.
      * @return Если данные корректны, возвращается true, иначе else.
+     * @throws DAOtoUsersException ошибка в работе с данными.
      */
     @Override
-    public boolean checkDataForEdid(String inputCurrentPassword, String currentPasswordDB, String newPassword, String confirmPassword) {
+    public boolean checkDataForEdid(String inputCurrentPassword, Map<String, String> passwordAndSalt, String newPassword, String confirmPassword) throws DAOtoUsersException {
         boolean isValidate = false;
-        if (inputCurrentPassword != null && currentPasswordDB != null
-                && inputCurrentPassword.equals(currentPasswordDB)
+        if (inputCurrentPassword != null && this.hashPassword(inputCurrentPassword, passwordAndSalt.get("salt").getBytes()).equals(passwordAndSalt.get("password"))
                 && newPassword != null && confirmPassword != null
                 && !newPassword.isEmpty() && newPassword.equals(confirmPassword)) {
             isValidate = true;
@@ -115,6 +120,7 @@ public class ServiceOfUsersImpl implements ServiceOfUsers {
 
     /**
      * Метод хеширует пароль и возвращает его значение и значение соли, используемое для хеширования.
+     *
      * @param password пароль для хеширования.
      * @return Map, в котором ключ "password" соответствует значению пароля;
      * ключ "salt" соответствует значение соли, используемой для хеширования.
@@ -124,18 +130,30 @@ public class ServiceOfUsersImpl implements ServiceOfUsers {
     public Map<String, String> hashPasswordAndReturnWithSalt(String password) throws DAOtoUsersException {
 
         Map<String, String> result = new HashMap<>();
+        byte[] salt = this.generateSaltForHash();
 
+        result.put("salt", new String(salt));
+        result.put("password", this.hashPassword(password, salt));
+        return result;
+    }
+
+    /**
+     * Методе хеширует переданный пароль с солью и возвращает захешированное значение.
+     *
+     * @param password пароль для хеширования.
+     * @param salt     соль для хеширования.
+     * @return захешированное значение пароля.
+     * @throws DAOtoUsersException ошибка в работе с данными.
+     */
+    public String hashPassword(String password, byte[] salt) throws DAOtoUsersException {
+        String result = password;
         try {
             int iterations = 1;
             char[] chars = password.toCharArray();
-            byte[] salt = this.generateSaltForHash();
 
-            PBEKeySpec spec = new PBEKeySpec(chars, salt, iterations,  255);
-            SecretKeyFactory skf = ServiceOfUsersImpl.getSecretKeyFactory();
-            byte[] hash = skf.generateSecret(spec).getEncoded();
-
-            result.put("salt", new String(salt));
-            result.put("password", new String(hash));
+            PBEKeySpec spec = new PBEKeySpec(chars, salt, iterations, 255);
+            byte[] hash = ServiceOfUsersImpl.getSecretKeyFactory().generateSecret(spec).getEncoded();
+            result = new String(hash);
         } catch (InvalidKeySpecException e) {
             ServiceOfUsersImpl.LOGGER.info(e.getMessage());
             throw new DAOtoUsersException();
@@ -145,6 +163,7 @@ public class ServiceOfUsersImpl implements ServiceOfUsers {
 
     /**
      * Метод генерирует соль для хеширования паролей.
+     *
      * @return значение соли.
      */
     private byte[] generateSaltForHash() throws DAOtoUsersException {
@@ -161,11 +180,12 @@ public class ServiceOfUsersImpl implements ServiceOfUsers {
 
     /**
      * Метод возвращает фабрику для работы с хешированием.
+     *
      * @return фабрика для работы с хешированием.
      * @throws DAOtoUsersException ошибка в работе с данными.
      */
-    private static SecretKeyFactory getSecretKeyFactory() throws DAOtoUsersException {
-        if(ServiceOfUsersImpl.secretKeyFactory == null){
+    private synchronized static SecretKeyFactory getSecretKeyFactory() throws DAOtoUsersException {
+        if (ServiceOfUsersImpl.secretKeyFactory == null) {
             try {
                 ServiceOfUsersImpl.secretKeyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
             } catch (NoSuchAlgorithmException e) {
