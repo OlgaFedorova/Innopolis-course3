@@ -1,7 +1,5 @@
 package ru.innopolis.uni.course3.ofedorova.dao.decisions;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoDecisionsException;
 import ru.innopolis.uni.course3.ofedorova.service.ConnectionPoolFactory;
 
@@ -18,7 +16,7 @@ public class JdbcOfDAOtoDecisions implements DAOtoDecisions {
     /**
      * Объект для логгирования.
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(JdbcOfDAOtoDecisions.class);
+    private static final org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger(JdbcOfDAOtoDecisions.class);
 
     /**
      * Метод добавляет решение пользователя в систему.

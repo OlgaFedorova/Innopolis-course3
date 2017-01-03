@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id = "journal_controller" class="ru.innopolis.uni.course3.ofedorova.controllers.JournalController" scope="singleton">
+        <constructor-arg ref="dao_journal"/>
+    </bean>
+    <bean id="dao_journal" class="ru.innopolis.uni.course3.ofedorova.dao.journal.JdbcDAOForJournal" scope="singleton"/>
+
+    <bean id = "lecture_controller" class="ru.innopolis.uni.course3.ofedorova.controllers.LectureController"
+          scope="singleton"
+          p:daoForLecture-ref="dao_lecture"/>
+    <bean id="dao_lecture" class="ru.innopolis.uni.course3.ofedorova.dao.lectures.JdbcDAOForLecture" scope="singleton"/>
+
+    <bean id="students_controller" class="ru.innopolis.uni.course3.ofedorova.controllers.StudentController" scope="singleton">
+        <property name="daoForStudent" ref="dao_students"/>
+    </bean>
+    <bean id="dao_students" class="ru.innopolis.uni.course3.ofedorova.dao.students.JdbcDAOForStudent"  scope="singleton"/>
+
+</beans>

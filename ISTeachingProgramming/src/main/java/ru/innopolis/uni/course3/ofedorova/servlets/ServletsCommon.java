@@ -1,6 +1,5 @@
 package ru.innopolis.uni.course3.ofedorova.servlets;
 
-import com.google.common.base.Charsets;
 import ru.innopolis.uni.course3.ofedorova.models.User;
 
 import javax.servlet.http.HttpSession;
@@ -16,7 +15,7 @@ public class ServletsCommon {
     /**
      * Значение кодировки для UTF-8.
      */
-    public static final String UTF_8 = Charsets.UTF_8.toString();
+    public static final String UTF_8 = "UTF-8";
 
     /**
      * Метод возвращает пользователя, сохраненного в сессии.

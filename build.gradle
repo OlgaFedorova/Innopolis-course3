@@ -14,5 +14,13 @@ subprojects {
         mavenLocal()
         mavenCentral()
     }
+
+    dependencies {
+        compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.21'
+        compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.21'
+        compile group: 'junit', name: 'junit', version: '4.12'
+        compile group: 'org.postgresql', name: 'postgresql', version: '9.4-1200-jdbc41'
+        compile group: 'commons-dbcp', name: 'commons-dbcp', version: '1.4'
+    }
 }
 
