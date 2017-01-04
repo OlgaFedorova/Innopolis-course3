@@ -2,6 +2,7 @@ rootProject.name = 'Innopolis - corse3'
 
 include 'PracticeOnLessons', 'Srez1', 'TaskOnThread'
 include 'ISTeachingProgramming'
+include 'ISTeachingProgramming_with_SpringFramework'
 include 'ISStudents_with_SpringFramework'
 include 'ISStudents'
 
