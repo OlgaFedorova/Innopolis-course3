@@ -19,18 +19,14 @@ import java.util.Map;
  * @version 1.0
  * @since 25.12.2016
  */
-@Component("сontrollerForUsers")
 public class ControllerForUsers implements DAOtoUsers {
     /**
      * Объект для доступа к данным модели "User".
      */
-    @Autowired
-    @Qualifier("jdbcOfDAOtoUsers")
     private final DAOtoUsers daOtoUsers;
     /**
      * Сервисные объект для обработки данных пользователя.
      */
-    @Autowired
     private final ServiceOfUsers serviceOfUsers;
 
     /**

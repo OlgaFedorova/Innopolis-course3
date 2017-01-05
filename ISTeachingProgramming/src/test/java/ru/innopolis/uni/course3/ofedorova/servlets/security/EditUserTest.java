@@ -1,4 +1,4 @@
-package ru.innopolis.uni.course3.ofedorova.servlets;
+package ru.innopolis.uni.course3.ofedorova.servlets.security;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -11,6 +11,7 @@ import ru.innopolis.uni.course3.ofedorova.dao.users.JdbcOfDAOtoUsers;
 import ru.innopolis.uni.course3.ofedorova.models.User;
 import ru.innopolis.uni.course3.ofedorova.service.ConnectionPoolFactory;
 import ru.innopolis.uni.course3.ofedorova.service.users.ServiceOfUsersImpl;
+import ru.innopolis.uni.course3.ofedorova.servlets.security.EditUser;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;

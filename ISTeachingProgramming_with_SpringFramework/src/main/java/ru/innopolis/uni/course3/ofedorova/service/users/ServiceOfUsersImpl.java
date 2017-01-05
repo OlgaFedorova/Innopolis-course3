@@ -23,7 +23,6 @@ import java.util.Map;
  * @version 1.0
  * @since 25.12.2016
  */
-@Component
 public class ServiceOfUsersImpl implements ServiceOfUsers {
 
     /**

@@ -1,6 +1,4 @@
-package ru.innopolis.uni.course3.ofedorova.servlets;
-
-import ru.innopolis.uni.course3.ofedorova.servlets.ServletsCommon;
+package ru.innopolis.uni.course3.ofedorova.servlets.security;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

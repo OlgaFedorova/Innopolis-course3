@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
  * @version 1.0
  * @since 27.12.2016
  */
-@Component
 public class ServiceOfMarksImpl implements ServiceOfMarks {
 
     /**

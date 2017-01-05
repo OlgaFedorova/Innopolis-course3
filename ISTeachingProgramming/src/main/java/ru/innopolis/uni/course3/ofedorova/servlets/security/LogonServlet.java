@@ -1,10 +1,8 @@
-package ru.innopolis.uni.course3.ofedorova.servlets;
+package ru.innopolis.uni.course3.ofedorova.servlets.security;
 
 import ru.innopolis.uni.course3.ofedorova.controllers.ControllerForUsers;
 import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoUsersException;
 import ru.innopolis.uni.course3.ofedorova.models.User;
-import ru.innopolis.uni.course3.ofedorova.service.Settings;
-import ru.innopolis.uni.course3.ofedorova.servlets.ServletsCommon;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -13,18 +11,18 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Сервлет для работы механизма "Редактирование пользователя".
+ * Сервлет для работы механизма "Вход в систему".
  *
  * @author Olga Fedorova
  * @version 1.0
- * @since 26.12.2016
+ * @since 25.12.2016
  */
-public class EditUser extends HttpServlet {
+public class LogonServlet extends HttpServlet {
+
     /**
      * Объект-контроллер для работы с данными пользователя.
      */
-    private final ControllerForUsers controller = Settings.getControllerForUsers();
-
+    private final ControllerForUsers controller = new ControllerForUsers();
 
     /**
      * Вызывается сервером и позволяют сервлету обрабатывать GET-запрос.
@@ -38,10 +36,9 @@ public class EditUser extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = ServletsCommon.getUserFromSession(req.getSession());
         if (user == null) {
-            req.getRequestDispatcher("/security/logon").forward(req, resp);
+            req.getRequestDispatcher("/security/logon.jsp").forward(req, resp);
         } else {
-            req.setAttribute("username", user.getName());
-            req.getRequestDispatcher("/security/edit-user.jsp").forward(req, resp);
+            req.getRequestDispatcher(String.format("%s%s", req.getContextPath(), "/info-about-authorization")).forward(req, resp);
         }
     }
 
@@ -56,16 +53,16 @@ public class EditUser extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            String currentPassword = req.getParameter("current_password");
-            String newPassword = req.getParameter("new_password");
-            String confirmPassword = req.getParameter("confirm_password");
-            if (ServletsCommon.getUserFromSession(req.getSession()) != null
-                    && this.controller.checkDataForEdid(ServletsCommon.getUserFromSession(req.getSession()).getId(), currentPassword, newPassword, confirmPassword)) {
-                User user = this.controller.updatePassword(ServletsCommon.getUserFromSession(req.getSession()).getId(), newPassword);
-                ServletsCommon.setUserInSession(req.getSession(), user);
-                resp.sendRedirect(String.format("%s%s", req.getContextPath(), "/main/edit-user-success"));
+            String username = req.getParameter("username");
+            String password = req.getParameter("user_password");
+
+            User user = null;
+            user = this.controller.validateLogin(username, password);
+            if (user == null) {
+                req.getRequestDispatcher(String.format("%s%s", req.getContextPath(), "/security/logonError.jsp")).forward(req, resp);
             } else {
-                req.getRequestDispatcher("/security/edit-user-error.jsp").forward(req, resp);
+                ServletsCommon.setUserInSession(req.getSession(), user);
+                resp.sendRedirect(String.format("%s%s", req.getContextPath(), "/security/success-logon"));
             }
         } catch (DAOtoUsersException e) {
             resp.sendRedirect(String.format("%s%s", req.getContextPath(), "/error.jsp"));

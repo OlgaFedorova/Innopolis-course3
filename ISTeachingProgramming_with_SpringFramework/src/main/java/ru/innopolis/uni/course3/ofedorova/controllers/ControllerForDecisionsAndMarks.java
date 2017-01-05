@@ -16,25 +16,19 @@ import ru.innopolis.uni.course3.ofedorova.service.marks.ServiceOfMarks;
  * @version 1.0
  * @since 27.12.2016
  */
-@Component
 public class ControllerForDecisionsAndMarks implements DAOtoDecisions {
 
     /**
      * Объект для доступа к данным модели "Decision".
      */
-    @Autowired
-    @Qualifier("jdbcOfDAOtoDecisions")
     private final DAOtoDecisions daOtoDecisions;
     /**
      * Объект для доступа к данным модели "Mark".
      */
-    @Autowired
-    @Qualifier("jdbcOfDAOtoMarks")
     private final DAOtoMarks daOtoMarks;
     /**
      * Сервисный объект для выставления оценок пользователю.
      */
-    @Autowired
     private final ServiceOfMarks serviceOfMarks;
 
     /**

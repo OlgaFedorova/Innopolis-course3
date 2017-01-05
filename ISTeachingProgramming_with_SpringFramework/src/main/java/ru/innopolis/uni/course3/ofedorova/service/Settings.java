@@ -25,7 +25,7 @@ public class Settings {
      * @return контроллер для работы с пользователями.
      */
     public static ControllerForUsers getControllerForUsers() {
-        return (ControllerForUsers) Settings.APPLICATION_CONTEXT.getBean("сontrollerForUsers");
+        return (ControllerForUsers) Settings.APPLICATION_CONTEXT.getBean("controllerForUsers");
     }
 
     /**

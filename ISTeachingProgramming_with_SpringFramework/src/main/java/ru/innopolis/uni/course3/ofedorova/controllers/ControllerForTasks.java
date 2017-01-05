@@ -16,14 +16,11 @@ import java.util.Collection;
  * @version 1.0
  * @since 27.12.2016
  */
-@Component("controllerForTasks")
 public class ControllerForTasks implements DAOtoTasks {
 
     /**
      * Объект для доступа к данным модели "Task".
      */
-    @Autowired
-    @Qualifier("jdbcOfDAOtoTasks")
     private final DAOtoTasks daOtoTasks;
 
     /**

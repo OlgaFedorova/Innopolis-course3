@@ -1,10 +1,8 @@
-package ru.innopolis.uni.course3.ofedorova.servlets;
+package ru.innopolis.uni.course3.ofedorova.servlets.security;
 
 import ru.innopolis.uni.course3.ofedorova.controllers.ControllerForUsers;
 import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoUsersException;
 import ru.innopolis.uni.course3.ofedorova.models.User;
-import ru.innopolis.uni.course3.ofedorova.service.Settings;
-import ru.innopolis.uni.course3.ofedorova.servlets.ServletsCommon;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -23,7 +21,7 @@ public class UserCreateServlet extends HttpServlet {
     /**
      * Объект-контроллер для работы с данными пользователя.
      */
-    private final ControllerForUsers controller = Settings.getControllerForUsers();
+    private final ControllerForUsers controller = new ControllerForUsers();
 
     /**
      * Вызывается сервером и позволяют сервлету обрабатывать GET-запрос.

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="ru.innopolis.uni.course3.ofedorova.service.users.ServiceOfUsersImplTest" tests="11" skipped="0" failures="0" errors="0" timestamp="2017-01-04T14:28:51" hostname="PoluhNote" time="0.709">
+<testsuite name="ru.innopolis.uni.course3.ofedorova.service.users.ServiceOfUsersImplTest" tests="11" skipped="0" failures="0" errors="0" timestamp="2017-01-05T10:19:25" hostname="PoluhNote" time="0.164">
   <properties/>
-  <testcase name="whenValidateLoginTrue" classname="ru.innopolis.uni.course3.ofedorova.service.users.ServiceOfUsersImplTest" time="0.693"/>
+  <testcase name="whenValidateLoginTrue" classname="ru.innopolis.uni.course3.ofedorova.service.users.ServiceOfUsersImplTest" time="0.152"/>
   <testcase name="whenCheckPasswordsFalse" classname="ru.innopolis.uni.course3.ofedorova.service.users.ServiceOfUsersImplTest" time="0.0"/>
   <testcase name="whenPasswordNotEmpty" classname="ru.innopolis.uni.course3.ofedorova.service.users.ServiceOfUsersImplTest" time="0.0"/>
-  <testcase name="whenValidateLoginFalse" classname="ru.innopolis.uni.course3.ofedorova.service.users.ServiceOfUsersImplTest" time="0.001"/>
+  <testcase name="whenValidateLoginFalse" classname="ru.innopolis.uni.course3.ofedorova.service.users.ServiceOfUsersImplTest" time="0.0"/>
   <testcase name="whenPasswordEmpty" classname="ru.innopolis.uni.course3.ofedorova.service.users.ServiceOfUsersImplTest" time="0.0"/>
   <testcase name="whenCheckPasswordsTrue" classname="ru.innopolis.uni.course3.ofedorova.service.users.ServiceOfUsersImplTest" time="0.0"/>
-  <testcase name="whenCheckDataForEdidFalseInputCurrentPasswordNotEqualsCurrentPasswordDB" classname="ru.innopolis.uni.course3.ofedorova.service.users.ServiceOfUsersImplTest" time="0.001"/>
+  <testcase name="whenCheckDataForEdidFalseInputCurrentPasswordNotEqualsCurrentPasswordDB" classname="ru.innopolis.uni.course3.ofedorova.service.users.ServiceOfUsersImplTest" time="0.002"/>
   <testcase name="whenCheckDataForEdidFalseNewPasswordNotEqualsConfirmPassword" classname="ru.innopolis.uni.course3.ofedorova.service.users.ServiceOfUsersImplTest" time="0.001"/>
-  <testcase name="whenCheckNameAndReturnFalse" classname="ru.innopolis.uni.course3.ofedorova.service.users.ServiceOfUsersImplTest" time="0.004"/>
-  <testcase name="whenCheckDataForEdidTrue" classname="ru.innopolis.uni.course3.ofedorova.service.users.ServiceOfUsersImplTest" time="0.0"/>
+  <testcase name="whenCheckNameAndReturnFalse" classname="ru.innopolis.uni.course3.ofedorova.service.users.ServiceOfUsersImplTest" time="0.002"/>
+  <testcase name="whenCheckDataForEdidTrue" classname="ru.innopolis.uni.course3.ofedorova.service.users.ServiceOfUsersImplTest" time="0.001"/>
   <testcase name="whenCheckNameAndReturnTrue" classname="ru.innopolis.uni.course3.ofedorova.service.users.ServiceOfUsersImplTest" time="0.004"/>
   <system-out><![CDATA[log4j: Parsing for [root] with value=[WARN, application].
 log4j: Level token is [WARN].

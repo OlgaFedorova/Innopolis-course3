@@ -1,4 +1,4 @@
-package ru.innopolis.uni.course3.ofedorova.servlets;
+package ru.innopolis.uni.course3.ofedorova.servlets.security;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -9,6 +9,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import ru.innopolis.uni.course3.ofedorova.controllers.ControllerForUsers;
 import ru.innopolis.uni.course3.ofedorova.dao.users.JdbcOfDAOtoUsers;
 import ru.innopolis.uni.course3.ofedorova.service.ConnectionPoolFactory;
+import ru.innopolis.uni.course3.ofedorova.servlets.security.LogoutServlet;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +22,7 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.whenNew;
 
 /**
- * Класс для тестирования EditUserSuccessServlet.
+ * Класс для тестирования LogoutServlet.
  *
  * @author Olga Fedorova
  * @version 1.0
@@ -29,7 +30,8 @@ import static org.powermock.api.mockito.PowerMockito.whenNew;
  */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ConnectionPoolFactory.class, JdbcOfDAOtoUsers.class, ControllerForUsers.class})
-public class EditUserSuccessServletTest {
+public class LogoutServletTest {
+
     @Mock
     HttpServletRequest request;
     @Mock
@@ -68,12 +70,11 @@ public class EditUserSuccessServletTest {
      */
     @Test
     public void whenDoGet() throws Exception {
-        when(request.getRequestDispatcher("/security/success-edit-user.jsp")).thenReturn(dispatcher);
+        when(request.getRequestDispatcher(String.format("%s%s", request.getContextPath(), "/security/success-logout.jsp"))).thenReturn(dispatcher);
 
-        final EditUserSuccessServlet editUserSuccessServlet = new EditUserSuccessServlet();
-        editUserSuccessServlet.doGet(request, response);
+        final LogoutServlet logoutServlet = new LogoutServlet();
+        logoutServlet.doGet(request, response);
 
-        verify(request, atLeastOnce()).getRequestDispatcher("/security/success-edit-user.jsp");
+        verify(request, atLeastOnce()).getRequestDispatcher(String.format("%s%s", request.getContextPath(), "/security/success-logout.jsp"));
     }
-
 }
