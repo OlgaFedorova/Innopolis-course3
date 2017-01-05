@@ -2,12 +2,8 @@ package ru.innopolis.uni.course3.ofedorova.dao.marks;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
+import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoMarksException;
-import ru.innopolis.uni.course3.ofedorova.service.ConnectionPoolFactory;
-
-import java.sql.*;
 
 /**
  * Класс реализует модель доступа к данным модели "Mark" с помощью Jdbc.
@@ -16,9 +12,7 @@ import java.sql.*;
  * @version 1.0
  * @since 27.12.2016
  */
-@Component
-@Qualifier("jdbcOfDAOtoMarks")
-public class JdbcOfDAOtoMarks implements DAOtoMarks {
+public class JdbcOfDAOtoMarks extends JdbcDaoSupport implements DAOtoMarks {
 
     /**
      * Объект для логгирования.
@@ -34,18 +28,10 @@ public class JdbcOfDAOtoMarks implements DAOtoMarks {
      */
     @Override
     public void add(int idTask, int idUser, int mark) throws DAOtoMarksException {
-        try (final Connection connection = ConnectionPoolFactory.getConnection();
-             final PreparedStatement statement = connection.prepareStatement("INSERT  INTO marks (id_task , id_user, mark) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS)) {
-            statement.setInt(1, idTask);
-            statement.setInt(2, idUser);
-            statement.setInt(3, mark);
-            statement.executeUpdate();
-            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    int id = generatedKeys.getInt(1);
-                }
-            }
-        } catch (SQLException | NullPointerException e) {
+        try {
+            String sql = "INSERT  INTO marks (id_task , id_user, mark) VALUES (?, ?, ?)";
+            this.getJdbcTemplate().update(sql, new Object[]{idTask, idUser, mark});
+        } catch (Exception e) {
             JdbcOfDAOtoMarks.LOGGER.info(e.getMessage());
             throw new DAOtoMarksException();
         }

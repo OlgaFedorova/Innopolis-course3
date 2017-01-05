@@ -2,11 +2,14 @@ package ru.innopolis.uni.course3.ofedorova.dao.users;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.support.JdbcDaoSupport;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoUsersException;
 import ru.innopolis.uni.course3.ofedorova.models.User;
-import ru.innopolis.uni.course3.ofedorova.service.ConnectionPoolFactory;
 
 import java.sql.*;
 import java.util.*;
@@ -18,9 +21,7 @@ import java.util.*;
  * @version 1.0
  * @since 25.12.2016
  */
-@Component
-@Qualifier("jdbcOfDAOtoUsers")
-public class JdbcOfDAOtoUsers implements DAOtoUsers {
+public class JdbcOfDAOtoUsers extends JdbcDaoSupport implements DAOtoUsers {
     /**
      * Объект для логгирования.
      */
@@ -33,10 +34,9 @@ public class JdbcOfDAOtoUsers implements DAOtoUsers {
      */
     @Override
     public Collection<User> valuesRating() throws DAOtoUsersException {
-        final List<User> users = new ArrayList<>();
-        try (final Connection connection = ConnectionPoolFactory.getConnection();
-             final Statement statement = connection.createStatement()) {
-            try (final ResultSet rs = statement.executeQuery(new StringBuilder().append("SELECT u.id, u.name, Sum(CASE\n").
+        List<User> users = Collections.EMPTY_LIST;
+        try {
+            String sql = new StringBuilder().append("SELECT u.id, u.name, Sum(CASE\n").
                     append("WHEN m.mark IS NULL THEN 0\n").
                     append("ELSE m.mark\n").
                     append("END) as mark\n").
@@ -44,12 +44,16 @@ public class JdbcOfDAOtoUsers implements DAOtoUsers {
                     append("LEFT JOIN marks as m\n").
                     append("ON u.id = m.id_user\n").
                     append("GROUP BY u.id, u.name\n").
-                    append("ORDER BY mark desc").toString())) {
-                while (rs.next()) {
-                    users.add(new User(rs.getInt("id"), rs.getString("name"), rs.getInt("mark")));
+                    append("ORDER BY mark desc").toString();
+            users = this.getJdbcTemplate().query(sql, new Object[]{}, new RowMapper<User>() {
+                @Override
+                public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+                    return new User(rs.getInt("id"), rs.getString("name"), rs.getInt("mark"));
                 }
-            }
-        } catch (SQLException | NullPointerException e) {
+            });
+        } catch (EmptyResultDataAccessException e) {
+            users = Collections.EMPTY_LIST;
+        }catch (Exception e) {
             JdbcOfDAOtoUsers.LOGGER.info(e.getMessage());
             throw new DAOtoUsersException();
         }
@@ -65,16 +69,17 @@ public class JdbcOfDAOtoUsers implements DAOtoUsers {
     @Override
     public User getByName(String name) throws DAOtoUsersException {
         User user = null;
-        try (final Connection connection = ConnectionPoolFactory.getConnection();
-             final PreparedStatement statement = connection.prepareStatement("SELECT * FROM users WHERE name = ?")) {
-            statement.setString(1, name);
-            try (final ResultSet rs = statement.executeQuery()) {
-                while (rs.next()) {
-                    user = new User(rs.getInt("id"), rs.getString("name"), rs.getString("password"), rs.getString("salt"));
-                    break;
+        try {
+            String sql = "SELECT * FROM users WHERE name = ?";
+            user = this.getJdbcTemplate().queryForObject(sql, new Object[]{name}, new RowMapper<User>() {
+                @Override
+                public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+                    return new User(rs.getInt("id"), rs.getString("name"), rs.getString("password"), rs.getString("salt"));
                 }
-            }
-        } catch (SQLException | NullPointerException e) {
+            });
+        } catch (EmptyResultDataAccessException e) {
+            user = null;
+        }catch (Exception e) {
             JdbcOfDAOtoUsers.LOGGER.info(e.getMessage());
             throw new DAOtoUsersException();
         }
@@ -90,16 +95,17 @@ public class JdbcOfDAOtoUsers implements DAOtoUsers {
     @Override
     public User getById(int id) throws DAOtoUsersException {
         User user = null;
-        try (final Connection connection = ConnectionPoolFactory.getConnection();
-             final PreparedStatement statement = connection.prepareStatement("SELECT * FROM users WHERE id = ?")) {
-            statement.setInt(1, id);
-            try (final ResultSet rs = statement.executeQuery()) {
-                while (rs.next()) {
-                    user = new User(rs.getInt("id"), rs.getString("name"), rs.getString("password"), rs.getString("password"));
-                    break;
+        try {
+            String sql = "SELECT * FROM users WHERE id = ?";
+            user = this.getJdbcTemplate().queryForObject(sql, new Object[]{id}, new RowMapper<User>() {
+                @Override
+                public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+                    return new User(rs.getInt("id"), rs.getString("name"), rs.getString("password"), rs.getString("salt"));
                 }
-            }
-        } catch (SQLException | NullPointerException e) {
+            });
+        } catch (EmptyResultDataAccessException e) {
+            user = null;
+        }catch (Exception e) {
             JdbcOfDAOtoUsers.LOGGER.info(e.getMessage());
             throw new DAOtoUsersException();
         }
@@ -117,18 +123,22 @@ public class JdbcOfDAOtoUsers implements DAOtoUsers {
     @Override
     public User addNewUser(String name, String password, String salt) throws DAOtoUsersException {
         User user = null;
-        try (final Connection connection = ConnectionPoolFactory.getConnection();
-             final PreparedStatement statement = connection.prepareStatement("INSERT  INTO users (name, password, salt) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS)) {
-            statement.setString(1, name);
-            statement.setString(2, password);
-            statement.setString(3, salt);
-            statement.executeUpdate();
-            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    user = new User(generatedKeys.getInt(1), name, password, salt);
+        try{
+            String sql = "INSERT  INTO users (name, password, salt) VALUES (?, ?, ?)";
+            KeyHolder keyHolder = new GeneratedKeyHolder();
+            this.getJdbcTemplate().update(new PreparedStatementCreator() {
+                @Override
+                public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+                    final PreparedStatement ps = con.prepareStatement(sql,
+                            Statement.RETURN_GENERATED_KEYS);
+                    ps.setString(1, name);
+                    ps.setString(2, password);
+                    ps.setString(3, salt);
+                    return ps;
                 }
-            }
-        } catch (SQLException | NullPointerException e) {
+            }, keyHolder);
+            user = new User((Integer) keyHolder.getKeyList().get(0).get("id"), name, password, salt);
+        }catch (Exception e) {
             JdbcOfDAOtoUsers.LOGGER.info(e.getMessage());
             throw new DAOtoUsersException();
         }
@@ -144,18 +154,21 @@ public class JdbcOfDAOtoUsers implements DAOtoUsers {
      */
     @Override
     public Map<String, String> getPasswordAndSalt(int id) throws DAOtoUsersException {
-        Map<String, String> result = new HashMap<>();
-        try (final Connection connection = ConnectionPoolFactory.getConnection();
-             final PreparedStatement statement = connection.prepareStatement("SELECT password, salt FROM users WHERE id = ?")) {
-            statement.setInt(1, id);
-            try (final ResultSet rs = statement.executeQuery()) {
-                while (rs.next()) {
+        Map<String, String> result = Collections.EMPTY_MAP;
+        try{
+            String sql = "SELECT password, salt FROM users WHERE id = ?";
+            result = this.getJdbcTemplate().queryForObject(sql, new Object[]{id}, new RowMapper<Map<String, String>>() {
+                @Override
+                public Map<String, String> mapRow(ResultSet rs, int rowNum) throws SQLException {
+                    Map<String, String> result = new HashMap<>();
                     result.put("password", rs.getString("password"));
                     result.put("salt", rs.getString("salt"));
-                    break;
+                    return result;
                 }
-            }
-        } catch (SQLException | NullPointerException e) {
+            });
+        } catch (EmptyResultDataAccessException e) {
+            result = Collections.EMPTY_MAP;
+        }catch (Exception e) {
             JdbcOfDAOtoUsers.LOGGER.info(e.getMessage());
             throw new DAOtoUsersException();
         }
@@ -172,13 +185,10 @@ public class JdbcOfDAOtoUsers implements DAOtoUsers {
      */
     @Override
     public User updatePassword(int id, String newPassword, String salt) throws DAOtoUsersException {
-        try (final Connection connection = ConnectionPoolFactory.getConnection();
-             final PreparedStatement statement = connection.prepareStatement("UPDATE users SET password = ?, salt = ? WHERE id = ?")) {
-            statement.setString(1, newPassword);
-            statement.setString(2, salt);
-            statement.setInt(3, id);
-            statement.executeUpdate();
-        } catch (SQLException | NullPointerException e) {
+        try{
+            String sql = "UPDATE users SET password = ?, salt = ? WHERE id = ?";
+            this.getJdbcTemplate().update(sql, newPassword, salt, id);
+        }catch (Exception e) {
             JdbcOfDAOtoUsers.LOGGER.info(e.getMessage());
             throw new DAOtoUsersException();
         }

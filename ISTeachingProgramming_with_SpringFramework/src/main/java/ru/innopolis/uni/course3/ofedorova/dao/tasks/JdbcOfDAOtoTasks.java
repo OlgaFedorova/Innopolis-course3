@@ -2,20 +2,18 @@ package ru.innopolis.uni.course3.ofedorova.dao.tasks;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoTasksException;
 import ru.innopolis.uni.course3.ofedorova.models.Decision;
 import ru.innopolis.uni.course3.ofedorova.models.Mark;
 import ru.innopolis.uni.course3.ofedorova.models.Task;
-import ru.innopolis.uni.course3.ofedorova.service.ConnectionPoolFactory;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -25,9 +23,7 @@ import java.util.List;
  * @version 1.0
  * @since 27.12.2016
  */
-@Component
-@Qualifier("jdbcOfDAOtoTasks")
-public class JdbcOfDAOtoTasks implements DAOtoTasks {
+public class JdbcOfDAOtoTasks extends JdbcDaoSupport implements DAOtoTasks {
     /**
      * Объект для логгирования.
      */
@@ -41,33 +37,24 @@ public class JdbcOfDAOtoTasks implements DAOtoTasks {
      */
     @Override
     public Collection<Task> values(int idUser) throws DAOtoTasksException {
-        final List<Task> tasks = new ArrayList<>();
-        try (final Connection connection = ConnectionPoolFactory.getConnection();
-             final PreparedStatement statement = connection.prepareStatement(new StringBuilder().append("SELECT t.id, t.name, d.id as id_decision, d.decision, m.id as id_mark, m.mark ").
-                     append("FROM tasks AS t ").
-                     append("LEFT JOIN decisions AS d ").
-                     append("ON t.id = d.id_task AND  d.id_user = ? ").
-                     append("LEFT JOIN marks AS m ").
-                     append("ON t.id = m.id_task AND  m.id_user = ? ").
-                     append("ORDER BY id").toString())) {
-            statement.setInt(1, idUser);
-            statement.setInt(2, idUser);
-            try (final ResultSet rs = statement.executeQuery()) {
-                while (rs.next()) {
-                    Decision decision = null;
-                    Mark mark = null;
-                    if (rs.getInt("id_decision") > 0) {
-                        decision = new Decision(rs.getInt("id_decision"), rs.getInt("id"), idUser, rs.getString("decision"));
-                    }
-                    if (rs.getInt("id_mark") > 0) {
-                        mark = new Mark(rs.getInt("id_mark"), rs.getInt("mark"));
-                    } else {
-                        mark = new Mark();
-                    }
-                    tasks.add(new Task(rs.getInt("id"), rs.getString("name"), decision, mark));
+        List<Task> tasks = Collections.EMPTY_LIST;
+        try {
+            String sql = new StringBuilder().append("SELECT t.id, t.name, d.id as id_decision, d.decision, m.id as id_mark, m.mark ").
+                    append("FROM tasks AS t ").
+                    append("LEFT JOIN decisions AS d ").
+                    append("ON t.id = d.id_task AND  d.id_user = ? ").
+                    append("LEFT JOIN marks AS m ").
+                    append("ON t.id = m.id_task AND  m.id_user = ? ").
+                    append("ORDER BY id").toString();
+            tasks = this.getJdbcTemplate().query(sql, new Object[]{idUser, idUser}, new RowMapper<Task>() {
+                @Override
+                public Task mapRow(ResultSet rs, int rowNum) throws SQLException {
+                    return JdbcOfDAOtoTasks.this.createTask(rs.getInt("id"), idUser, rs);
                 }
-            }
-        } catch (SQLException | NullPointerException e) {
+            });
+        } catch (EmptyResultDataAccessException e) {
+            tasks = Collections.EMPTY_LIST;
+        } catch (Exception e) {
             JdbcOfDAOtoTasks.LOGGER.info(e.getMessage());
             throw new DAOtoTasksException();
         }
@@ -84,37 +71,52 @@ public class JdbcOfDAOtoTasks implements DAOtoTasks {
     @Override
     public Task getById(int id, int idUser) throws DAOtoTasksException {
         Task task = null;
-        try (final Connection connection = ConnectionPoolFactory.getConnection();
-             final PreparedStatement statement = connection.prepareStatement(new StringBuilder().append("SELECT t.*, d.id as id_decision, d.decision, m.id as id_mark, m.mark ").
-                     append("FROM tasks AS t ").
-                     append("LEFT JOIN decisions AS d ").
-                     append("ON t.id = d.id_task AND d.id_user = ? ").
-                     append("LEFT JOIN marks AS m ").
-                     append("ON t.id = m.id_task AND m.id_user = ? ").
-                     append("WHERE t.id = ?").toString())) {
-            statement.setInt(1, idUser);
-            statement.setInt(2, idUser);
-            statement.setInt(3, id);
-            try (final ResultSet rs = statement.executeQuery()) {
-                while (rs.next()) {
-                    Decision decision = null;
-                    Mark mark = null;
-                    if (rs.getInt("id_decision") > 0) {
-                        decision = new Decision(rs.getInt("id_decision"), id, idUser, rs.getString("decision"));
-                    }
-                    if (rs.getInt("id_mark") > 0) {
-                        mark = new Mark(rs.getInt("id_mark"), rs.getInt("mark"));
-                    } else {
-                        mark = new Mark();
-                    }
-                    task = new Task(rs.getInt("id"), rs.getString("name"), rs.getString("content"), decision, mark);
-                    break;
-                }
-            }
-        } catch (SQLException | NullPointerException e) {
+        try {
+            String sql = new StringBuilder().append("SELECT t.*, d.id as id_decision, d.decision, m.id as id_mark, m.mark ").
+                    append("FROM tasks AS t ").
+                    append("LEFT JOIN decisions AS d ").
+                    append("ON t.id = d.id_task AND d.id_user = ? ").
+                    append("LEFT JOIN marks AS m ").
+                    append("ON t.id = m.id_task AND m.id_user = ? ").
+                    append("WHERE t.id = ?").toString();
+
+            task = this.getJdbcTemplate().queryForObject(sql,
+                    new Object[]{idUser, idUser, id},
+                    new RowMapper<Task>() {
+                        @Override
+                        public Task mapRow(ResultSet rs, int rowNum) throws SQLException {
+                            return JdbcOfDAOtoTasks.this.createTask(id, idUser, rs);
+                        }
+                    });
+        } catch (EmptyResultDataAccessException e) {
+            task = null;
+        } catch (Exception e) {
             JdbcOfDAOtoTasks.LOGGER.info(e.getMessage());
             throw new DAOtoTasksException();
         }
         return task;
+    }
+
+    /**
+     * Метод создает объект Task на основании данных выборки.
+     *
+     * @param id     идентификатор задачи.
+     * @param idUser идентификатор пользователя.
+     * @param rs     выборка.
+     * @return объект Task на основании данных выборки.
+     * @throws SQLException
+     */
+    private Task createTask(int id, int idUser, ResultSet rs) throws SQLException {
+        Decision decision = null;
+        Mark mark = null;
+        if (rs.getInt("id_decision") > 0) {
+            decision = new Decision(rs.getInt("id_decision"), id, idUser, rs.getString("decision"));
+        }
+        if (rs.getInt("id_mark") > 0) {
+            mark = new Mark(rs.getInt("id_mark"), rs.getInt("mark"));
+        } else {
+            mark = new Mark();
+        }
+        return new Task(rs.getInt("id"), rs.getString("name"), rs.getString("content"), decision, mark);
     }
 }

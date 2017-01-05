@@ -3,6 +3,7 @@ package ru.innopolis.uni.course3.ofedorova;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
+import org.springframework.jdbc.core.JdbcTemplate;
 import ru.innopolis.uni.course3.ofedorova.controllers.ControllerForDecisionsAndMarks;
 import ru.innopolis.uni.course3.ofedorova.controllers.ControllerForTasks;
 import ru.innopolis.uni.course3.ofedorova.controllers.ControllerForUsers;
@@ -70,7 +71,9 @@ public class SpringConfig {
     @Bean
     @Scope("singleton")
     public DAOtoDecisions daOtoDecisions() {
-        return new JdbcOfDAOtoDecisions();
+        JdbcOfDAOtoDecisions daOtoDecisions = new JdbcOfDAOtoDecisions();
+        daOtoDecisions.setJdbcTemplate(this.jdbcTemplate());
+        return daOtoDecisions;
     }
 
     /**
@@ -81,7 +84,9 @@ public class SpringConfig {
     @Bean
     @Scope("singleton")
     public DAOtoMarks daOtoMarks() {
-        return new JdbcOfDAOtoMarks();
+        JdbcOfDAOtoMarks daOtoMarks = new JdbcOfDAOtoMarks();
+        daOtoMarks.setJdbcTemplate(this.jdbcTemplate());
+        return daOtoMarks;
     }
 
     /**
@@ -92,7 +97,9 @@ public class SpringConfig {
     @Bean
     @Scope("singleton")
     public DAOtoTasks daOtoTasks() {
-        return new JdbcOfDAOtoTasks();
+        JdbcOfDAOtoTasks daOtoTasks = new JdbcOfDAOtoTasks();
+        daOtoTasks.setJdbcTemplate(this.jdbcTemplate());
+        return daOtoTasks;
     }
 
     /**
@@ -103,7 +110,9 @@ public class SpringConfig {
     @Bean
     @Scope("singleton")
     public DAOtoUsers daOtoUsers() {
-        return new JdbcOfDAOtoUsers();
+        JdbcOfDAOtoUsers daOtoUsers = new JdbcOfDAOtoUsers();
+        daOtoUsers.setJdbcTemplate(this.jdbcTemplate());
+        return daOtoUsers;
     }
 
     /**
@@ -126,5 +135,33 @@ public class SpringConfig {
     @Scope("singleton")
     public ServiceOfUsers serviceOfUsers() {
         return new ServiceOfUsersImpl();
+    }
+
+    /**
+     * Связывает компонент для работы с пулом соединений с БД.
+     * @return объект для работы с пулом соединений с БД.
+     */
+    @Bean(name = "dataSource")
+    @Scope("singleton")
+    public org.apache.commons.dbcp.BasicDataSource dataSource(){
+        org.apache.commons.dbcp.BasicDataSource dataSource = new org.apache.commons.dbcp.BasicDataSource();
+        dataSource.setDriverClassName("org.postgresql.Driver");
+        dataSource.setUrl("jdbc:postgresql://localhost/is_teaching_programming");
+        dataSource.setUsername("postgres");
+        dataSource.setPassword("123");
+        dataSource.setInitialSize(5);
+        dataSource.setMaxActive(10);
+        dataSource.setMaxWait(10000);
+        return dataSource;
+    }
+
+    /**
+     * Связывает шаблон для работы с JDBC.
+     * @return шаблон для работы с JDBC.
+     */
+    @Bean(name = "jdbcTemplate")
+    @Scope("singleton")
+    public JdbcTemplate jdbcTemplate(){
+        return new JdbcTemplate(this.dataSource());
     }
 }
