@@ -14,3 +14,24 @@ target
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 /Srez1/Srez1.iml
+/ISStudents/build
+/ISStudents/build/*
+
+/ISStudents_with_SpringFramework/build
+/ISStudents_with_SpringFramework/build/*
+
+/ISTeachingProgramming/build
+/ISTeachingProgramming/build/*
+
+/ISTeachingProgramming_with_SpringFramework/build
+/ISTeachingProgramming_with_SpringFramework/build/*
+
+/PracticeOnLessons/build
+/PracticeOnLessons/build/*
+
+/Srez1/build
+/Srez1/build/*
+
+/TaskOnThread/build
+/TaskOnThread/build/*
+
