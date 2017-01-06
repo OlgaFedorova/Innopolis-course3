@@ -4,10 +4,16 @@ import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.TransactionCallback;
+import org.springframework.transaction.support.TransactionTemplate;
+import ru.innopolis.uni.course3.ofedorova.dao.journal.JdbcDAOForJournal;
 import ru.innopolis.uni.course3.ofedorova.models.Lecture;
 import ru.innopolis.uni.course3.ofedorova.service.SQLQueries;
 
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 
 /**
@@ -16,10 +22,16 @@ import java.util.Collection;
 public class JdbcDAOForLecture extends JdbcDaoSupport implements DAOForLecture {
 
     private JdbcBasicDAOForLecture basicDAOForLecture;
+    private TransactionTemplate transactionTemplate;
 
     public void setBasicDAOForLecture(JdbcBasicDAOForLecture basicDAOForLecture) {
         this.basicDAOForLecture = basicDAOForLecture;
     }
+
+    public void setTransactionTemplate(TransactionTemplate transactionTemplate) {
+        this.transactionTemplate = transactionTemplate;
+    }
+
 
     @Override
     public Collection<Lecture> valuesLectures() {
@@ -28,29 +40,63 @@ public class JdbcDAOForLecture extends JdbcDaoSupport implements DAOForLecture {
 
     @Override
     public int add(Lecture lecture) {
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-        this.getJdbcTemplate().update(new PreparedStatementCreator() {
+        return this.transactionTemplate.execute(new TransactionCallback<Integer>() {
             @Override
-            public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-                final PreparedStatement ps = con.prepareStatement(SQLQueries.ADD_LECTURE,
-                        Statement.RETURN_GENERATED_KEYS);
-                ps.setString(1, lecture.getSubject());
-                ps.setInt(2, lecture.getHoursOfTheory());
-                ps.setInt(3, lecture.getHoursOfPractice());
-                return ps;
+            public Integer doInTransaction(TransactionStatus status) {
+                Integer result = null;
+                try {
+                    KeyHolder keyHolder = new GeneratedKeyHolder();
+                    JdbcDAOForLecture.this.getJdbcTemplate().update(new PreparedStatementCreator() {
+                        @Override
+                        public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+                            final PreparedStatement ps = con.prepareStatement(SQLQueries.ADD_LECTURE,
+                                    Statement.RETURN_GENERATED_KEYS);
+                            ps.setString(1, lecture.getSubject());
+                            ps.setInt(2, lecture.getHoursOfTheory());
+                            ps.setInt(3, lecture.getHoursOfPractice());
+                            return ps;
+                        }
+                    }, keyHolder);
+                    result = (Integer) keyHolder.getKeyList().get(0).get("id");
+                } catch (RuntimeException e) {
+                    status.setRollbackOnly();
+                    throw e;
+                }
+                return result;
             }
-        }, keyHolder);
-        return (Integer) keyHolder.getKeyList().get(0).get("id");
+        });
     }
 
     @Override
     public void edit(Lecture lecture) {
-        this.getJdbcTemplate().update(SQLQueries.EDIT_LECTURE, new Object[]{lecture.getSubject(), lecture.getHoursOfTheory(), lecture.getHoursOfPractice(), lecture.getId()});
+        this.transactionTemplate.execute(new TransactionCallback<Void>() {
+            @Override
+            public Void doInTransaction(TransactionStatus status) {
+                try {
+                    JdbcDAOForLecture.this.getJdbcTemplate().update(SQLQueries.EDIT_LECTURE, new Object[]{lecture.getSubject(), lecture.getHoursOfTheory(), lecture.getHoursOfPractice(), lecture.getId()});
+                } catch (RuntimeException e) {
+                    status.setRollbackOnly();
+                    throw e;
+                }
+                return null;
+            }
+        });
     }
 
     @Override
     public void delete(int id) {
-        this.getJdbcTemplate().update(SQLQueries.DELETE_LECTURE, id);
+        this.transactionTemplate.execute(new TransactionCallback<Void>() {
+            @Override
+            public Void doInTransaction(TransactionStatus status) {
+                try {
+                    JdbcDAOForLecture.this.getJdbcTemplate().update(SQLQueries.DELETE_LECTURE, id);;
+                } catch (RuntimeException e) {
+                    status.setRollbackOnly();
+                    throw e;
+                }
+                return null;
+            }
+        });
     }
 
     @Override

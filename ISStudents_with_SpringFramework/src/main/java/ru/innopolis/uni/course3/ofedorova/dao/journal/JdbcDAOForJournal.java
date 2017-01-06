@@ -5,6 +5,9 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.TransactionCallback;
+import org.springframework.transaction.support.TransactionTemplate;
 import ru.innopolis.uni.course3.ofedorova.dao.lectures.JdbcBasicDAOForLecture;
 import ru.innopolis.uni.course3.ofedorova.dao.students.JdbcBasicDAOForStudent;
 import ru.innopolis.uni.course3.ofedorova.models.Journal;
@@ -24,6 +27,7 @@ public class JdbcDAOForJournal extends JdbcDaoSupport implements DAOForJournal {
 
     private JdbcBasicDAOForLecture basicDAOForLecture;
     private JdbcBasicDAOForStudent basicDAOForStudent;
+    private TransactionTemplate transactionTemplate;
 
     public void setBasicDAOForLecture(JdbcBasicDAOForLecture basicDAOForLecture) {
         this.basicDAOForLecture = basicDAOForLecture;
@@ -31,6 +35,10 @@ public class JdbcDAOForJournal extends JdbcDaoSupport implements DAOForJournal {
 
     public void setBasicDAOForStudent(JdbcBasicDAOForStudent basicDAOForStudent) {
         this.basicDAOForStudent = basicDAOForStudent;
+    }
+
+    public void setTransactionTemplate(TransactionTemplate transactionTemplate) {
+        this.transactionTemplate = transactionTemplate;
     }
 
     @Override
@@ -47,30 +55,53 @@ public class JdbcDAOForJournal extends JdbcDaoSupport implements DAOForJournal {
 
     @Override
     public int add(Journal journal) {
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-        this.getJdbcTemplate().update(new PreparedStatementCreator() {
+        return this.transactionTemplate.execute(new TransactionCallback<Integer>() {
             @Override
-            public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-                final PreparedStatement ps = con.prepareStatement(SQLQueries.ADD_RECORD_INTO_JOURNAL,
-                        Statement.RETURN_GENERATED_KEYS);
+            public Integer doInTransaction(TransactionStatus status) {
+                Integer result = null;
                 try {
-                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-                    java.util.Date date = formatter.parse(journal.getDateOfRecord());
-                    ps.setDate(1, new java.sql.Date(date.getTime()));
-                    ps.setInt(2, journal.getLecture().getId());
-                    ps.setInt(3, journal.getStudent().getId());
-                } catch (ParseException e) {
-                    e.printStackTrace();
+                    KeyHolder keyHolder = new GeneratedKeyHolder();
+                    JdbcDAOForJournal.this.getJdbcTemplate().update(new PreparedStatementCreator() {
+                        @Override
+                        public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+                            final PreparedStatement ps = con.prepareStatement(SQLQueries.ADD_RECORD_INTO_JOURNAL,
+                                    Statement.RETURN_GENERATED_KEYS);
+                            try {
+                                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                                java.util.Date date = formatter.parse(journal.getDateOfRecord());
+                                ps.setDate(1, new java.sql.Date(date.getTime()));
+                                ps.setInt(2, journal.getLecture().getId());
+                                ps.setInt(3, journal.getStudent().getId());
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            return ps;
+                        }
+                    }, keyHolder);
+                    result = (Integer) keyHolder.getKeyList().get(0).get("id");
+                } catch (RuntimeException e) {
+                    status.setRollbackOnly();
+                    throw e;
                 }
-                return ps;
+                return result;
             }
-        }, keyHolder);
-        return (Integer) keyHolder.getKeyList().get(0).get("id");
+        });
     }
 
     @Override
     public void delete(int id) {
-        this.getJdbcTemplate().update(SQLQueries.DELETE_RECORD_FROM_JOURNAL, id);
+        this.transactionTemplate.execute(new TransactionCallback<Void>() {
+            @Override
+            public Void doInTransaction(TransactionStatus status) {
+                try {
+                    JdbcDAOForJournal.this.getJdbcTemplate().update(SQLQueries.DELETE_RECORD_FROM_JOURNAL, id);
+                } catch (RuntimeException e) {
+                    status.setRollbackOnly();
+                    throw e;
+                }
+                return null;
+            }
+        });
     }
 
     @Override
