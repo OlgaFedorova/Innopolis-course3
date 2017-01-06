@@ -21,7 +21,7 @@ public class LectureEditServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = req.getParameter("id");
-        Lecture lecture = this.lectureController.get(Integer.valueOf(id));
+        Lecture lecture = this.lectureController.getLectureById(Integer.valueOf(id));
         req.setAttribute("id", id);
         req.setAttribute("subject", lecture.getSubject());
         req.setAttribute("hours_of_theory", lecture.getHoursOfTheory());

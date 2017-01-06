@@ -7,13 +7,9 @@ import java.util.Collection;
 /**
  * Created by Olga on 22.12.2016.
  */
-public interface DAOForStudent extends BasicDAOForStudent {
+public interface BasicDAOForStudent {
 
-    int add(final Student student);
-
-    void edit(final Student student);
-
-    void delete(final int id);
+    Collection<Student> getStudents();
 
     Student getStudent(final int id);
 }

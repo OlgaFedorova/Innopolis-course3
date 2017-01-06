@@ -17,8 +17,8 @@ public class LectureController implements DAOForLecture {
     }
 
     @Override
-    public Collection<Lecture> values() {
-        return this.daoForLecture.values();
+    public Collection<Lecture> valuesLectures() {
+        return this.daoForLecture.valuesLectures();
     }
 
     @Override
@@ -37,12 +37,11 @@ public class LectureController implements DAOForLecture {
     }
 
     @Override
-    public Lecture get(int id) {
-        return this.daoForLecture.get(id);
+    public Lecture getLectureById(int id) {
+        return this.daoForLecture.getLectureById(id);
     }
 
-    @Override
     public int generateId() {
-        return this.daoForLecture.generateId();
+        return 0;
     }
 }

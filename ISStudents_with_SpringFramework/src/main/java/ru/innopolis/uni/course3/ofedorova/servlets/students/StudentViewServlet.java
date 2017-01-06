@@ -19,7 +19,7 @@ public class StudentViewServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("students", this.studentController.values());
+        req.setAttribute("students", this.studentController.getStudents());
         RequestDispatcher dispatcher = req.getRequestDispatcher("/views/student/StudentView.jsp");
         dispatcher.forward(req, resp);
     }

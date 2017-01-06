@@ -19,7 +19,7 @@ public class LectureViewServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("lectures", this.lectureController.values());
+        req.setAttribute("lectures", this.lectureController.valuesLectures());
         RequestDispatcher dispatcher = req.getRequestDispatcher("/views/lecture/LectureView.jsp");
         dispatcher.forward(req, resp);
     }

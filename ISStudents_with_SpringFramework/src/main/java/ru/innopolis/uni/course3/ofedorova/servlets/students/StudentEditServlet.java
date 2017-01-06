@@ -21,7 +21,7 @@ public class StudentEditServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = req.getParameter("id");
-        Student student = this.studentController.get(Integer.valueOf(id));
+        Student student = this.studentController.getStudent(Integer.valueOf(id));
         req.setAttribute("id", id);
         req.setAttribute("name", student.getName());
         req.setAttribute("group", student.getGroup());

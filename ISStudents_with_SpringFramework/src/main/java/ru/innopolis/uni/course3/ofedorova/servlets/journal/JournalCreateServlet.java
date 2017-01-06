@@ -22,7 +22,7 @@ public class JournalCreateServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("lectures", this.journalController.getLectures());
+        req.setAttribute("lectures", this.journalController.valuesLectures());
         req.setAttribute("students", this.journalController.getStudents());
         RequestDispatcher dispatcher = req.getRequestDispatcher("/views/journal/CreateJournal.jsp");
         dispatcher.forward(req, resp);
@@ -31,7 +31,7 @@ public class JournalCreateServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String date = req.getParameter("date");
-        Lecture lecture = this.journalController.getLecture(Integer.valueOf(req.getParameter("subject")));
+        Lecture lecture = this.journalController.getLectureById(Integer.valueOf(req.getParameter("subject")));
         Student student = this.journalController.getStudent(Integer.valueOf(req.getParameter("student")));
         this.journalController.add(new Journal(this.journalController.generateId(), date, lecture, student));
         resp.sendRedirect(String.format("%s%s", req.getContextPath(), "/journal/view"));

@@ -34,18 +34,13 @@ public class JournalController implements DAOForJournal {
     }
 
     @Override
-    public int generateId() {
-        return this.daoForJournal.generateId();
+    public Collection<Lecture> valuesLectures() {
+        return this.daoForJournal.valuesLectures();
     }
 
     @Override
-    public Collection<Lecture> getLectures() {
-        return this.daoForJournal.getLectures();
-    }
-
-    @Override
-    public Lecture getLecture(int id) {
-        return this.daoForJournal.getLecture(id);
+    public Lecture getLectureById(int id) {
+        return this.daoForJournal.getLectureById(id);
     }
 
     @Override
@@ -56,5 +51,9 @@ public class JournalController implements DAOForJournal {
     @Override
     public Collection<Student> getStudents() {
         return this.daoForJournal.getStudents();
+    }
+
+    public int generateId() {
+        return 0;
     }
 }

@@ -17,8 +17,8 @@ public class StudentController implements DAOForStudent {
     }
 
     @Override
-    public Collection<Student> values() {
-        return this.daoForStudent.values();
+    public Collection<Student> getStudents() {
+        return this.daoForStudent.getStudents();
     }
 
     @Override
@@ -37,12 +37,11 @@ public class StudentController implements DAOForStudent {
     }
 
     @Override
-    public Student get(int id) {
-        return this.daoForStudent.get(id);
+    public Student getStudent(int id) {
+        return this.daoForStudent.getStudent(id);
     }
 
-    @Override
     public int generateId() {
-        return this.daoForStudent.generateId();
+        return 0;
     }
 }
