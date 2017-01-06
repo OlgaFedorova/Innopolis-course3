@@ -1,7 +1,6 @@
 package ru.innopolis.uni.course3.ofedorova.servlets;
 
 import ru.innopolis.uni.course3.ofedorova.models.User;
-import ru.innopolis.uni.course3.ofedorova.servlets.security.ServletsCommon;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

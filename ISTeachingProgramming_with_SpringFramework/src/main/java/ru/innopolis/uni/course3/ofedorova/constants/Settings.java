@@ -1,4 +1,4 @@
-package ru.innopolis.uni.course3.ofedorova.service;
+package ru.innopolis.uni.course3.ofedorova.constants;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;

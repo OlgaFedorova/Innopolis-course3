@@ -157,7 +157,7 @@ public class ServiceOfUsersImpl implements ServiceOfUsers {
             result = new String(hash);
         } catch (InvalidKeySpecException e) {
             ServiceOfUsersImpl.LOGGER.info(e.getMessage());
-            throw new DAOtoUsersException();
+            throw new DAOtoUsersException(e.getMessage(), e);
         }
         return result;
     }
@@ -174,7 +174,7 @@ public class ServiceOfUsersImpl implements ServiceOfUsers {
             sr.nextBytes(salt);
         } catch (NoSuchAlgorithmException e) {
             ServiceOfUsersImpl.LOGGER.info(e.getMessage());
-            throw new DAOtoUsersException();
+            throw new DAOtoUsersException(e.getMessage(), e);
         }
         return salt;
     }
@@ -191,7 +191,7 @@ public class ServiceOfUsersImpl implements ServiceOfUsers {
                 ServiceOfUsersImpl.secretKeyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
             } catch (NoSuchAlgorithmException e) {
                 ServiceOfUsersImpl.LOGGER.info(e.getMessage());
-                throw new DAOtoUsersException();
+                throw new DAOtoUsersException(e.getMessage(), e);
             }
         }
         return ServiceOfUsersImpl.secretKeyFactory;

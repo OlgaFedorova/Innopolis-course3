@@ -39,8 +39,8 @@ create table decisions (
 		decision text
 );
 
---mark
-create table mark (
+--marks
+create table marks (
 		id serial primary key,
 		id_task int REFERENCES tasks(id),
 		id_user int REFERENCES users(id),

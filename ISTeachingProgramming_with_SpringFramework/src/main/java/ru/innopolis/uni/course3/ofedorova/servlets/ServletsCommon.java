@@ -1,4 +1,4 @@
-package ru.innopolis.uni.course3.ofedorova.servlets.security;
+package ru.innopolis.uni.course3.ofedorova.servlets;
 
 import ru.innopolis.uni.course3.ofedorova.models.User;
 

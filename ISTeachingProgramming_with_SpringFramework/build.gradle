@@ -14,4 +14,7 @@ dependencies {
     compile group: 'org.bouncycastle', name: 'bcpkix-jdk15on', version: '1.56'
     compile group: 'org.springframework', name: 'spring-context', version: '4.3.5.RELEASE'
     compile group: 'org.springframework', name: 'spring-jdbc', version: '4.3.5.RELEASE'
+    compile group: 'org.springframework', name: 'spring-aop', version: '4.3.5.RELEASE'
+    compile group: 'org.aspectj', name: 'aspectjrt', version: '1.8.9'
+    compile group: 'org.springframework', name: 'spring-aspects', version: '4.3.5.RELEASE'
 }
