@@ -72,17 +72,21 @@
 
     <tx:advice id="txAdvice" transaction-manager="transactionManager">
         <tx:attributes>
+            <!-- propagation="REQUIRED" Указывает, что метод должен выполняться внутри транзакции.
+            Если к моменту вызова метода будет запущена транзакция, он будет выполняться в рамках этой транзакции.
+            В противном случае будет запущена новая транзакция -->
             <tx:method name="add*" propagation="REQUIRED" />
             <tx:method name="edit*" propagation="REQUIRED" />
             <tx:method name="delete*" propagation="REQUIRED" />
-            <tx:method name="*" propagation="SUPPORTS"
-                       read-only="true"/>
+            <!-- propagation="SUPPORTS" Указывает, что метод не требует наличия транзакции, но он может выполняться
+            внутри имеющейся транзакции -->
+            <tx:method name="*" propagation="SUPPORTS" read-only="true"/>
         </tx:attributes>
     </tx:advice>
 
     <aop:config>
         <aop:advisor
-                pointcut="execution(* *..DAOForStudent.*(..))"
+                pointcut="execution(* *..JdbcDAOForStudent.*(..))"
                 advice-ref="txAdvice"/>
     </aop:config>
 

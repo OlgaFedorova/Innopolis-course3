@@ -7,6 +7,8 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import ru.innopolis.uni.course3.ofedorova.constants.SQLQueries;
 import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoUsersException;
 import ru.innopolis.uni.course3.ofedorova.models.User;
@@ -21,6 +23,7 @@ import java.util.*;
  * @version 1.0
  * @since 25.12.2016
  */
+@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 public class JdbcOfDAOtoUsers extends JdbcDaoSupport implements DAOtoUsers {
     /**
      * Объект для логгирования.
@@ -83,6 +86,7 @@ public class JdbcOfDAOtoUsers extends JdbcDaoSupport implements DAOtoUsers {
      * @return Если пользователя удалось создать будет возвращена ссылка на него, иначе возвращается null.
      */
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public User addNewUser(String name, String password, String salt) throws DAOtoUsersException {
         User user;
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -130,6 +134,7 @@ public class JdbcOfDAOtoUsers extends JdbcDaoSupport implements DAOtoUsers {
      * @return Обновленный объект пользователя.
      */
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public User updatePassword(int id, String newPassword, String salt) throws DAOtoUsersException {
         this.getJdbcTemplate().update(SQLQueries.UPDATE_PASSWORD, newPassword, salt, id);
         return this.getById(id);

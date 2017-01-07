@@ -3,6 +3,8 @@ package ru.innopolis.uni.course3.ofedorova.dao.decisions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import ru.innopolis.uni.course3.ofedorova.constants.SQLQueries;
 
 /**
@@ -12,6 +14,7 @@ import ru.innopolis.uni.course3.ofedorova.constants.SQLQueries;
  * @version 1.0
  * @since 27.12.2016
  */
+@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 public class JdbcOfDAOtoDecisions extends JdbcDaoSupport implements DAOtoDecisions {
     /**
      * Объект для логгирования.
@@ -26,6 +29,7 @@ public class JdbcOfDAOtoDecisions extends JdbcDaoSupport implements DAOtoDecisio
      * @param decision текст решения.
      */
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public void add(int idTask, int idUser, String decision) {
         this.getJdbcTemplate().update(SQLQueries.ADD_DECISIONS, new Object[]{idTask, idUser, decision});
     }

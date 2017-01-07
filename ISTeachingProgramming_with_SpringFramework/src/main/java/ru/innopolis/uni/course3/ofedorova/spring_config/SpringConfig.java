@@ -6,7 +6,11 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Scope;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.support.SQLExceptionTranslator;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.TransactionManagementConfigurer;
 import ru.innopolis.uni.course3.ofedorova.controllers.ControllerForDecisionsAndMarks;
 import ru.innopolis.uni.course3.ofedorova.controllers.ControllerForTasks;
 import ru.innopolis.uni.course3.ofedorova.controllers.ControllerForUsers;
@@ -38,7 +42,8 @@ import java.sql.SQLException;
  */
 @Configuration
 @EnableAspectJAutoProxy
-public class SpringConfig {
+@EnableTransactionManagement
+public class SpringConfig implements TransactionManagementConfigurer {
 
     /**
      * Связывает компонент "controllerForDecisionsAndMarks" с типом "ControllerForDecisionsAndMarks".
@@ -213,5 +218,25 @@ public class SpringConfig {
     @Bean
     public AspectCatcherEmptyResultDataAccessException aspectCatcherEmptyResultDataAccessException() {
         return new AspectCatcherEmptyResultDataAccessException();
+    }
+
+    /**
+     * Связывает компонент для работы диспетчера транзакций.
+     *
+     * @return объект диспетчера транзакций.
+     */
+    @Bean
+    public PlatformTransactionManager txManager() {
+        return new DataSourceTransactionManager(this.dataSource());
+    }
+
+    /**
+     * Return the default transaction manager bean to use for annotation-driven database transaction management, i.e.
+     *
+     * @return default transaction manager.
+     */
+    @Override
+    public PlatformTransactionManager annotationDrivenTransactionManager() {
+        return this.txManager();
     }
 }

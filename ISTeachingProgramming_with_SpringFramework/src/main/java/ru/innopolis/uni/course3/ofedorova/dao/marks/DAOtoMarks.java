@@ -19,5 +19,4 @@ public interface DAOtoMarks {
      * @param mark   оценка за задание.
      */
     void add(int idTask, int idUser, int mark) throws DAOtoMarksException;
-
 }
