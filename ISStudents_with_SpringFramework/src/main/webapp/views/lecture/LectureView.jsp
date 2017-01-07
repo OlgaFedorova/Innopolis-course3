@@ -29,6 +29,6 @@
 <br>
 <br>
 <br>
-<p><a href="/index.html">НА ГЛАВНУЮ</a></p>
+<p><a href="/views/index.jsp">НА ГЛАВНУЮ</a></p>
 </body>
 </html>

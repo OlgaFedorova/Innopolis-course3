@@ -16,4 +16,6 @@ dependencies {
     compile group: 'org.springframework', name: 'spring-aop', version: '4.3.5.RELEASE'
     compile group: 'org.aspectj', name: 'aspectjrt', version: '1.8.9'
     compile group: 'org.springframework', name: 'spring-aspects', version: '4.3.5.RELEASE'
+    compile group: 'org.springframework', name: 'spring-web', version: '4.3.5.RELEASE'
+    compile group: 'org.springframework', name: 'spring-webmvc', version: '4.3.5.RELEASE'
 }
