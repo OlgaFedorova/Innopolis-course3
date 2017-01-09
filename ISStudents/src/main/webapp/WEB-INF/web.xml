@@ -12,7 +12,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>StudentViewServlet</servlet-name>
-        <url-pattern>/student/view</url-pattern>
+        <url-pattern>/idStudent/view</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -21,7 +21,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>StudentCreateServlet</servlet-name>
-        <url-pattern>/student/create</url-pattern>
+        <url-pattern>/idStudent/create</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -30,7 +30,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>StudentEditServlet</servlet-name>
-        <url-pattern>/student/edit</url-pattern>
+        <url-pattern>/idStudent/edit</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -39,7 +39,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>StudentDeleteServlet</servlet-name>
-        <url-pattern>/student/delete</url-pattern>
+        <url-pattern>/idStudent/delete</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -48,7 +48,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>LectureViewServlet</servlet-name>
-        <url-pattern>/lecture/view</url-pattern>
+        <url-pattern>/idLecture/view</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -57,7 +57,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>LectureCreateServlet</servlet-name>
-        <url-pattern>/lecture/create</url-pattern>
+        <url-pattern>/idLecture/create</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -66,7 +66,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>LectureEditServlet</servlet-name>
-        <url-pattern>/lecture/edit</url-pattern>
+        <url-pattern>/idLecture/edit</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -75,7 +75,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>LectureDeleteServlet</servlet-name>
-        <url-pattern>/lecture/delete</url-pattern>
+        <url-pattern>/idLecture/delete</url-pattern>
     </servlet-mapping>
 
     <servlet>

@@ -6,7 +6,7 @@
     <title>Список лекций</title>
 </head>
 <body>
-<a href="${pageContext.servletContext.contextPath}/views/lecture/CreateLecture.jsp">Добавить лекцию</a>
+<a href="${pageContext.servletContext.contextPath}/lecture/create">Добавить лекцию</a>
 <table border="1">
     <tr>
         <td>Тема</td>

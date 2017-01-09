@@ -19,14 +19,14 @@ create table journal (
 		student_id int not null references students(id)
 );
 
--- add new student
+-- add new idStudent
 insert into students (name, class) values ('Petrov Petr', '1A');
 insert into students (name, class) values ('Petrova Irina', '1A');
 insert into students (name, class) values ('Ivanov Ivan', '2A');
 insert into students (name, class) values ('Ivanova Maria', '2A');
 insert into students (name, class) values ('Sergeev Andrey', '2A');
 
--- add new lecture
+-- add new idLecture
 insert into lectures (subject, hours_of_theory, hours_of_practice) values ('Lecture 1', 2, 5);
 insert into lectures (subject, hours_of_theory, hours_of_practice) values ('Lecture 2', 2, 2);
 insert into lectures (subject, hours_of_theory, hours_of_practice) values ('Lecture 3', 1, 4);

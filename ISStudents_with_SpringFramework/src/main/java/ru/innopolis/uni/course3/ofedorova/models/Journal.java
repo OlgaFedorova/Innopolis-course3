@@ -6,14 +6,27 @@ package ru.innopolis.uni.course3.ofedorova.models;
 public class Journal extends Base {
 
     private String dateOfRecord;
-    private Lecture lecture;
+    private int idLecture;
+    private int idStudent;
     private Student student;
+    private Lecture lecture;
+
+    public Journal() {
+        super(1);
+    }
+
+    public Journal(int id, String dateOfRecord, int lecture, int student) {
+        super(id);
+        this.dateOfRecord = dateOfRecord;
+        this.idLecture = lecture;
+        this.idStudent = student;
+    }
 
     public Journal(int id, String dateOfRecord, Lecture lecture, Student student) {
         super(id);
         this.dateOfRecord = dateOfRecord;
-        this.lecture = lecture;
         this.student = student;
+        this.lecture = lecture;
     }
 
     public String getDateOfRecord() {
@@ -24,12 +37,20 @@ public class Journal extends Base {
         this.dateOfRecord = dateOfRecord;
     }
 
-    public Lecture getLecture() {
-        return lecture;
+    public int getIdLecture() {
+        return idLecture;
     }
 
-    public void setLecture(Lecture lecture) {
-        this.lecture = lecture;
+    public void setIdLecture(int idLecture) {
+        this.idLecture = idLecture;
+    }
+
+    public int getIdStudent() {
+        return idStudent;
+    }
+
+    public void setIdStudent(int idStudent) {
+        this.idStudent = idStudent;
     }
 
     public Student getStudent() {
@@ -38,5 +59,13 @@ public class Journal extends Base {
 
     public void setStudent(Student student) {
         this.student = student;
+    }
+
+    public Lecture getLecture() {
+        return lecture;
+    }
+
+    public void setLecture(Lecture lecture) {
+        this.lecture = lecture;
     }
 }

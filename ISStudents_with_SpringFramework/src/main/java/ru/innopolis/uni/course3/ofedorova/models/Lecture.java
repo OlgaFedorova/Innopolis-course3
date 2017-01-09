@@ -9,6 +9,10 @@ public class Lecture extends Base {
     private int hoursOfTheory;
     private int hoursOfPractice;
 
+    public Lecture() {
+        super(1);
+    }
+
     public Lecture(int id, String subject, int hoursOfTheory, int hoursOfPractice) {
         super(id);
         this.subject = subject;

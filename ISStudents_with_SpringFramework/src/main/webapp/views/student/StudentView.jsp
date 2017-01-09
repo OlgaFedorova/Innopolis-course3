@@ -6,7 +6,7 @@
     <title>Список студентов</title>
 </head>
 <body>
-<a href="${pageContext.servletContext.contextPath}/views/student/CreateStudent.jsp">Добавить студента</a>
+<a href="${pageContext.servletContext.contextPath}/student/create">Добавить студента</a>
 <table border="1">
     <tr>
         <td>Имя</td>

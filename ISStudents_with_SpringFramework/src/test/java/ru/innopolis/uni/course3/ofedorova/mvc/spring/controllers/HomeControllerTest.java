@@ -1,4 +1,4 @@
-package ru.innopolis.uni.course3.ofedorova.spring_controllers;
+package ru.innopolis.uni.course3.ofedorova.mvc.spring.controllers;
 
 import org.junit.Test;
 
@@ -11,7 +11,7 @@ public class HomeControllerTest {
 
     @Test
     public void whenShowHomePage() {
-        MVCController homeController = new MVCController();
+        MVCControllerForStudents homeController = new MVCControllerForStudents();
 
         assertEquals("index", homeController.showHomePage());
     }

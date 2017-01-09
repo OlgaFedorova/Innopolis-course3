@@ -19,9 +19,9 @@
             <td>
                 <select name="subject">
                     <option value="${selected.getId()}" selected>${selected.getSubject()}</option>
-                    <c:forEach items="${lectures}" var="lecture">
-                        <c:if test="${lecture != selected}">
-                            <option value="${lecture.getId()}">${lecture.getSubject()}</option>
+                    <c:forEach items="${lectures}" var="idLecture">
+                        <c:if test="${idLecture != selected}">
+                            <option value="${idLecture.getId()}">${idLecture.getSubject()}</option>
                         </c:if>
                     </c:forEach>
                 </select>
@@ -30,11 +30,11 @@
         <tr>
             <td align="right" >Студент : </td>
             <td>
-                <select name="student">
+                <select name="idStudent">
                     <option value="${selected.getId()}" selected>${selected.toString()}</option>
-                    <c:forEach items="${students}" var="student">
-                        <c:if test="${student != selected}">
-                            <option value="${student.getId()}">${student.toString()}</option>
+                    <c:forEach items="${students}" var="idStudent">
+                        <c:if test="${idStudent != selected}">
+                            <option value="${idStudent.getId()}">${idStudent.toString()}</option>
                         </c:if>
                     </c:forEach>
                 </select>

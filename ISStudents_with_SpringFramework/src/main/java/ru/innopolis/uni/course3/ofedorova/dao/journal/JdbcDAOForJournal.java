@@ -70,8 +70,8 @@ public class JdbcDAOForJournal extends JdbcDaoSupport implements DAOForJournal {
                                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                                 java.util.Date date = formatter.parse(journal.getDateOfRecord());
                                 ps.setDate(1, new java.sql.Date(date.getTime()));
-                                ps.setInt(2, journal.getLecture().getId());
-                                ps.setInt(3, journal.getStudent().getId());
+                                ps.setInt(2, journal.getIdLecture());
+                                ps.setInt(3, journal.getIdStudent());
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             }

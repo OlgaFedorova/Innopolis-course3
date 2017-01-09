@@ -8,6 +8,10 @@ public class Student extends Base {
     private String name;
     private String group;
 
+    public Student() {
+        super(1);
+    }
+
     public Student(int id, String name, String group) {
         super(id);
         this.name = name;
