@@ -6,7 +6,7 @@
     <title>Создание студента</title>
 </head>
 <body>
-<form action="${pageContext.servletContext.contextPath}/idStudent/create" method="POST">
+<form action="${pageContext.servletContext.contextPath}/student/create" method="POST">
     <table>
         <tr>
             <td align="right" >Name : </td>

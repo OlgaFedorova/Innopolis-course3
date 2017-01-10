@@ -1,12 +1,9 @@
 package ru.innopolis.uni.course3.ofedorova.dao.lectures;
 
-import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import ru.innopolis.uni.course3.ofedorova.models.Lecture;
-import ru.innopolis.uni.course3.ofedorova.service.SQLQueries;
+import ru.innopolis.uni.course3.ofedorova.services.SQLQueries;
 
 import java.sql.*;
 import java.util.Collection;

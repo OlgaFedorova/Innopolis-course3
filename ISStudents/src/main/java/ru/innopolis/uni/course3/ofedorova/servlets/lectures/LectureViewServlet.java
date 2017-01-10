@@ -1,7 +1,7 @@
 package ru.innopolis.uni.course3.ofedorova.servlets.lectures;
 
 import ru.innopolis.uni.course3.ofedorova.dao.lectures.LectureCache;
-import ru.innopolis.uni.course3.ofedorova.service.Settings;
+import ru.innopolis.uni.course3.ofedorova.services.Settings;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;

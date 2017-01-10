@@ -3,7 +3,7 @@ package ru.innopolis.uni.course3.ofedorova.dao.marks;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoMarksException;
-import ru.innopolis.uni.course3.ofedorova.service.ConnectionPoolFactory;
+import ru.innopolis.uni.course3.ofedorova.services.ConnectionPoolFactory;
 
 import java.sql.*;
 

@@ -6,104 +6,7 @@
 
     <display-name>Teaching programming</display-name>
 
-    <servlet>
-        <servlet-name>LogonServlet</servlet-name>
-        <servlet-class>ru.innopolis.uni.course3.ofedorova.servlets.security.LogonServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>LogonServlet</servlet-name>
-        <url-pattern>/security/logon</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>RegistrationSuccessServlet</servlet-name>
-        <servlet-class>ru.innopolis.uni.course3.ofedorova.servlets.security.RegistrationSuccessServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>RegistrationSuccessServlet</servlet-name>
-        <url-pattern>/registration-success</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>UserCreateServlet</servlet-name>
-        <servlet-class>ru.innopolis.uni.course3.ofedorova.servlets.security.UserCreateServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>UserCreateServlet</servlet-name>
-        <url-pattern>/registration</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>LogoutServlet</servlet-name>
-        <servlet-class>ru.innopolis.uni.course3.ofedorova.servlets.security.LogoutServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>LogoutServlet</servlet-name>
-        <url-pattern>/logout</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>InfoAboutAuthorizationServlet</servlet-name>
-        <servlet-class>ru.innopolis.uni.course3.ofedorova.servlets.security.InfoAboutAuthorizationServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>InfoAboutAuthorizationServlet</servlet-name>
-        <url-pattern>/info-about-authorization</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>LogonSuccessServlet</servlet-name>
-        <servlet-class>ru.innopolis.uni.course3.ofedorova.servlets.security.LogonSuccessServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>LogonSuccessServlet</servlet-name>
-        <url-pattern>/security/success-logon</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>EditUser</servlet-name>
-        <servlet-class>ru.innopolis.uni.course3.ofedorova.servlets.security.EditUser</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>EditUser</servlet-name>
-        <url-pattern>/main/edit-user</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>EditUserSuccessServlet</servlet-name>
-        <servlet-class>ru.innopolis.uni.course3.ofedorova.servlets.security.EditUserSuccessServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>EditUserSuccessServlet</servlet-name>
-        <url-pattern>/main/edit-user-success</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>TaskViewServlet</servlet-name>
-        <servlet-class>ru.innopolis.uni.course3.ofedorova.servlets.tasks.TaskViewServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>TaskViewServlet</servlet-name>
-        <url-pattern>/main/tasks/view</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>SelectTask</servlet-name>
-        <servlet-class>ru.innopolis.uni.course3.ofedorova.servlets.tasks.SelectTaskServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>SelectTask</servlet-name>
-        <url-pattern>/main/tasks/select</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>SendDecisionServlet</servlet-name>
-        <servlet-class>ru.innopolis.uni.course3.ofedorova.servlets.tasks.SendDecisionServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>SendDecisionServlet</servlet-name>
-        <url-pattern>/main/tasks/send-decision</url-pattern>
-    </servlet-mapping>
+    <!--
 
     <servlet>
         <servlet-name>UserRatingServlet</servlet-name>
@@ -113,15 +16,7 @@
         <servlet-name>UserRatingServlet</servlet-name>
         <url-pattern>/main/user-rating</url-pattern>
     </servlet-mapping>
-
-    <servlet>
-        <servlet-name>MainServlet</servlet-name>
-        <servlet-class>ru.innopolis.uni.course3.ofedorova.servlets.MainServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>MainServlet</servlet-name>
-        <url-pattern>/index</url-pattern>
-    </servlet-mapping>
+    -->
 
     <filter>
         <filter-name>SecurityFilter</filter-name>
@@ -136,8 +31,28 @@
         <url-pattern>/main/*</url-pattern>
     </filter-mapping>
 
-    <welcome-file-list>
-        <welcome-file>/index</welcome-file>
-    </welcome-file-list>
+    <servlet>
+        <servlet-name>teaching_programming</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>teaching_programming</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
+            /WEB-INF/teaching_programming-servlet.xml
+            classpath:appContext.xml
+        </param-value>
+    </context-param>
+
+    <listener>
+        <listener-class>
+            org.springframework.web.context.ContextLoaderListener
+        </listener-class>
+    </listener>
 
 </web-app>

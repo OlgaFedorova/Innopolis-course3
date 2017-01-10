@@ -2,9 +2,9 @@ package ru.innopolis.uni.course3.ofedorova.constants;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import ru.innopolis.uni.course3.ofedorova.controllers.ControllerForDecisionsAndMarks;
-import ru.innopolis.uni.course3.ofedorova.controllers.ControllerForTasks;
-import ru.innopolis.uni.course3.ofedorova.controllers.ControllerForUsers;
+import ru.innopolis.uni.course3.ofedorova.services.main.MainServiceForDecisionsAndMarks;
+import ru.innopolis.uni.course3.ofedorova.services.main.MainServiceForTasks;
+import ru.innopolis.uni.course3.ofedorova.services.main.MainServiceForUsers;
 
 /**
  * Класс для хранения общих настроек системы.
@@ -20,29 +20,29 @@ public class Settings {
     private static final ApplicationContext APPLICATION_CONTEXT = new ClassPathXmlApplicationContext("appContext.xml");
 
     /**
-     * Метод возвращает компонент "ControllerForUsers" из контекста приложений.
+     * Метод возвращает компонент "MainServiceForUsers" из контекста приложений.
      *
      * @return контроллер для работы с пользователями.
      */
-    public static ControllerForUsers getControllerForUsers() {
-        return (ControllerForUsers) Settings.APPLICATION_CONTEXT.getBean("controllerForUsers");
+    public static MainServiceForUsers getControllerForUsers() {
+        return (MainServiceForUsers) Settings.APPLICATION_CONTEXT.getBean("mainServiceForUsers");
     }
 
     /**
-     * Метод возвращает компонент "ControllerForTasks" из контекста приложений.
+     * Метод возвращает компонент "MainServiceForTasks" из контекста приложений.
      *
      * @return контроллер для работы с заданиями.
      */
-    public static ControllerForTasks getControllerForTasks() {
-        return (ControllerForTasks) Settings.APPLICATION_CONTEXT.getBean("controllerForTasks");
+    public static MainServiceForTasks getControllerForTasks() {
+        return (MainServiceForTasks) Settings.APPLICATION_CONTEXT.getBean("mainServiceForTasks");
     }
 
     /**
-     * Метод возвращает компонент "ControllerForDecisionsAndMarks" из контекста приложений.
+     * Метод возвращает компонент "MainServiceForDecisionsAndMarks" из контекста приложений.
      *
      * @return контроллер для работы с решениями пользователя и их оценками.
      */
-    public static ControllerForDecisionsAndMarks getControllerForDecisionsAndMarks() {
-        return (ControllerForDecisionsAndMarks) Settings.APPLICATION_CONTEXT.getBean("controllerForDecisionsAndMarks");
+    public static MainServiceForDecisionsAndMarks getControllerForDecisionsAndMarks() {
+        return (MainServiceForDecisionsAndMarks) Settings.APPLICATION_CONTEXT.getBean("mainServiceForDecisionsAndMarks");
     }
 }

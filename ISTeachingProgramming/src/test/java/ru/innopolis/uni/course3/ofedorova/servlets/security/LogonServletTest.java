@@ -10,9 +10,8 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import ru.innopolis.uni.course3.ofedorova.controllers.ControllerForUsers;
 import ru.innopolis.uni.course3.ofedorova.dao.users.JdbcOfDAOtoUsers;
 import ru.innopolis.uni.course3.ofedorova.models.User;
-import ru.innopolis.uni.course3.ofedorova.service.ConnectionPoolFactory;
-import ru.innopolis.uni.course3.ofedorova.service.users.ServiceOfUsersImpl;
-import ru.innopolis.uni.course3.ofedorova.servlets.security.LogonServlet;
+import ru.innopolis.uni.course3.ofedorova.services.ConnectionPoolFactory;
+import ru.innopolis.uni.course3.ofedorova.services.users.ServiceOfUsersImpl;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;

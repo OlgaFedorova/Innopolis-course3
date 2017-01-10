@@ -51,7 +51,7 @@ public class SecurityFilter implements Filter {
         User user = (User) session.getAttribute("user");
 
         if (user == null && !this.parametrOfFilter.equals(req.getRequestURI())) {
-            RequestDispatcher rd = req.getRequestDispatcher("/security/logon.jsp");
+            RequestDispatcher rd = req.getRequestDispatcher("/security/logon");
             rd.forward(request, response);
             return;
         }

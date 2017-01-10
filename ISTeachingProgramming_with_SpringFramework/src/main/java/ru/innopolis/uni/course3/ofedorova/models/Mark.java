@@ -11,7 +11,7 @@ public class Mark extends Base {
     /**
      * Значение оценки.
      */
-    private final int mark;
+    private int mark;
 
     /**
      * Создает новый {@code Mark}.
@@ -39,5 +39,13 @@ public class Mark extends Base {
      */
     public int getMark() {
         return this.mark;
+    }
+
+    /**
+     * Метод устанавливает новое значение для поля "mark".
+     * @param mark новое значение для поля "mark".
+     */
+    public void setMark(int mark) {
+        this.mark = mark;
     }
 }

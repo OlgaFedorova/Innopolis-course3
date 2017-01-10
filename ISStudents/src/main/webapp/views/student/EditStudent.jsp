@@ -6,7 +6,7 @@
     <title>Редактирование студента</title>
 </head>
 <body>
-<form action="${pageContext.servletContext.contextPath}/idStudent/edit" method="POST">
+<form action="${pageContext.servletContext.contextPath}/student/edit" method="POST">
     <input type="hidden" name="id" value="${id}">
     <table>
         <tr>

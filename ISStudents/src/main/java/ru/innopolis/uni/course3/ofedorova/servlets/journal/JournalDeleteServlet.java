@@ -1,7 +1,7 @@
 package ru.innopolis.uni.course3.ofedorova.servlets.journal;
 
 import ru.innopolis.uni.course3.ofedorova.dao.journal.JournalCache;
-import ru.innopolis.uni.course3.ofedorova.service.Settings;
+import ru.innopolis.uni.course3.ofedorova.services.Settings;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

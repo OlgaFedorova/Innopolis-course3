@@ -2,7 +2,7 @@ package ru.innopolis.uni.course3.ofedorova.dao.students;
 
 import org.springframework.stereotype.Component;
 import ru.innopolis.uni.course3.ofedorova.models.Student;
-import ru.innopolis.uni.course3.ofedorova.service.ConnectionPoolFactory;
+import ru.innopolis.uni.course3.ofedorova.services.ConnectionPoolFactory;
 
 import java.sql.*;
 import java.util.ArrayList;

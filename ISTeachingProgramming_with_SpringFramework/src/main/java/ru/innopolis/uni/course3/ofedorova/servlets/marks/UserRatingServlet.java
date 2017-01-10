@@ -1,6 +1,6 @@
 package ru.innopolis.uni.course3.ofedorova.servlets.marks;
 
-import ru.innopolis.uni.course3.ofedorova.controllers.ControllerForUsers;
+import ru.innopolis.uni.course3.ofedorova.services.main.MainServiceForUsers;
 import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoUsersException;
 import ru.innopolis.uni.course3.ofedorova.constants.Settings;
 
@@ -21,7 +21,7 @@ public class UserRatingServlet extends HttpServlet {
     /**
      * Объект-контроллер для работы с данными пользователя.
      */
-    private final ControllerForUsers controller = Settings.getControllerForUsers();
+    private final MainServiceForUsers controller = Settings.getControllerForUsers();
 
     /**
      * Вызывается сервером и позволяют сервлету обрабатывать GET-запрос.

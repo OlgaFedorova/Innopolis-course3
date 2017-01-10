@@ -6,7 +6,7 @@
     <title>Создание лекции</title>
 </head>
 <body>
-<form action="${pageContext.servletContext.contextPath}/idLecture/create" method="POST">
+<form action="${pageContext.servletContext.contextPath}/lecture/create" method="POST">
     <table>
         <tr>
             <td align="right" >Тема : </td>

@@ -7,13 +7,10 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
-import ru.innopolis.uni.course3.ofedorova.dao.journal.JdbcDAOForJournal;
 import ru.innopolis.uni.course3.ofedorova.models.Lecture;
-import ru.innopolis.uni.course3.ofedorova.service.SQLQueries;
+import ru.innopolis.uni.course3.ofedorova.services.SQLQueries;
 
 import java.sql.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Collection;
 
 /**

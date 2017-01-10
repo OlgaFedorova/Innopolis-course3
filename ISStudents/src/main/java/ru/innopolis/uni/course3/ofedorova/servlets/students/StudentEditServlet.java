@@ -2,7 +2,7 @@ package ru.innopolis.uni.course3.ofedorova.servlets.students;
 
 import ru.innopolis.uni.course3.ofedorova.dao.students.StudentCache;
 import ru.innopolis.uni.course3.ofedorova.models.Student;
-import ru.innopolis.uni.course3.ofedorova.service.Settings;
+import ru.innopolis.uni.course3.ofedorova.services.Settings;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;

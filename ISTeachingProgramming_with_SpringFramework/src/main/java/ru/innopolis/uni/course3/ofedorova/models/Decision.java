@@ -12,15 +12,22 @@ public class Decision extends Base {
     /**
      * Идентификатор задачи.
      */
-    private final int idTask;
+    private int idTask;
     /**
      * Идентификатор пользователя.
      */
-    private final int idUser;
+    private int idUser;
     /**
      * Текст решения.
      */
-    private final String decision;
+    private String decision;
+
+    /**
+     * Cоздает новый {@code Decision}.
+     */
+    public Decision() {
+        super(1);
+    }
 
     /**
      * Создает новый {@code Decision}.
@@ -62,5 +69,29 @@ public class Decision extends Base {
      */
     public String getDecision() {
         return this.decision;
+    }
+
+    /**
+     * Метод устанавливает новое значение для поля "idTask".
+     * @param idTask новое значение для поля "idTask".
+     */
+    public void setIdTask(int idTask) {
+        this.idTask = idTask;
+    }
+
+    /**
+     * Метод устанавливает новое значение для поля "idUser".
+     * @param idUser новое значение для поля "idUser".
+     */
+    public void setIdUser(int idUser) {
+        this.idUser = idUser;
+    }
+
+    /**
+     * Метод устанавливает новое значение для поля "decision".
+     * @param decision новое значение для поля "decision".
+     */
+    public void setDecision(String decision) {
+        this.decision = decision;
     }
 }

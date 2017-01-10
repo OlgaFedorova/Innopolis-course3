@@ -6,20 +6,20 @@
     <title>Список студентов</title>
 </head>
 <body>
-<a href="${pageContext.servletContext.contextPath}/views/idStudent/CreateStudent.jsp">Добавить студента</a>
+<a href="${pageContext.servletContext.contextPath}/views/student/CreateStudent.jsp">Добавить студента</a>
 <table border="1">
     <tr>
         <td>Имя</td>
         <td>Группа</td>
         <td>Действия</td>
     </tr>
-    <c:forEach items="${students}" var="idStudent" varStatus="status">
+    <c:forEach items="${students}" var="student" varStatus="status">
         <tr valign="top">
-            <td>${idStudent.getName()}</td>
-            <td>${idStudent.getGroup()}</td>
+            <td>${student.getName()}</td>
+            <td>${student.getGroup()}</td>
             <td>
-                <a href="${pageContext.servletContext.contextPath}/idStudent/edit?id=${idStudent.getId()}">Редактировать</a>
-                <a href="${pageContext.servletContext.contextPath}/idStudent/delete?id=${idStudent.getId()}">Удалить</a>
+                <a href="${pageContext.servletContext.contextPath}/student/edit?id=${student.getId()}">Редактировать</a>
+                <a href="${pageContext.servletContext.contextPath}/student/delete?id=${student.getId()}">Удалить</a>
             </td>
         </tr>
     </c:forEach>

@@ -11,7 +11,7 @@ public class Task extends Base {
     /**
      * Название задания.
      */
-    private final String name;
+    private String name;
     /**
      * Содержание задания.
      */
@@ -25,6 +25,13 @@ public class Task extends Base {
      * Оценка за задачу.
      */
     private Mark mark;
+
+    /**
+     * Создает новый {@code Task}.
+     */
+    public Task() {
+        super(1);
+    }
 
     /**
      * Создает новый {@code Task}.

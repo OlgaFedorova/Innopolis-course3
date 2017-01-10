@@ -5,14 +5,10 @@ import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import ru.innopolis.uni.course3.ofedorova.models.Student;
-import ru.innopolis.uni.course3.ofedorova.service.SQLQueries;
+import ru.innopolis.uni.course3.ofedorova.services.SQLQueries;
 
 import java.sql.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Created by Olga on 22.12.2016.

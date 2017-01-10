@@ -6,7 +6,7 @@ import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoTasksException;
 import ru.innopolis.uni.course3.ofedorova.models.Decision;
 import ru.innopolis.uni.course3.ofedorova.models.Mark;
 import ru.innopolis.uni.course3.ofedorova.models.Task;
-import ru.innopolis.uni.course3.ofedorova.service.ConnectionPoolFactory;
+import ru.innopolis.uni.course3.ofedorova.services.ConnectionPoolFactory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

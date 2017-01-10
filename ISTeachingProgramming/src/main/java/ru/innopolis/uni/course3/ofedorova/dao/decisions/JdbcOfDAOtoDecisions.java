@@ -1,7 +1,7 @@
 package ru.innopolis.uni.course3.ofedorova.dao.decisions;
 
 import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoDecisionsException;
-import ru.innopolis.uni.course3.ofedorova.service.ConnectionPoolFactory;
+import ru.innopolis.uni.course3.ofedorova.services.ConnectionPoolFactory;
 
 import java.sql.*;
 

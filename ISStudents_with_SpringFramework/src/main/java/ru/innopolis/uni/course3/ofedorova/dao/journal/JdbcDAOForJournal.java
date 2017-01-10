@@ -13,7 +13,7 @@ import ru.innopolis.uni.course3.ofedorova.dao.students.JdbcBasicDAOForStudent;
 import ru.innopolis.uni.course3.ofedorova.models.Journal;
 import ru.innopolis.uni.course3.ofedorova.models.Lecture;
 import ru.innopolis.uni.course3.ofedorova.models.Student;
-import ru.innopolis.uni.course3.ofedorova.service.SQLQueries;
+import ru.innopolis.uni.course3.ofedorova.services.SQLQueries;
 
 import java.sql.*;
 import java.text.ParseException;

@@ -11,11 +11,27 @@ public class User extends Base {
     /**
      * Имя пользователя.
      */
-    private final String name;
+    private String name;
     /**
      * Пароль пользователя.
      */
     private String password;
+    /**
+     * Подтверждение пароля пользователя.
+     */
+    private String confirmPassword;
+    /**
+     * Новый пароль пользователя.
+     */
+    private String newPassword;
+    /**
+     * Подтверждение нового пароля пользователя.
+     */
+    private String confirmNewPassword;
+    /**
+     * Текущий пароль пользователя.
+     */
+    private String currentPassword;
     /**
      * Salt для хеширования пароля.
      */
@@ -24,6 +40,13 @@ public class User extends Base {
      * Общий балл.
      */
     private int mark;
+
+    /**
+     * Создает новый {@code User}.
+     */
+    public User() {
+        super(1);
+    }
 
     /**
      * Создает новый {@code User}.
@@ -92,12 +115,92 @@ public class User extends Base {
     }
 
     /**
+     * Метод устанавливает новое значение для поля "name".
+     * @param name новое значение для поля "name".
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * Метод устанавливает новое значение для поля "password".
+     * @param password новое значение для поля "password".
+     */
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    /**
      * Метод возвращает значение поля "salt".
      *
      * @return значение поля "salt".
      */
     public String getSalt() {
         return this.salt;
+    }
+
+    /**
+     * Метод возвращает значение поля "confirmPassword".
+     * @return значение поля "confirmPassword".
+     */
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    /**
+     * Метод устанавливает новое значение для поля "confirmPassword".
+     * @param confirmPassword новое значение для поля "confirmPassword".
+     */
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
+    }
+
+    /**
+     * Метод возвращает значение поля "newPassword".
+     * @return значение поля "newPassword".
+     */
+    public String getNewPassword() {
+        return this.newPassword;
+    }
+
+    /**
+     * Метод устанавливает новое значение поля "newPassword".
+     * @param newPassword новое значение поля "newPassword".
+     */
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
+    }
+
+    /**
+     * Метод возвращает значение поля "confirmNewPassword".
+     * @return значение поля "confirmNewPassword".
+     */
+    public String getConfirmNewPassword() {
+        return this.confirmNewPassword;
+    }
+
+    /**
+     * Метод возвращает значение поля "currentPassword.
+     * @return значение поля "currentPassword".
+     */
+    public String getCurrentPassword() {
+        return this.currentPassword;
+    }
+
+    /**
+     * Метод устанавливает новое значение поля "currentPassword".
+     * @param currentPassword новое значение поля "currentPassword".
+     */
+    public void setCurrentPassword(String currentPassword) {
+        this.currentPassword = currentPassword;
+    }
+
+    /**
+     * Метод устанавливает новое значение поля "confirmNewPassword".
+     * @param confirmNewPassword новое значение поля "confirmNewPassword".
+     */
+    public void setConfirmNewPassword(String confirmNewPassword) {
+        this.confirmNewPassword = confirmNewPassword;
     }
 
     /**
