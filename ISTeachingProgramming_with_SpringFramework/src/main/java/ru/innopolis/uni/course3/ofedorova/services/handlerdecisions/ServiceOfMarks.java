@@ -1,4 +1,4 @@
-package ru.innopolis.uni.course3.ofedorova.services.marks;
+package ru.innopolis.uni.course3.ofedorova.services.handlerdecisions;
 
 /**
  * Интерфейс реализует сервис оценивания пользователей.

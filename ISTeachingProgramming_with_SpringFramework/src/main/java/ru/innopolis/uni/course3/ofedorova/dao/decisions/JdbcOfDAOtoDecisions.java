@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.innopolis.uni.course3.ofedorova.constants.SQLQueries;
+import ru.innopolis.uni.course3.ofedorova.models.Decision;
 
 /**
  * Класс реализует модель доступа к данным модели "Decision"  с помощью JDBC.
@@ -24,13 +25,11 @@ public class JdbcOfDAOtoDecisions extends JdbcDaoSupport implements DAOtoDecisio
     /**
      * Метод добавляет решение пользователя в систему.
      *
-     * @param idTask   идентификатор задачи.
-     * @param idUser   идентификатор пользователя.
-     * @param decision текст решения.
+     * @param decision решениe пользователя.
      */
     @Override
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    public void add(int idTask, int idUser, String decision) {
-        this.getJdbcTemplate().update(SQLQueries.ADD_DECISIONS, new Object[]{idTask, idUser, decision});
+    public void add(Decision decision) {
+        this.getJdbcTemplate().update(SQLQueries.ADD_DECISIONS, new Object[]{decision.getIdTask(), decision.getIdUser(), decision.getDecision()});
     }
 }

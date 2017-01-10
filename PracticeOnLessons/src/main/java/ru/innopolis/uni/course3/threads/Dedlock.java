@@ -1,5 +1,7 @@
 package ru.innopolis.uni.course3.threads;
 
+import java.util.Scanner;
+
 /**
  * Created by Olga on 08.12.2016.
  */
@@ -38,6 +40,8 @@ public class Dedlock{
     public static void main(String[] args) {
 
         System.out.println("Start");
+        Scanner scanner = new Scanner(System.in);
+        scanner.next();
 
         Dedlock dedlock = new Dedlock();
 

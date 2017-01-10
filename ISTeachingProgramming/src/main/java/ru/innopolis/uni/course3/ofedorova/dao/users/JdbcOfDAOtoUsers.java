@@ -37,7 +37,7 @@ public class JdbcOfDAOtoUsers implements DAOtoUsers {
                     append("ELSE m.mark\n").
                     append("END) as mark\n").
                     append("FROM users as u\n").
-                    append("LEFT JOIN marks as m\n").
+                    append("LEFT JOIN handlerdecisions as m\n").
                     append("ON u.id = m.id_user\n").
                     append("GROUP BY u.id, u.name\n").
                     append("ORDER BY mark desc").toString())) {

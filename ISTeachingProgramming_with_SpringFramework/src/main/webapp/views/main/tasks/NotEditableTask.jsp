@@ -21,11 +21,11 @@
         </tr>
         <tr>
             <td align="right" >Решение : </td>
-            <td align="left" >${task.getDecision().getDecision()}</td>
+            <td align="left" style="white-space:pre-wrap ; word-wrap:break-word;">${task.getDecision().getDecision()}</td>
         </tr>
         <tr>
             <td align="right" >Оценка : </td>
-            <td align="left" >${task.getMark()}</td>
+            <td align="left" >${task.getMark().getMark()}</td>
         </tr>
     </table>
 <p><a href="${pageContext.servletContext.contextPath}/main/tasks/view">К СПИСКУ ЗАДАНИЙ</a></p>

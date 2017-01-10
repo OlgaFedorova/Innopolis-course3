@@ -6,13 +6,13 @@ import ru.innopolis.uni.course3.ofedorova.models.User;
 import java.util.Map;
 
 /**
- * Интерфейс реализует модель обработки данных пользователя.
+ * Интерфейс реализует модель проверки данных пользователя.
  *
  * @author Olga Fedorova
  * @version 1.0
  * @since 25.12.2016
  */
-public interface ServiceOfUsers {
+public interface ServiceForValidateDataOfUsers {
 
     /**
      * Метод проверяет корректность данных валидации входа.

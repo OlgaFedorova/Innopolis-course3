@@ -41,12 +41,10 @@ public interface DAOtoUsers {
     /**
      * Метод добавляет нового пользователя в БД.
      *
-     * @param name     имя пользователя.
-     * @param password пароль пользователя.
-     * @param salt     соль для хеширования пароля.
+     * @param user данные нового пользователя.
      * @return Если пользователя удалось создать будет возвращена ссылка на него, иначе возвращается null.
      */
-    User addNewUser(String name, String password, String salt) throws DAOtoUsersException;
+    User addNewUser(User user) throws DAOtoUsersException;
 
     /**
      * Метод возвращает пароль пользователя.
@@ -60,10 +58,8 @@ public interface DAOtoUsers {
     /**
      * Метод обновляет пароль у пользователя.
      *
-     * @param id          идентификатор пользователя.
-     * @param newPassword значение нового пароля.
-     * @param salt        соль для хеширования пароля.
+     * @param user данные нового пользователя.
      * @return Обновленный объект пользователя.
      */
-    User updatePassword(int id, String newPassword, String salt) throws DAOtoUsersException;
+    User updatePassword(User user) throws DAOtoUsersException;
 }

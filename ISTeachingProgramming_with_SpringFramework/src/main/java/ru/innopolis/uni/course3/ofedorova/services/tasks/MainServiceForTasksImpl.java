@@ -1,4 +1,4 @@
-package ru.innopolis.uni.course3.ofedorova.services.main;
+package ru.innopolis.uni.course3.ofedorova.services.tasks;
 
 import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoTasksException;
 import ru.innopolis.uni.course3.ofedorova.dao.tasks.DAOtoTasks;
@@ -13,7 +13,7 @@ import java.util.Collection;
  * @version 1.0
  * @since 27.12.2016
  */
-public class MainServiceForTasks implements DAOtoTasks {
+public class MainServiceForTasksImpl implements MainServiceForTasks {
 
     /**
      * Объект для доступа к данным модели "Task".
@@ -21,11 +21,11 @@ public class MainServiceForTasks implements DAOtoTasks {
     private final DAOtoTasks daOtoTasks;
 
     /**
-     * Создает новый {@code MainServiceForTasks}.
+     * Создает новый {@code MainServiceForTasksImpl}.
      *
      * @param daOtoTasks значение поля "daOtoTasks".
      */
-    public MainServiceForTasks(DAOtoTasks daOtoTasks) {
+    public MainServiceForTasksImpl(DAOtoTasks daOtoTasks) {
         this.daOtoTasks = daOtoTasks;
     }
 

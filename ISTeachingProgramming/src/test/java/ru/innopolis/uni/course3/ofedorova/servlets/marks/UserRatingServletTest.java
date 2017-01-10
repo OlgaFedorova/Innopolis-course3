@@ -76,12 +76,12 @@ public class UserRatingServletTest {
         users.add(new User(1, "name1", 10));
 
         when(jdbcOfDAOtoUsers.valuesRating()).thenReturn(users);
-        when(request.getRequestDispatcher("/main/marks/UserRatingView.jsp")).thenReturn(dispatcher);
+        when(request.getRequestDispatcher("/main/handlerdecisions/UserRatingView.jsp")).thenReturn(dispatcher);
 
         final UserRatingServlet userRatingServlet = new UserRatingServlet();
         userRatingServlet.doGet(request, response);
 
-        verify(request, atLeastOnce()).getRequestDispatcher("/main/marks/UserRatingView.jsp");
+        verify(request, atLeastOnce()).getRequestDispatcher("/main/handlerdecisions/UserRatingView.jsp");
         verify(jdbcOfDAOtoUsers, atLeastOnce()).valuesRating();
     }
 

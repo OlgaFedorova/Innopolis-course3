@@ -16,13 +16,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Класс реализует модель обработки данных пользователя.
+ * Класс реализует модель проверки данных пользователя.
  *
  * @author Olga Fedorova
  * @version 1.0
  * @since 25.12.2016
  */
-public class ServiceOfUsersImpl implements ServiceOfUsers {
+public class ServiceForValidateDataOfUsersImpl implements ServiceForValidateDataOfUsers {
 
     /**
      * Для работы криптографии.
@@ -36,7 +36,7 @@ public class ServiceOfUsersImpl implements ServiceOfUsers {
     /**
      * Объект для логгирования.
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(ServiceOfUsersImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ServiceForValidateDataOfUsersImpl.class);
 
     /**
      * Метод проверяет корректность данных валидации входа.
@@ -152,10 +152,10 @@ public class ServiceOfUsersImpl implements ServiceOfUsers {
             char[] chars = password.toCharArray();
 
             PBEKeySpec spec = new PBEKeySpec(chars, salt, iterations, 255);
-            byte[] hash = ServiceOfUsersImpl.getSecretKeyFactory().generateSecret(spec).getEncoded();
+            byte[] hash = ServiceForValidateDataOfUsersImpl.getSecretKeyFactory().generateSecret(spec).getEncoded();
             result = new String(hash);
         } catch (InvalidKeySpecException e) {
-            ServiceOfUsersImpl.LOGGER.info(e.getMessage());
+            ServiceForValidateDataOfUsersImpl.LOGGER.info(e.getMessage());
             throw new DAOtoUsersException(e.getMessage(), e);
         }
         return result;
@@ -172,7 +172,7 @@ public class ServiceOfUsersImpl implements ServiceOfUsers {
             SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
             sr.nextBytes(salt);
         } catch (NoSuchAlgorithmException e) {
-            ServiceOfUsersImpl.LOGGER.info(e.getMessage());
+            ServiceForValidateDataOfUsersImpl.LOGGER.info(e.getMessage());
             throw new DAOtoUsersException(e.getMessage(), e);
         }
         return salt;
@@ -185,14 +185,14 @@ public class ServiceOfUsersImpl implements ServiceOfUsers {
      * @throws DAOtoUsersException ошибка в работе с данными.
      */
     private synchronized static SecretKeyFactory getSecretKeyFactory() throws DAOtoUsersException {
-        if (ServiceOfUsersImpl.secretKeyFactory == null) {
+        if (ServiceForValidateDataOfUsersImpl.secretKeyFactory == null) {
             try {
-                ServiceOfUsersImpl.secretKeyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+                ServiceForValidateDataOfUsersImpl.secretKeyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
             } catch (NoSuchAlgorithmException e) {
-                ServiceOfUsersImpl.LOGGER.info(e.getMessage());
+                ServiceForValidateDataOfUsersImpl.LOGGER.info(e.getMessage());
                 throw new DAOtoUsersException(e.getMessage(), e);
             }
         }
-        return ServiceOfUsersImpl.secretKeyFactory;
+        return ServiceForValidateDataOfUsersImpl.secretKeyFactory;
     }
 }

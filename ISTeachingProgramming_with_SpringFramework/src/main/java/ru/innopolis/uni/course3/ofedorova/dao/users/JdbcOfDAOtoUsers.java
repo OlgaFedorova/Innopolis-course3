@@ -80,29 +80,25 @@ public class JdbcOfDAOtoUsers extends JdbcDaoSupport implements DAOtoUsers {
     /**
      * Метод добавляет нового пользователя в БД.
      *
-     * @param name     имя пользователя.
-     * @param password пароль пользователя.
-     * @param salt     соль для хеширования пароля.
+     * @param user данные нового пользователя.
      * @return Если пользователя удалось создать будет возвращена ссылка на него, иначе возвращается null.
      */
     @Override
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    public User addNewUser(String name, String password, String salt) throws DAOtoUsersException {
-        User user;
+    public User addNewUser(User user) throws DAOtoUsersException {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         this.getJdbcTemplate().update(new PreparedStatementCreator() {
             @Override
             public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
                 final PreparedStatement ps = con.prepareStatement(SQLQueries.ADD_NEW_USER,
                         Statement.RETURN_GENERATED_KEYS);
-                ps.setString(1, name);
-                ps.setString(2, password);
-                ps.setString(3, salt);
+                ps.setString(1, user.getName());
+                ps.setString(2, user.getPassword());
+                ps.setString(3, user.getSalt());
                 return ps;
             }
         }, keyHolder);
-        user = new User((Integer) keyHolder.getKeyList().get(0).get("id"), name, password, salt);
-        return user;
+        return new User((Integer) keyHolder.getKeyList().get(0).get("id"), user.getName(), user.getPassword(), user.getSalt());
     }
 
     /**
@@ -128,15 +124,13 @@ public class JdbcOfDAOtoUsers extends JdbcDaoSupport implements DAOtoUsers {
     /**
      * Метод обновляет пароль у пользователя.
      *
-     * @param id          идентификатор пользователя.
-     * @param newPassword значение нового пароля.
-     * @param salt        соль для хеширования пароля.
+     * @param user данные нового пользователя.
      * @return Обновленный объект пользователя.
      */
     @Override
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    public User updatePassword(int id, String newPassword, String salt) throws DAOtoUsersException {
-        this.getJdbcTemplate().update(SQLQueries.UPDATE_PASSWORD, newPassword, salt, id);
-        return this.getById(id);
+    public User updatePassword(User user) throws DAOtoUsersException {
+        this.getJdbcTemplate().update(SQLQueries.UPDATE_PASSWORD, user.getPassword(), user.getSalt(), user.getId());
+        return this.getById(user.getId());
     }
 }

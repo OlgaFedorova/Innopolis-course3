@@ -11,7 +11,7 @@ public class Base {
     /**
      * Идентификатор пользователя.
      */
-    private final int id;
+    private int id;
 
     /**
      * Создает новый {@code Base}.
@@ -31,4 +31,11 @@ public class Base {
         return this.id;
     }
 
+    /**
+     * Метод устанавливает новое значение поля "id".
+     * @param id новое значение поля "id".
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
 }

@@ -39,7 +39,7 @@ create table decisions (
 		decision text
 );
 
---marks
+--handlerdecisions
 create table marks (
 		id serial primary key,
 		id_task int REFERENCES tasks(id),

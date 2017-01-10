@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.innopolis.uni.course3.ofedorova.constants.SQLQueries;
 import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoMarksException;
+import ru.innopolis.uni.course3.ofedorova.models.Mark;
 
 /**
  * Класс реализует модель доступа к данным модели "Mark" с помощью Jdbc.
@@ -26,13 +27,11 @@ public class JdbcOfDAOtoMarks extends JdbcDaoSupport implements DAOtoMarks {
     /**
      * Метод добавляет оценку за решение пользователя в БД.
      *
-     * @param idTask идентификатор задания.
-     * @param idUser идентификатор пользователя.
      * @param mark   оценка за задание.
      */
     @Override
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    public void add(int idTask, int idUser, int mark) throws DAOtoMarksException {
-        this.getJdbcTemplate().update(SQLQueries.ADD_MARKS, new Object[]{idTask, idUser, mark});
+    public void add(Mark mark) throws DAOtoMarksException {
+        this.getJdbcTemplate().update(SQLQueries.ADD_MARKS, new Object[]{mark.getIdTask(), mark.getIdUser(), mark.getMark()});
     }
 }

@@ -11,9 +11,12 @@ import org.springframework.jdbc.support.SQLExceptionTranslator;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.TransactionManagementConfigurer;
-import ru.innopolis.uni.course3.ofedorova.services.main.MainServiceForDecisionsAndMarks;
-import ru.innopolis.uni.course3.ofedorova.services.main.MainServiceForTasks;
-import ru.innopolis.uni.course3.ofedorova.services.main.MainServiceForUsers;
+import ru.innopolis.uni.course3.ofedorova.services.handlerdecisions.MainServiceForHandlerDecisions;
+import ru.innopolis.uni.course3.ofedorova.services.handlerdecisions.MainServiceForHandlerDecisionsImpl;
+import ru.innopolis.uni.course3.ofedorova.services.tasks.MainServiceForTasks;
+import ru.innopolis.uni.course3.ofedorova.services.tasks.MainServiceForTasksImpl;
+import ru.innopolis.uni.course3.ofedorova.services.users.MainServiceForUsers;
+import ru.innopolis.uni.course3.ofedorova.services.users.MainServiceForUsersImpl;
 import ru.innopolis.uni.course3.ofedorova.dao.decisions.DAOtoDecisions;
 import ru.innopolis.uni.course3.ofedorova.dao.decisions.JdbcOfDAOtoDecisions;
 import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoDecisionsException;
@@ -26,10 +29,10 @@ import ru.innopolis.uni.course3.ofedorova.dao.tasks.DAOtoTasks;
 import ru.innopolis.uni.course3.ofedorova.dao.tasks.JdbcOfDAOtoTasks;
 import ru.innopolis.uni.course3.ofedorova.dao.users.DAOtoUsers;
 import ru.innopolis.uni.course3.ofedorova.dao.users.JdbcOfDAOtoUsers;
-import ru.innopolis.uni.course3.ofedorova.services.marks.ServiceOfMarks;
-import ru.innopolis.uni.course3.ofedorova.services.marks.ServiceOfMarksImpl;
-import ru.innopolis.uni.course3.ofedorova.services.users.ServiceOfUsers;
-import ru.innopolis.uni.course3.ofedorova.services.users.ServiceOfUsersImpl;
+import ru.innopolis.uni.course3.ofedorova.services.handlerdecisions.ServiceOfMarks;
+import ru.innopolis.uni.course3.ofedorova.services.handlerdecisions.ServiceOfMarksImpl;
+import ru.innopolis.uni.course3.ofedorova.services.users.ServiceForValidateDataOfUsers;
+import ru.innopolis.uni.course3.ofedorova.services.users.ServiceForValidateDataOfUsersImpl;
 
 import java.sql.SQLException;
 
@@ -46,36 +49,36 @@ import java.sql.SQLException;
 public class SpringConfig implements TransactionManagementConfigurer {
 
     /**
-     * Связывает компонент "mainServiceForDecisionsAndMarks" с типом "MainServiceForDecisionsAndMarks".
+     * Связывает компонент "mainServiceForDecisionsAndMarks" с типом "MainServiceForHandlerDecisionsImpl".
      *
-     * @return новый объект типа "MainServiceForDecisionsAndMarks".
+     * @return новый объект типа "MainServiceForHandlerDecisionsImpl".
      */
     @Bean(name = "mainServiceForDecisionsAndMarks")
     @Scope("singleton")
-    public MainServiceForDecisionsAndMarks mainServiceForDecisionsAndMarks() {
-        return new MainServiceForDecisionsAndMarks(this.daOtoDecisions(), this.daOtoMarks(), this.serviceOfMarks());
+    public MainServiceForHandlerDecisions mainServiceForDecisionsAndMarks() {
+        return new MainServiceForHandlerDecisionsImpl(this.daOtoDecisions(), this.daOtoMarks(), this.serviceOfMarks());
     }
 
     /**
-     * Связывает компонент "mainServiceForTasks" с типом "MainServiceForTasks".
+     * Связывает компонент "mainServiceForTasks" с типом "MainServiceForTasksImpl".
      *
-     * @return новый объект типа "MainServiceForTasks".
+     * @return новый объект типа "MainServiceForTasksImpl".
      */
     @Bean(name = "mainServiceForTasks")
     @Scope("singleton")
     public MainServiceForTasks mainServiceForTasks() {
-        return new MainServiceForTasks(this.daOtoTasks());
+        return new MainServiceForTasksImpl(this.daOtoTasks());
     }
 
     /**
-     * Связывает компонент "mainServiceForUsers" с типом "MainServiceForUsers".
+     * Связывает компонент "mainServiceForUsers" с типом "MainServiceForUsersImpl".
      *
-     * @return новый объект типа "MainServiceForUsers".
+     * @return новый объект типа "MainServiceForUsersImpl".
      */
     @Bean(name = "mainServiceForUsers")
     @Scope("singleton")
     public MainServiceForUsers mainServiceForUsers() {
-        return new MainServiceForUsers(this.daOtoUsers(), this.serviceOfUsers());
+        return new MainServiceForUsersImpl(this.daOtoUsers(), this.serviceOfUsers());
     }
 
     /**
@@ -170,14 +173,14 @@ public class SpringConfig implements TransactionManagementConfigurer {
     }
 
     /**
-     * Связывает компонент "serviceOfUsers" с типом "ServiceOfUsersImpl".
+     * Связывает компонент "serviceOfUsers" с типом "ServiceForValidateDataOfUsersImpl".
      *
-     * @return новый объект типа "ServiceOfUsersImpl".
+     * @return новый объект типа "ServiceForValidateDataOfUsersImpl".
      */
     @Bean
     @Scope("singleton")
-    public ServiceOfUsers serviceOfUsers() {
-        return new ServiceOfUsersImpl();
+    public ServiceForValidateDataOfUsers serviceOfUsers() {
+        return new ServiceForValidateDataOfUsersImpl();
     }
 
     /**

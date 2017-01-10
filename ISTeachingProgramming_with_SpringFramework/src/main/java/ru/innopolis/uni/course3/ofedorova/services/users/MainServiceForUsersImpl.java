@@ -1,9 +1,8 @@
-package ru.innopolis.uni.course3.ofedorova.services.main;
+package ru.innopolis.uni.course3.ofedorova.services.users;
 
 import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoUsersException;
 import ru.innopolis.uni.course3.ofedorova.dao.users.DAOtoUsers;
 import ru.innopolis.uni.course3.ofedorova.models.User;
-import ru.innopolis.uni.course3.ofedorova.services.users.ServiceOfUsers;
 
 import java.util.Collection;
 import java.util.Map;
@@ -15,7 +14,7 @@ import java.util.Map;
  * @version 1.0
  * @since 25.12.2016
  */
-public class MainServiceForUsers implements DAOtoUsers {
+public class MainServiceForUsersImpl implements MainServiceForUsers {
     /**
      * Объект для доступа к данным модели "User".
      */
@@ -23,15 +22,15 @@ public class MainServiceForUsers implements DAOtoUsers {
     /**
      * Сервисные объект для обработки данных пользователя.
      */
-    private final ServiceOfUsers serviceOfUsers;
+    private final ServiceForValidateDataOfUsers serviceOfUsers;
 
     /**
-     * Создает новый {@code MainServiceForUsers}.
+     * Создает новый {@code MainServiceForUsersImpl}.
      *
      * @param daOtoUsers     значение поля "daOtoUsers".
      * @param serviceOfUsers значение поля "serviceOfUsers".
      */
-    public MainServiceForUsers(DAOtoUsers daOtoUsers, ServiceOfUsers serviceOfUsers) {
+    public MainServiceForUsersImpl(DAOtoUsers daOtoUsers, ServiceForValidateDataOfUsers serviceOfUsers) {
         this.daOtoUsers = daOtoUsers;
         this.serviceOfUsers = serviceOfUsers;
     }
@@ -74,22 +73,12 @@ public class MainServiceForUsers implements DAOtoUsers {
      * @param user объект пользователя.
      * @return Если пользователя удалось создать будет возвращена ссылка на него, иначе возвращается null.
      */
+    @Override
     public User addNewUser(User user) throws DAOtoUsersException {
         Map<String, String> hashAndSalt = this.serviceOfUsers.hashPasswordAndReturnWithSalt(user.getPassword());
-        return this.daOtoUsers.addNewUser(user.getName(), hashAndSalt.get("password"), hashAndSalt.get("salt"));
-    }
-
-    /**
-     * Метод добавляет нового пользователя в БД.
-     *
-     * @param name     имя пользователя.
-     * @param password пароль пользователя.
-     * @param salt     соль для хеширования пароля.
-     * @return Если пользователя удалось создать будет возвращена ссылка на него, иначе возвращается null.
-     */
-    @Override
-    public User addNewUser(String name, String password, String salt) throws DAOtoUsersException {
-        return this.daOtoUsers.addNewUser(name, password, salt);
+        user.setPassword(hashAndSalt.get("password"));
+        user.setSalt(hashAndSalt.get("salt"));
+        return this.daOtoUsers.addNewUser(user);
     }
 
     /**
@@ -107,27 +96,17 @@ public class MainServiceForUsers implements DAOtoUsers {
     /**
      * Метод обновляет пароль у пользователя.
      *
-     * @param id          идентификатор пользователя.
-     * @param newPassword значение нового пароля.
-     * @return Обновленный объект пользователя.
-     */
-    public User updatePassword(int id, String newPassword) throws DAOtoUsersException {
-        Map<String, String> hashAndSalt = this.serviceOfUsers.hashPasswordAndReturnWithSalt(newPassword);
-        return this.updatePassword(id, hashAndSalt.get("password"), hashAndSalt.get("salt"));
-    }
-
-    /**
-     * Метод обновляет пароль у пользователя.
-     *
-     * @param id          идентификатор пользователя.
-     * @param newPassword значение нового пароля.
-     * @param salt        соль для хеширования пароля.
+     * @param user объект пользователя.
      * @return Обновленный объект пользователя.
      */
     @Override
-    public User updatePassword(int id, String newPassword, String salt) throws DAOtoUsersException {
-        return this.daOtoUsers.updatePassword(id, newPassword, salt);
+    public User updatePassword(User user) throws DAOtoUsersException {
+        Map<String, String> hashAndSalt = this.serviceOfUsers.hashPasswordAndReturnWithSalt(user.getNewPassword());
+        user.setPassword(hashAndSalt.get("password"));
+        user.setSalt(hashAndSalt.get("salt"));
+        return this.daOtoUsers.updatePassword(user);
     }
+
 
     /**
      * Метод проверяет корректность данных валидации входа.

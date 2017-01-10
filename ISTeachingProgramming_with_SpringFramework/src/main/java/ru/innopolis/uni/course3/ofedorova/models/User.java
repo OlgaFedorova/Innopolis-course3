@@ -17,6 +17,10 @@ public class User extends Base {
      */
     private String password;
     /**
+     * Salt для хеширования пароля.
+     */
+    private String salt;
+    /**
      * Подтверждение пароля пользователя.
      */
     private String confirmPassword;
@@ -32,10 +36,6 @@ public class User extends Base {
      * Текущий пароль пользователя.
      */
     private String currentPassword;
-    /**
-     * Salt для хеширования пароля.
-     */
-    private String salt;
     /**
      * Общий балл.
      */
@@ -116,6 +116,7 @@ public class User extends Base {
 
     /**
      * Метод устанавливает новое значение для поля "name".
+     *
      * @param name новое значение для поля "name".
      */
     public void setName(String name) {
@@ -124,6 +125,7 @@ public class User extends Base {
 
     /**
      * Метод устанавливает новое значение для поля "password".
+     *
      * @param password новое значение для поля "password".
      */
     public void setPassword(String password) {
@@ -141,6 +143,7 @@ public class User extends Base {
 
     /**
      * Метод возвращает значение поля "confirmPassword".
+     *
      * @return значение поля "confirmPassword".
      */
     public String getConfirmPassword() {
@@ -149,6 +152,7 @@ public class User extends Base {
 
     /**
      * Метод устанавливает новое значение для поля "confirmPassword".
+     *
      * @param confirmPassword новое значение для поля "confirmPassword".
      */
     public void setConfirmPassword(String confirmPassword) {
@@ -157,6 +161,7 @@ public class User extends Base {
 
     /**
      * Метод возвращает значение поля "newPassword".
+     *
      * @return значение поля "newPassword".
      */
     public String getNewPassword() {
@@ -165,6 +170,7 @@ public class User extends Base {
 
     /**
      * Метод устанавливает новое значение поля "newPassword".
+     *
      * @param newPassword новое значение поля "newPassword".
      */
     public void setNewPassword(String newPassword) {
@@ -173,6 +179,7 @@ public class User extends Base {
 
     /**
      * Метод возвращает значение поля "confirmNewPassword".
+     *
      * @return значение поля "confirmNewPassword".
      */
     public String getConfirmNewPassword() {
@@ -181,6 +188,7 @@ public class User extends Base {
 
     /**
      * Метод возвращает значение поля "currentPassword.
+     *
      * @return значение поля "currentPassword".
      */
     public String getCurrentPassword() {
@@ -189,6 +197,7 @@ public class User extends Base {
 
     /**
      * Метод устанавливает новое значение поля "currentPassword".
+     *
      * @param currentPassword новое значение поля "currentPassword".
      */
     public void setCurrentPassword(String currentPassword) {
@@ -197,10 +206,19 @@ public class User extends Base {
 
     /**
      * Метод устанавливает новое значение поля "confirmNewPassword".
+     *
      * @param confirmNewPassword новое значение поля "confirmNewPassword".
      */
     public void setConfirmNewPassword(String confirmNewPassword) {
         this.confirmNewPassword = confirmNewPassword;
+    }
+
+    /**
+     * Метод устанавливает новое значение поля "salt".
+     * @param salt новое значение поля "salt".
+     */
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 
     /**

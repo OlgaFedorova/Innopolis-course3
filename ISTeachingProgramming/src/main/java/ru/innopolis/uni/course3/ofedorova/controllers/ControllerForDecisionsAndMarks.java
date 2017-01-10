@@ -6,8 +6,8 @@ import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoDecisionsException
 import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoMarksException;
 import ru.innopolis.uni.course3.ofedorova.dao.marks.DAOtoMarks;
 import ru.innopolis.uni.course3.ofedorova.dao.marks.JdbcOfDAOtoMarks;
-import ru.innopolis.uni.course3.ofedorova.services.marks.ServiceOfMarks;
-import ru.innopolis.uni.course3.ofedorova.services.marks.ServiceOfMarksImpl;
+import ru.innopolis.uni.course3.ofedorova.services.handlerdecisions.ServiceOfMarks;
+import ru.innopolis.uni.course3.ofedorova.services.handlerdecisions.ServiceOfMarksImpl;
 
 /**
  * Класс реализует контроллер для работы с моделью данных "Decision".

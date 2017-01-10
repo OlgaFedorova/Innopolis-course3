@@ -5,9 +5,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import ru.innopolis.uni.course3.ofedorova.constants.MVCControllersCommonFunctions;
 import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoUsersException;
 import ru.innopolis.uni.course3.ofedorova.models.User;
-import ru.innopolis.uni.course3.ofedorova.services.main.MainServiceForUsers;
+import ru.innopolis.uni.course3.ofedorova.services.users.MainServiceForUsers;
 
 import javax.servlet.http.HttpSession;
 
@@ -43,11 +44,11 @@ public class MVCControllerForUsers {
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String userCreate(HttpSession session, Model model){
         String view = "";
-        if (MVCControllersCommon.getUserFromSession(session) == null) {
+        if (MVCControllersCommonFunctions.getUserFromSession(session) == null) {
             model.addAttribute("user", new User());
             view = "registration/registration";
         } else {
-            view = MVCControllersCommon.redirectInfoAboutAuthorization();
+            view = MVCControllersCommonFunctions.redirectInfoAboutAuthorization();
         }
         return view;
     }
@@ -72,7 +73,7 @@ public class MVCControllerForUsers {
                     view = "registration/registrationErrorPasswordEmpty";
                 } else {
                     if (this.mainService.checkPasswords(user.getPassword(), user.getConfirmPassword())) {
-                        MVCControllersCommon.setUserInSession(session, this.mainService.addNewUser(user));
+                        MVCControllersCommonFunctions.setUserInSession(session, this.mainService.addNewUser(user));
                         view = "redirect:/registration-success";
                     } else {
                         model.addAttribute("info", "Пароли не совпадают, попробуйте снова.");
@@ -81,7 +82,7 @@ public class MVCControllerForUsers {
                 }
             }
         } catch (DAOtoUsersException e) {
-            view = MVCControllersCommon.redirectErrorPage();
+            view = MVCControllersCommonFunctions.redirectErrorPage();
         }
         return view;
     }
@@ -94,7 +95,7 @@ public class MVCControllerForUsers {
      */
     @RequestMapping(value = "/registration-success")
     public String registrationSuccess(HttpSession session, Model model){
-        User user = MVCControllersCommon.getUserFromSession(session);
+        User user = MVCControllersCommonFunctions.getUserFromSession(session);
         model.addAttribute("username", user == null ? "не авторизован" : user.getName());
         return "registration/registration-success";
     }
@@ -107,7 +108,7 @@ public class MVCControllerForUsers {
      */
     @RequestMapping(value = "/main/edit-user", method = RequestMethod.GET)
     public String editUser(HttpSession session, Model model){
-        model.addAttribute("user", MVCControllersCommon.getUserFromSession(session));
+        model.addAttribute("user", MVCControllersCommonFunctions.getUserFromSession(session));
         return "security/edit-user";
     }
 
@@ -121,14 +122,15 @@ public class MVCControllerForUsers {
     public String editUserFromForm(HttpSession session, User user){
         String view = "";
         try {
+            user.setId(MVCControllersCommonFunctions.getUserFromSession(session).getId());
             if (this.mainService.checkDataForEdid(user.getId(), user.getCurrentPassword(), user.getNewPassword(), user.getConfirmNewPassword())) {
-                MVCControllersCommon.setUserInSession(session, this.mainService.updatePassword(user.getId(), user.getNewPassword()));
+                MVCControllersCommonFunctions.setUserInSession(session, this.mainService.updatePassword(user));
                 view = "redirect:/main/edit-user-success";
             } else {
                 view = "security/edit-user-error";
             }
         } catch (DAOtoUsersException e) {
-            view = MVCControllersCommon.redirectErrorPage();
+            view = MVCControllersCommonFunctions.redirectErrorPage();
         }
         return view;
     }
@@ -141,8 +143,25 @@ public class MVCControllerForUsers {
      */
     @RequestMapping(value = "/main/edit-user-success")
     public String editUserSuccess(HttpSession session, Model model){
-        User user = MVCControllersCommon.getUserFromSession(session);
+        User user = MVCControllersCommonFunctions.getUserFromSession(session);
         model.addAttribute("username", user == null ? "не авторизован" : user.getName());
         return "security/success-edit-user";
+    }
+
+    /**
+     * Метод отображает представление с информацией о рейтингах пользователей.
+     * @param model объект модели, связанный с формой.
+     * @return view для отображения.
+     */
+    @RequestMapping(value = "/main/user-rating")
+    public String userRating(Model model){
+        String view = "";
+        try {
+            model.addAttribute("users", this.mainService.valuesRating());
+            view = "main/marks/UserRatingView";
+        } catch (DAOtoUsersException e) {
+            view = MVCControllersCommonFunctions.redirectErrorPage();
+        }
+        return view;
     }
 }

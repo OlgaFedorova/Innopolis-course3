@@ -1,10 +1,11 @@
-package ru.innopolis.uni.course3.ofedorova.services.main;
+package ru.innopolis.uni.course3.ofedorova.services.handlerdecisions;
 
 import ru.innopolis.uni.course3.ofedorova.dao.decisions.DAOtoDecisions;
 import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoDecisionsException;
 import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoMarksException;
 import ru.innopolis.uni.course3.ofedorova.dao.marks.DAOtoMarks;
-import ru.innopolis.uni.course3.ofedorova.services.marks.ServiceOfMarks;
+import ru.innopolis.uni.course3.ofedorova.models.Decision;
+import ru.innopolis.uni.course3.ofedorova.models.Mark;
 
 /**
  * Класс реализует главный сервис для работы с моделью данных "Decision".
@@ -13,7 +14,7 @@ import ru.innopolis.uni.course3.ofedorova.services.marks.ServiceOfMarks;
  * @version 1.0
  * @since 27.12.2016
  */
-public class MainServiceForDecisionsAndMarks implements DAOtoDecisions {
+public class MainServiceForHandlerDecisionsImpl implements MainServiceForHandlerDecisions {
 
     /**
      * Объект для доступа к данным модели "Decision".
@@ -29,13 +30,13 @@ public class MainServiceForDecisionsAndMarks implements DAOtoDecisions {
     private final ServiceOfMarks serviceOfMarks;
 
     /**
-     * Создает новый {@code MainServiceForDecisionsAndMarks}.
+     * Создает новый {@code MainServiceForHandlerDecisionsImpl}.
      *
      * @param storeOfDecisions значение поля "daOtoDecisions".
      * @param storeOfMarks     значение поля "daOtoMarks".
      * @param serviceOfMarks   значение поля "serviceOfMarks".
      */
-    public MainServiceForDecisionsAndMarks(DAOtoDecisions storeOfDecisions, DAOtoMarks storeOfMarks, ServiceOfMarks serviceOfMarks) {
+    public MainServiceForHandlerDecisionsImpl(DAOtoDecisions storeOfDecisions, DAOtoMarks storeOfMarks, ServiceOfMarks serviceOfMarks) {
         this.daOtoDecisions = storeOfDecisions;
         this.daOtoMarks = storeOfMarks;
         this.serviceOfMarks = serviceOfMarks;
@@ -44,13 +45,11 @@ public class MainServiceForDecisionsAndMarks implements DAOtoDecisions {
     /**
      * Метод добавляет решение пользователя в систему и выставляет оценку..
      *
-     * @param idTask   идентификатор задачи.
-     * @param idUser   идентификатор пользователя.
-     * @param decision текст решения.
+     * @param decision решениe пользователя.
      */
     @Override
-    public void add(int idTask, int idUser, String decision) throws DAOtoDecisionsException, DAOtoMarksException {
-        this.daOtoDecisions.add(idTask, idUser, decision);
-        this.daOtoMarks.add(idTask, idUser, this.serviceOfMarks.getMark());
+    public void add(Decision decision) throws DAOtoDecisionsException, DAOtoMarksException {
+        this.daOtoDecisions.add(decision);
+        this.daOtoMarks.add(new Mark(decision.getIdTask(), decision.getIdUser(), this.serviceOfMarks.getMark()));
     }
 }

@@ -11,17 +11,17 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Класс для тестирования ServiceOfUsersImpl.
+ * Класс для тестирования ServiceForValidateDataOfUsersImpl.
  *
  * @author Olga Fedorova
  * @version 1.0
  * @since 27.12.2016
  */
-public class ServiceOfUsersImplTest {
+public class ServiceForValidateDataOfUsersImplTest {
     /**
      * Объект для тестирования.
      */
-    private ServiceOfUsers serviceOfUsers = new ServiceOfUsersImpl();
+    private ServiceForValidateDataOfUsers serviceOfUsers = new ServiceForValidateDataOfUsersImpl();
 
     /**
      * Метод тестирует вылидацию входа при корректных данных.

@@ -5,14 +5,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import ru.innopolis.uni.course3.ofedorova.constants.MVCControllersCommonFunctions;
 import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoUsersException;
 import ru.innopolis.uni.course3.ofedorova.models.User;
-import ru.innopolis.uni.course3.ofedorova.services.main.MainServiceForUsers;
+import ru.innopolis.uni.course3.ofedorova.services.users.MainServiceForUsers;
 
 import javax.servlet.http.HttpSession;
 
 /**
- * Spring-контроллер для работы с авторизацией.
+ * Spring-контроллер для работы с авторизацией пользователей.
  *
  * @author Olga Fedorova
  * @version 1.0
@@ -43,12 +44,12 @@ public class MVCControllerForSecurity {
     @RequestMapping(value = "/security/logon", method = RequestMethod.GET)
     public String logonUser(HttpSession session, Model model){
         String view = "";
-        User user = MVCControllersCommon.getUserFromSession(session);
+        User user = MVCControllersCommonFunctions.getUserFromSession(session);
         if (user == null) {
             model.addAttribute("user", new User());
             view = "/security/logon";
         } else {
-            view = MVCControllersCommon.redirectInfoAboutAuthorization();
+            view = MVCControllersCommonFunctions.redirectInfoAboutAuthorization();
         }
         return view;
     }
@@ -67,11 +68,11 @@ public class MVCControllerForSecurity {
             if (userCheck == null) {
                 view = "/security/logonError";
             } else {
-                MVCControllersCommon.setUserInSession(session, userCheck);
+                MVCControllersCommonFunctions.setUserInSession(session, userCheck);
                 view = "redirect:/security/success-logon";
             }
         } catch (DAOtoUsersException e) {
-            view = MVCControllersCommon.redirectErrorPage();
+            view = MVCControllersCommonFunctions.redirectErrorPage();
         }
         return view;
     }
@@ -84,7 +85,7 @@ public class MVCControllerForSecurity {
      */
     @RequestMapping(value = "/info-about-authorization")
     public String infoAboutAuthorization(HttpSession session, Model model){
-        User user = MVCControllersCommon.getUserFromSession(session);
+        User user = MVCControllersCommonFunctions.getUserFromSession(session);
         model.addAttribute("username", user == null ? "не авторизован" : user.getName());
         return "/security/info-about-authorization";
     }
@@ -97,7 +98,7 @@ public class MVCControllerForSecurity {
      */
     @RequestMapping(value = "/security/success-logon")
     public String logonSuccess(HttpSession session, Model model){
-        User user = MVCControllersCommon.getUserFromSession(session);
+        User user = MVCControllersCommonFunctions.getUserFromSession(session);
         model.addAttribute("username", user == null ? "не авторизован" : user.getName());
         return "/security/success-logon";
     }
@@ -109,7 +110,7 @@ public class MVCControllerForSecurity {
      */
     @RequestMapping(value = "/logout")
     public String logout(HttpSession session){
-        MVCControllersCommon.setUserInSession(session, null);
+        MVCControllersCommonFunctions.setUserInSession(session, null);
         return "/security/success-logout";
     }
 }
