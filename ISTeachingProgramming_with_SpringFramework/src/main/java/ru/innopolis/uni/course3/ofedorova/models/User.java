@@ -215,6 +215,7 @@ public class User extends Base {
 
     /**
      * Метод устанавливает новое значение поля "salt".
+     *
      * @param salt новое значение поля "salt".
      */
     public void setSalt(String salt) {

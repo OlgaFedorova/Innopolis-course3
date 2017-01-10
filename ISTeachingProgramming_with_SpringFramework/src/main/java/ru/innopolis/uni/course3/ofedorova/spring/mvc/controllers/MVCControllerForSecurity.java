@@ -3,9 +3,8 @@ package ru.innopolis.uni.course3.ofedorova.spring.mvc.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
 import ru.innopolis.uni.course3.ofedorova.constants.MVCControllersCommonFunctions;
 import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoUsersException;
 import ru.innopolis.uni.course3.ofedorova.models.User;
@@ -21,6 +20,7 @@ import javax.servlet.http.HttpSession;
  * @since 09.01.2017
  */
 @Controller
+@SessionAttributes("userSession")
 public class MVCControllerForSecurity {
     /**
      * Объект-сервис для работы с данными пользователя.
@@ -29,6 +29,7 @@ public class MVCControllerForSecurity {
 
     /**
      * Создает новый объект.
+     *
      * @param mainService значение поля "mainService".
      */
     @Autowired
@@ -38,15 +39,14 @@ public class MVCControllerForSecurity {
 
     /**
      * Метод отображает страницу для авторизации пользователя.
-     * @param session http-сессия.
+     *
      * @param model объект модели, связанный с формой.
      * @return view для отображения.
      */
     @RequestMapping(value = "/security/logon", method = RequestMethod.GET)
-    public String logonUser(HttpSession session, Model model){
+    public String logonUser(Model model) {
         String view = "";
-        User user = MVCControllersCommonFunctions.getUserFromSession(session);
-        if (user == null) {
+        if (MVCControllersCommonFunctions.getUserFromSession(model) == null) {
             model.addAttribute("user", new User());
             view = "/security/logon";
         } else {
@@ -57,19 +57,19 @@ public class MVCControllerForSecurity {
 
     /**
      * Метод получает данные с формы, необходимые для авторизации пользователя.
-     * @param session http-сессия.
+     *
      * @param user объект пользователя, связанный с формой.
      * @return view для отображения.
      */
     @RequestMapping(value = "/security/logon", method = RequestMethod.POST)
-    public String logonUserFromForm(HttpSession session, User user){
+    public String logonUserFromForm(Model model, User user) {
         String view = "";
         try {
             User userCheck = this.mainService.validateLogin(user.getName(), user.getPassword());
             if (userCheck == null) {
                 view = "/security/logonError";
             } else {
-                MVCControllersCommonFunctions.setUserInSession(session, userCheck);
+                MVCControllersCommonFunctions.setUserInSession(model, userCheck);
                 view = "redirect:/security/success-logon";
             }
         } catch (DAOtoUsersException e) {
@@ -80,38 +80,39 @@ public class MVCControllerForSecurity {
 
     /**
      * Метод отображает информацию об авторизации пользователя.
-     * @param session http-сессия.
+     *
      * @param model объект модели, связанный с формой.
      * @return view для отображения.
      */
     @RequestMapping(value = "/info-about-authorization")
-    public String infoAboutAuthorization(HttpSession session, Model model){
-        User user = MVCControllersCommonFunctions.getUserFromSession(session);
+    public String infoAboutAuthorization(Model model) {
+        User user = MVCControllersCommonFunctions.getUserFromSession(model);
         model.addAttribute("username", user == null ? "не авторизован" : user.getName());
         return "/security/info-about-authorization";
     }
 
     /**
      * Метод возвращает страницу о том, что пользователь успешно авторизован.
-     * @param session http-сессия.
+     *
      * @param model объект модели, связанный с формой.
      * @return view для отображения.
      */
     @RequestMapping(value = "/security/success-logon")
-    public String logonSuccess(HttpSession session, Model model){
-        User user = MVCControllersCommonFunctions.getUserFromSession(session);
+    public String logonSuccess(Model model) {
+        User user = MVCControllersCommonFunctions.getUserFromSession(model);
         model.addAttribute("username", user == null ? "не авторизован" : user.getName());
         return "/security/success-logon";
     }
 
     /**
      * Метод осуществляет выход пользователя из системы.
-     * @param session http-сессия.
+     *
+     * @param sessionStatus статус сессии.
      * @return view для отображения.
      */
     @RequestMapping(value = "/logout")
-    public String logout(HttpSession session){
-        MVCControllersCommonFunctions.setUserInSession(session, null);
+    public String logout(SessionStatus sessionStatus) {
+        sessionStatus.setComplete();
         return "/security/success-logout";
     }
 }

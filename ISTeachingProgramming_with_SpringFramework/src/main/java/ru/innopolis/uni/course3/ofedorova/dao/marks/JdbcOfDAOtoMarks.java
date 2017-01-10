@@ -27,7 +27,7 @@ public class JdbcOfDAOtoMarks extends JdbcDaoSupport implements DAOtoMarks {
     /**
      * Метод добавляет оценку за решение пользователя в БД.
      *
-     * @param mark   оценка за задание.
+     * @param mark оценка за задание.
      */
     @Override
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)

@@ -15,7 +15,7 @@ public interface DAOtoMarks {
     /**
      * Метод добавляет оценку за решение пользователя в БД.
      *
-     * @param mark   оценка за задание.
+     * @param mark оценка за задание.
      */
     void add(Mark mark) throws DAOtoMarksException;
 }

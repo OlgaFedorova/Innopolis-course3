@@ -35,7 +35,7 @@ public interface MainServiceForUsers {
      * @param id идентификатор пользователя.
      * @return Если пользователь найден, будет возвращена ссылка на него, иначе возвращается null.
      */
-     User getById(int id);
+    User getById(int id);
 
     /**
      * Метод добавляет нового пользователя в БД.
@@ -43,7 +43,7 @@ public interface MainServiceForUsers {
      * @param user объект пользователя.
      * @return Если пользователя удалось создать будет возвращена ссылка на него, иначе возвращается null.
      */
-    User addNewUser(User user) ;
+    User addNewUser(User user);
 
     /**
      * Метод возвращает пароль пользователя.
@@ -60,7 +60,7 @@ public interface MainServiceForUsers {
      * @param user объект пользователя.
      * @return Обновленный объект пользователя.
      */
-    User updatePassword(User user) ;
+    User updatePassword(User user);
 
     /**
      * Метод проверяет корректность данных валидации входа.

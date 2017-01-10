@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import ru.innopolis.uni.course3.ofedorova.constants.MVCControllersCommonFunctions;
 import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoUsersException;
 import ru.innopolis.uni.course3.ofedorova.models.User;
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpSession;
  * @since 09.01.2017
  */
 @Controller
+@SessionAttributes("userSession")
 public class MVCControllerForUsers {
     /**
      * Объект-сервис для работы с данными пользователя.
@@ -28,6 +30,7 @@ public class MVCControllerForUsers {
 
     /**
      * Создает новый объект.
+     *
      * @param mainService значение поля "mainService".
      */
     @Autowired
@@ -37,14 +40,14 @@ public class MVCControllerForUsers {
 
     /**
      * Метод возвращает представление для регистрации нового пользователя.
-     * @param session http-сессия.
+     *
      * @param model объект модели, связанный с формой.
      * @return view для отображения.
      */
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
-    public String userCreate(HttpSession session, Model model){
+    public String userCreate(Model model) {
         String view = "";
-        if (MVCControllersCommonFunctions.getUserFromSession(session) == null) {
+        if (MVCControllersCommonFunctions.getUserFromSession(model) == null) {
             model.addAttribute("user", new User());
             view = "registration/registration";
         } else {
@@ -55,16 +58,16 @@ public class MVCControllerForUsers {
 
     /**
      * Метод обрабатывает форму регистрации нового пользователя.
-     * @param session http-сессия.
-     * @param user объект пользователя, связанный с формой.
+     *
+     * @param user  объект пользователя, связанный с формой.
      * @param model объект модели, связанный с формой.
      * @return view для отображения.
      */
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public String userCreateFromForm(HttpSession session, User user, Model model){
+    public String userCreateFromForm(User user, Model model) {
         String view = "";
         try {
-           if (!this.mainService.checkName(user.getName())) {
+            if (!this.mainService.checkName(user.getName())) {
                 view = "registration/registrationErrorNameIncorrect";
             } else if (this.mainService.getByName(user.getName()) != null) {
                 view = "registration/registrationErrorUserDuplicate";
@@ -73,7 +76,7 @@ public class MVCControllerForUsers {
                     view = "registration/registrationErrorPasswordEmpty";
                 } else {
                     if (this.mainService.checkPasswords(user.getPassword(), user.getConfirmPassword())) {
-                        MVCControllersCommonFunctions.setUserInSession(session, this.mainService.addNewUser(user));
+                        MVCControllersCommonFunctions.setUserInSession(model, this.mainService.addNewUser(user));
                         view = "redirect:/registration-success";
                     } else {
                         model.addAttribute("info", "Пароли не совпадают, попробуйте снова.");
@@ -89,42 +92,43 @@ public class MVCControllerForUsers {
 
     /**
      * Метод возвращает представление для информации об успешной регистрации.
-     * @param session http-сессия.
+     *
      * @param model объект модели, связанный с формой.
      * @return view для отображения.
      */
     @RequestMapping(value = "/registration-success")
-    public String registrationSuccess(HttpSession session, Model model){
-        User user = MVCControllersCommonFunctions.getUserFromSession(session);
+    public String registrationSuccess(Model model) {
+        User user = MVCControllersCommonFunctions.getUserFromSession(model);
         model.addAttribute("username", user == null ? "не авторизован" : user.getName());
         return "registration/registration-success";
     }
 
     /**
      * Метод возвращает представление для редактирования профиля пользователя.
-     * @param session http-сессия.
+     *
      * @param model объект модели, связанный с формой.
      * @return view для отображения.
      */
     @RequestMapping(value = "/main/edit-user", method = RequestMethod.GET)
-    public String editUser(HttpSession session, Model model){
-        model.addAttribute("user", MVCControllersCommonFunctions.getUserFromSession(session));
+    public String editUser(Model model) {
+        model.addAttribute("user", MVCControllersCommonFunctions.getUserFromSession(model));
         return "security/edit-user";
     }
 
     /**
      * Метод обрабатывает данные формы для редактирования профиля пользователя.
-     * @param session http-сессия.
-     * @param user объект пользователя, связанный с формой.
+     *
+     * @param model объект модели, связанный с формой.
+     * @param user  объект пользователя, связанный с формой.
      * @return view для отображения.
      */
     @RequestMapping(value = "/main/edit-user", method = RequestMethod.POST)
-    public String editUserFromForm(HttpSession session, User user){
+    public String editUserFromForm(Model model, User user) {
         String view = "";
         try {
-            user.setId(MVCControllersCommonFunctions.getUserFromSession(session).getId());
+            user.setId(MVCControllersCommonFunctions.getUserFromSession(model).getId());
             if (this.mainService.checkDataForEdid(user.getId(), user.getCurrentPassword(), user.getNewPassword(), user.getConfirmNewPassword())) {
-                MVCControllersCommonFunctions.setUserInSession(session, this.mainService.updatePassword(user));
+                MVCControllersCommonFunctions.setUserInSession(model, this.mainService.updatePassword(user));
                 view = "redirect:/main/edit-user-success";
             } else {
                 view = "security/edit-user-error";
@@ -137,24 +141,25 @@ public class MVCControllerForUsers {
 
     /**
      * Метод отображает представление с информацией об успешном редактировании профиля пользователя.
-     * @param session http-сессия.
+     *
      * @param model объект модели, связанный с формой.
      * @return view для отображения.
      */
     @RequestMapping(value = "/main/edit-user-success")
-    public String editUserSuccess(HttpSession session, Model model){
-        User user = MVCControllersCommonFunctions.getUserFromSession(session);
+    public String editUserSuccess(HttpSession session, Model model) {
+        User user = MVCControllersCommonFunctions.getUserFromSession(model);
         model.addAttribute("username", user == null ? "не авторизован" : user.getName());
         return "security/success-edit-user";
     }
 
     /**
      * Метод отображает представление с информацией о рейтингах пользователей.
+     *
      * @param model объект модели, связанный с формой.
      * @return view для отображения.
      */
     @RequestMapping(value = "/main/user-rating")
-    public String userRating(Model model){
+    public String userRating(Model model) {
         String view = "";
         try {
             model.addAttribute("users", this.mainService.valuesRating());

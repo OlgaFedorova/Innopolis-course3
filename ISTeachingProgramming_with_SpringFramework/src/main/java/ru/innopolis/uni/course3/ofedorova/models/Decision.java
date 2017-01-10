@@ -73,6 +73,7 @@ public class Decision extends Base {
 
     /**
      * Метод устанавливает новое значение для поля "idTask".
+     *
      * @param idTask новое значение для поля "idTask".
      */
     public void setIdTask(int idTask) {
@@ -81,6 +82,7 @@ public class Decision extends Base {
 
     /**
      * Метод устанавливает новое значение для поля "idUser".
+     *
      * @param idUser новое значение для поля "idUser".
      */
     public void setIdUser(int idUser) {
@@ -89,6 +91,7 @@ public class Decision extends Base {
 
     /**
      * Метод устанавливает новое значение для поля "decision".
+     *
      * @param decision новое значение для поля "decision".
      */
     public void setDecision(String decision) {

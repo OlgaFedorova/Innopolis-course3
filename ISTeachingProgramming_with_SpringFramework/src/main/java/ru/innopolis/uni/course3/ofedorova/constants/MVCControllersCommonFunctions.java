@@ -1,8 +1,8 @@
 package ru.innopolis.uni.course3.ofedorova.constants;
 
+import org.springframework.ui.Model;
+import org.springframework.validation.support.BindingAwareModelMap;
 import ru.innopolis.uni.course3.ofedorova.models.User;
-
-import javax.servlet.http.HttpSession;
 
 /**
  * Класс содержит общие методы для работы с Spring-контроллерами.
@@ -15,20 +15,21 @@ public class MVCControllersCommonFunctions {
     /**
      * Метод возвращает пользователя, сохраненного в сессии.
      *
-     * @param session текущая сессия.
+     * @param model хранилище для пользователя сессии.
      * @return пользователь сессии.
      */
-    public static User getUserFromSession(HttpSession session) {
-        return (User) session.getAttribute("user");
+    public static User getUserFromSession(Model model) {
+        return (User) ((BindingAwareModelMap) model).get("userSession");
     }
 
     /**
      * Метод сохраняет пользователя в сессию.
      *
-     * @param session текущая сессия.
+     * @param model хранилище для пользователя сессии.
+     * @param user  пользователь сессии.
      */
-    public static void setUserInSession(HttpSession session, User user) {
-        session.setAttribute("user", user);
+    public static void setUserInSession(Model model, User user) {
+        model.addAttribute("userSession", user);
     }
 
     /**

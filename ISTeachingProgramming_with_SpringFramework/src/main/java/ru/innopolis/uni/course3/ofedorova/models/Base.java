@@ -33,6 +33,7 @@ public class Base {
 
     /**
      * Метод устанавливает новое значение поля "id".
+     *
      * @param id новое значение поля "id".
      */
     public void setId(int id) {

@@ -48,7 +48,7 @@ public class SecurityFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpSession session = req.getSession();
-        User user = (User) session.getAttribute("user");
+        User user = (User) session.getAttribute("userSession");
 
         if (user == null && !this.parametrOfFilter.equals(req.getRequestURI())) {
             RequestDispatcher rd = req.getRequestDispatcher("/security/logon");
