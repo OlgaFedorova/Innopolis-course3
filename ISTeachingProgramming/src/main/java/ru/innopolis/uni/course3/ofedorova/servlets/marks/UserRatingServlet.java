@@ -34,7 +34,7 @@ public class UserRatingServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             req.setAttribute("users", this.controller.valuesRating());
-            req.getRequestDispatcher("/main/handlerdecisions/UserRatingView.jsp").forward(req, resp);
+            req.getRequestDispatcher("/main/marks/UserRatingView.jsp").forward(req, resp);
         } catch (DAOtoUsersException e) {
             resp.sendRedirect(String.format("%s%s", req.getContextPath(), "/error.jsp"));
         }

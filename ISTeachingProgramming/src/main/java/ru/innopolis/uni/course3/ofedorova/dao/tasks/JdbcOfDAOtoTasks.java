@@ -43,7 +43,7 @@ public class JdbcOfDAOtoTasks implements DAOtoTasks {
                      append("FROM tasks AS t ").
                      append("LEFT JOIN decisions AS d ").
                      append("ON t.id = d.id_task AND  d.id_user = ? ").
-                     append("LEFT JOIN handlerdecisions AS m ").
+                     append("LEFT JOIN marks AS m ").
                      append("ON t.id = m.id_task AND  m.id_user = ? ").
                      append("ORDER BY id").toString())) {
             statement.setInt(1, idUser);
@@ -85,7 +85,7 @@ public class JdbcOfDAOtoTasks implements DAOtoTasks {
                      append("FROM tasks AS t ").
                      append("LEFT JOIN decisions AS d ").
                      append("ON t.id = d.id_task AND d.id_user = ? ").
-                     append("LEFT JOIN handlerdecisions AS m ").
+                     append("LEFT JOIN marks AS m ").
                      append("ON t.id = m.id_task AND m.id_user = ? ").
                      append("WHERE t.id = ?").toString())) {
             statement.setInt(1, idUser);
