@@ -8,13 +8,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import ru.innopolis.uni.course3.ofedorova.constants.MVCControllersCommonFunctions;
-import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoDecisionsException;
-import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoMarksException;
 import ru.innopolis.uni.course3.ofedorova.models.Decision;
 import ru.innopolis.uni.course3.ofedorova.models.User;
 import ru.innopolis.uni.course3.ofedorova.services.handlerdecisions.MainServiceForHandlerDecisions;
-
-import javax.servlet.http.HttpSession;
 
 /**
  * Spring-контроллер для обработки решений задач.
@@ -52,17 +48,13 @@ public class MVCControllerForDecisions {
     @RequestMapping(value = "/main/tasks/select", method = RequestMethod.POST)
     public String sendDecision(Model model, Decision decision, @RequestParam("id") Integer id) {
         String view = "";
-        try {
-            User user = MVCControllersCommonFunctions.getUserFromSession(model);
-            if (decision.getDecision() != null && !decision.getDecision().isEmpty()) {
-                decision.setIdUser(user.getId());
-                decision.setIdTask(id);
-                this.mainService.add(decision);
-            }
-            view = String.format("redirect:/main/tasks/select?id=%s", id);
-        } catch (DAOtoDecisionsException | DAOtoMarksException e) {
-            view = MVCControllersCommonFunctions.redirectErrorPage();
+        User user = MVCControllersCommonFunctions.getUserFromSession(model);
+        if (decision.getDecision() != null && !decision.getDecision().isEmpty()) {
+            decision.setIdUser(user.getId());
+            decision.setIdTask(id);
+            this.mainService.add(decision);
         }
+        view = String.format("redirect:/main/tasks/select?id=%s", id);
         return view;
     }
 }

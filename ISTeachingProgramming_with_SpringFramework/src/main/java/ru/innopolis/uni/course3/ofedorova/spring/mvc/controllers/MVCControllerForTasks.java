@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import ru.innopolis.uni.course3.ofedorova.constants.MVCControllersCommonFunctions;
-import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoTasksException;
 import ru.innopolis.uni.course3.ofedorova.models.Decision;
 import ru.innopolis.uni.course3.ofedorova.models.Task;
 import ru.innopolis.uni.course3.ofedorova.models.User;
@@ -48,13 +47,9 @@ public class MVCControllerForTasks {
     @RequestMapping(value = "/main/tasks/view")
     public String viewTasks(Model model) {
         String view = "";
-        try {
-            User user = MVCControllersCommonFunctions.getUserFromSession(model);
-            model.addAttribute("tasks", this.mainService.values(user.getId()));
-            view = "main/tasks/TasksView";
-        } catch (DAOtoTasksException e) {
-            view = MVCControllersCommonFunctions.redirectErrorPage();
-        }
+        User user = MVCControllersCommonFunctions.getUserFromSession(model);
+        model.addAttribute("tasks", this.mainService.values(user.getId()));
+        view = "main/tasks/TasksView";
         return view;
     }
 
@@ -68,22 +63,14 @@ public class MVCControllerForTasks {
     @RequestMapping(value = "/main/tasks/select", method = RequestMethod.GET)
     public String selectTask(Model model, @RequestParam("id") Integer id) {
         String view = "";
-        try {
-            User user = MVCControllersCommonFunctions.getUserFromSession(model);
-            Task task = this.mainService.getById(id, user.getId());
-            if (task == null) {
-                view = MVCControllersCommonFunctions.redirectErrorPage();
-            } else {
-                model.addAttribute("task", task);
-                if (task.getDecision() == null) {
-                    model.addAttribute("decision", new Decision());
-                    view = "main/tasks/SelectTask";
-                } else {
-                    view = "main/tasks/NotEditableTask";
-                }
-            }
-        } catch (DAOtoTasksException e) {
-            view = MVCControllersCommonFunctions.redirectErrorPage();
+        User user = MVCControllersCommonFunctions.getUserFromSession(model);
+        Task task = this.mainService.getById(id, user.getId());
+        model.addAttribute("task", task);
+        if (task.getDecision() == null) {
+            model.addAttribute("decision", new Decision());
+            view = "main/tasks/SelectTask";
+        } else {
+            view = "main/tasks/NotEditableTask";
         }
         return view;
     }

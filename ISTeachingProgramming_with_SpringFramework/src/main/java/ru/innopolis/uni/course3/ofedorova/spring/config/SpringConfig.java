@@ -11,6 +11,8 @@ import org.springframework.jdbc.support.SQLExceptionTranslator;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.TransactionManagementConfigurer;
+import org.springframework.web.servlet.HandlerExceptionResolver;
+import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 import ru.innopolis.uni.course3.ofedorova.services.handlerdecisions.MainServiceForHandlerDecisions;
 import ru.innopolis.uni.course3.ofedorova.services.handlerdecisions.MainServiceForHandlerDecisionsImpl;
 import ru.innopolis.uni.course3.ofedorova.services.tasks.MainServiceForTasks;
@@ -35,6 +37,7 @@ import ru.innopolis.uni.course3.ofedorova.services.users.ServiceForValidateDataO
 import ru.innopolis.uni.course3.ofedorova.services.users.ServiceForValidateDataOfUsersImpl;
 
 import java.sql.SQLException;
+import java.util.Properties;
 
 /**
  * Класс для хранения конфигурации зависимостей Spring.
@@ -241,5 +244,26 @@ public class SpringConfig implements TransactionManagementConfigurer {
     @Override
     public PlatformTransactionManager annotationDrivenTransactionManager() {
         return this.txManager();
+    }
+
+    /**
+     * Объявляет компонент, который перехватывает исключения в любой части приложения.
+     *
+     * @return объект, который перехватывает исключения в любой части приложения.
+     */
+    @Bean
+    public HandlerExceptionResolver handlerExceptionResolver() {
+        SimpleMappingExceptionResolver hExceptionResolver = new MyExceptionResolver();
+
+        String errorPage = "/error";
+
+        Properties exceptionMappings = new Properties();
+        exceptionMappings.put("ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoDecisionsException", errorPage);
+        exceptionMappings.put("ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoMarksException", errorPage);
+        exceptionMappings.put("ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoTasksException", errorPage);
+        exceptionMappings.put("ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoUsersException", errorPage);
+
+        hExceptionResolver.setExceptionMappings(exceptionMappings);
+        return hExceptionResolver;
     }
 }

@@ -33,15 +33,6 @@ public class MVCControllersCommonFunctions {
     }
 
     /**
-     * Метод возвращает строку переадресации на страницу с информацией об ошибке.
-     *
-     * @return
-     */
-    public static String redirectErrorPage() {
-        return "redirect:/error";
-    }
-
-    /**
      * Метод возвращает строку переадресации на страницу с информацией о том, что пользователь уже авторизован.
      *
      * @return

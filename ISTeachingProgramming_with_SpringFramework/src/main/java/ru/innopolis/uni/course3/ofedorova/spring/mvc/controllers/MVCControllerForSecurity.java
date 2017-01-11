@@ -6,11 +6,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import ru.innopolis.uni.course3.ofedorova.constants.MVCControllersCommonFunctions;
-import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoUsersException;
 import ru.innopolis.uni.course3.ofedorova.models.User;
 import ru.innopolis.uni.course3.ofedorova.services.users.MainServiceForUsers;
 
-import javax.servlet.http.HttpSession;
+import java.util.IllegalFormatCodePointException;
 
 /**
  * Spring-контроллер для работы с авторизацией пользователей.
@@ -64,16 +63,12 @@ public class MVCControllerForSecurity {
     @RequestMapping(value = "/security/logon", method = RequestMethod.POST)
     public String logonUserFromForm(Model model, User user) {
         String view = "";
-        try {
-            User userCheck = this.mainService.validateLogin(user.getName(), user.getPassword());
-            if (userCheck == null) {
-                view = "/security/logonError";
-            } else {
-                MVCControllersCommonFunctions.setUserInSession(model, userCheck);
-                view = "redirect:/security/success-logon";
-            }
-        } catch (DAOtoUsersException e) {
-            view = MVCControllersCommonFunctions.redirectErrorPage();
+        User userCheck = this.mainService.validateLogin(user.getName(), user.getPassword());
+        if (userCheck == null) {
+            view = "/security/logonError";
+        } else {
+            MVCControllersCommonFunctions.setUserInSession(model, userCheck);
+            view = "redirect:/security/success-logon";
         }
         return view;
     }

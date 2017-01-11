@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import ru.innopolis.uni.course3.ofedorova.constants.MVCControllersCommonFunctions;
-import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoUsersException;
 import ru.innopolis.uni.course3.ofedorova.models.User;
 import ru.innopolis.uni.course3.ofedorova.services.users.MainServiceForUsers;
 
@@ -66,26 +65,22 @@ public class MVCControllerForUsers {
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public String userCreateFromForm(User user, Model model) {
         String view = "";
-        try {
-            if (!this.mainService.checkName(user.getName())) {
-                view = "registration/registrationErrorNameIncorrect";
-            } else if (this.mainService.getByName(user.getName()) != null) {
-                view = "registration/registrationErrorUserDuplicate";
+        if (!this.mainService.checkName(user.getName())) {
+            view = "registration/registrationErrorNameIncorrect";
+        } else if (this.mainService.getByName(user.getName()) != null) {
+            view = "registration/registrationErrorUserDuplicate";
+        } else {
+            if (this.mainService.passwordEmpty(user.getPassword(), user.getConfirmPassword())) {
+                view = "registration/registrationErrorPasswordEmpty";
             } else {
-                if (this.mainService.passwordEmpty(user.getPassword(), user.getConfirmPassword())) {
-                    view = "registration/registrationErrorPasswordEmpty";
+                if (this.mainService.checkPasswords(user.getPassword(), user.getConfirmPassword())) {
+                    MVCControllersCommonFunctions.setUserInSession(model, this.mainService.addNewUser(user));
+                    view = "redirect:/registration-success";
                 } else {
-                    if (this.mainService.checkPasswords(user.getPassword(), user.getConfirmPassword())) {
-                        MVCControllersCommonFunctions.setUserInSession(model, this.mainService.addNewUser(user));
-                        view = "redirect:/registration-success";
-                    } else {
-                        model.addAttribute("info", "Пароли не совпадают, попробуйте снова.");
-                        view = "registration/registration";
-                    }
+                    model.addAttribute("info", "Пароли не совпадают, попробуйте снова.");
+                    view = "registration/registration";
                 }
             }
-        } catch (DAOtoUsersException e) {
-            view = MVCControllersCommonFunctions.redirectErrorPage();
         }
         return view;
     }
@@ -125,16 +120,12 @@ public class MVCControllerForUsers {
     @RequestMapping(value = "/main/edit-user", method = RequestMethod.POST)
     public String editUserFromForm(Model model, User user) {
         String view = "";
-        try {
-            user.setId(MVCControllersCommonFunctions.getUserFromSession(model).getId());
-            if (this.mainService.checkDataForEdid(user.getId(), user.getCurrentPassword(), user.getNewPassword(), user.getConfirmNewPassword())) {
-                MVCControllersCommonFunctions.setUserInSession(model, this.mainService.updatePassword(user));
-                view = "redirect:/main/edit-user-success";
-            } else {
-                view = "security/edit-user-error";
-            }
-        } catch (DAOtoUsersException e) {
-            view = MVCControllersCommonFunctions.redirectErrorPage();
+        user.setId(MVCControllersCommonFunctions.getUserFromSession(model).getId());
+        if (this.mainService.checkDataForEdid(user.getId(), user.getCurrentPassword(), user.getNewPassword(), user.getConfirmNewPassword())) {
+            MVCControllersCommonFunctions.setUserInSession(model, this.mainService.updatePassword(user));
+            view = "redirect:/main/edit-user-success";
+        } else {
+            view = "security/edit-user-error";
         }
         return view;
     }
@@ -161,12 +152,8 @@ public class MVCControllerForUsers {
     @RequestMapping(value = "/main/user-rating")
     public String userRating(Model model) {
         String view = "";
-        try {
-            model.addAttribute("users", this.mainService.valuesRating());
-            view = "main/marks/UserRatingView";
-        } catch (DAOtoUsersException e) {
-            view = MVCControllersCommonFunctions.redirectErrorPage();
-        }
+        model.addAttribute("users", this.mainService.valuesRating());
+        view = "main/marks/UserRatingView";
         return view;
     }
 }
