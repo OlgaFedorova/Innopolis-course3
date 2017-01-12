@@ -1,6 +1,7 @@
 package ru.innopolis.uni.course3.ofedorova.mvc.spring.controllers;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -12,5 +13,10 @@ public class MVCControllerHome {
     @RequestMapping({"/index"})
     public String showHomePage() {
         return "index";
+    }
+
+    @RequestMapping(value = "/common")
+    public String common(){
+        return "common";
     }
 }

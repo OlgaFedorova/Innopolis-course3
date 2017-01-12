@@ -7,11 +7,12 @@
        http://www.springframework.org/schema/security
        http://www.springframework.org/schema/security/spring-security.xsd">
 
-    <http auto-config="true" use-expressions="true">
-        <intercept-url pattern="/student/view" access="hasRole('ROLE_USER')" />
-        <intercept-url pattern="/lecture/view" access="hasRole('ROLE_USER')" />
-        <intercept-url pattern="/journal/view" access="hasRole('ROLE_USER')" />
-        <intercept-url pattern="/downloadImage" access="hasRole('ROLE_USER')" />
+    <http auto-config="false" use-expressions="true">
+        <intercept-url pattern="/student/view" access="isAuthenticated()" requires-channel="https" />
+        <intercept-url pattern="/lecture/view" access="isAuthenticated()" requires-channel="https" />
+        <intercept-url pattern="/journal/view" access="isAuthenticated()" requires-channel="https" />
+        <intercept-url pattern="/downloadImage" access="isAuthenticated()"  requires-channel="https"/>
+        <intercept-url pattern="/logout" access="isAuthenticated()"/>
         <intercept-url pattern="/journal/create" access="hasRole('ROLE_ADMIN')" />
         <intercept-url pattern="/journal/delete*" access="hasRole('ROLE_ADMIN')" />
         <intercept-url pattern="/lecture/create" access="hasRole('ROLE_ADMIN')" />
@@ -20,13 +21,21 @@
         <intercept-url pattern="/student/create" access="hasRole('ROLE_ADMIN')" />
         <intercept-url pattern="/student/edit*" access="hasRole('ROLE_ADMIN')" />
         <intercept-url pattern="/student/delete*" access="hasRole('ROLE_ADMIN')" />
-        <anonymous username="guest" granted-authority="ROLE_ANONYMOUS"/>
+        <intercept-url pattern="/**" access="isAnonymous() or isAuthenticated()" />
+
+        <form-login login-page="/logon"
+                    default-target-url="/index"
+                    login-processing-url="/login"
+                    authentication-failure-url="/logonError"/>
+        <logout logout-url="/logout"/>
+
+        <csrf disabled="true"/>
     </http>
 
     <authentication-manager>
         <authentication-provider>
             <user-service>
-                <user name="admin" password="pass" authorities="ROLE_ADMIN,ROLE_USER"/>
+                <user name="admin" password="pass" authorities="ROLE_ADMIN"/>
                 <user name="user1" password="1111" authorities="ROLE_USER"/>
                 <user name="user2" password="2222" disabled="true" authorities="ROLE_USER"/>
             </user-service>
