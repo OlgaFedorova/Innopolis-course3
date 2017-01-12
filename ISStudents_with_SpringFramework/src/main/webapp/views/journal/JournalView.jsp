@@ -30,6 +30,6 @@
 <br>
 <br>
 <br>
-<p><a href="/views/index.jsp">НА ГЛАВНУЮ</a></p>
+<p><a href="/index">НА ГЛАВНУЮ</a></p>
 </body>
 </html>
