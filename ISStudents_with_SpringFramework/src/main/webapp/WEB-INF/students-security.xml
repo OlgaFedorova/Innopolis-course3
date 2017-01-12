@@ -8,10 +8,10 @@
        http://www.springframework.org/schema/security/spring-security.xsd">
 
     <http auto-config="false" use-expressions="true">
-        <intercept-url pattern="/student/view" access="isAuthenticated()" requires-channel="https" />
-        <intercept-url pattern="/lecture/view" access="isAuthenticated()" requires-channel="https" />
-        <intercept-url pattern="/journal/view" access="isAuthenticated()" requires-channel="https" />
-        <intercept-url pattern="/downloadImage" access="isAuthenticated()"  requires-channel="https"/>
+        <intercept-url pattern="/student/view" access="isAuthenticated()"/>
+        <intercept-url pattern="/lecture/view" access="isAuthenticated()"/>
+        <intercept-url pattern="/journal/view" access="isAuthenticated()"/>
+        <intercept-url pattern="/downloadImage" access="isAuthenticated()"/>
         <intercept-url pattern="/logout" access="isAuthenticated()"/>
         <intercept-url pattern="/journal/create" access="hasRole('ROLE_ADMIN')" />
         <intercept-url pattern="/journal/delete*" access="hasRole('ROLE_ADMIN')" />
