@@ -1,7 +1,6 @@
 package ru.innopolis.uni.course3.ofedorova.constants;
 
-import org.springframework.ui.Model;
-import org.springframework.validation.support.BindingAwareModelMap;
+import org.springframework.security.core.context.SecurityContextHolder;
 import ru.innopolis.uni.course3.ofedorova.models.User;
 
 /**
@@ -13,23 +12,16 @@ import ru.innopolis.uni.course3.ofedorova.models.User;
  */
 public class MVCControllersCommonFunctions {
     /**
-     * Метод возвращает пользователя, сохраненного в сессии.
+     * Метод возвращает авторизованного пользователя.
      *
-     * @param model хранилище для пользователя сессии.
-     * @return пользователь сессии.
+     * @return авторизованный пользователь.
      */
-    public static User getUserFromSession(Model model) {
-        return (User) ((BindingAwareModelMap) model).get("userSession");
-    }
-
-    /**
-     * Метод сохраняет пользователя в сессию.
-     *
-     * @param model хранилище для пользователя сессии.
-     * @param user  пользователь сессии.
-     */
-    public static void setUserInSession(Model model, User user) {
-        model.addAttribute("userSession", user);
+    public static User getUserFromSession() {
+        User user = null;
+        if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() != null && SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof User) {
+            user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        }
+        return user;
     }
 
     /**

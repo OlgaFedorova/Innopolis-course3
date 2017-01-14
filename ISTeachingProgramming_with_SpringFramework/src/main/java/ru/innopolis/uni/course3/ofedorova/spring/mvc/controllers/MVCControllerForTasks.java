@@ -6,7 +6,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import ru.innopolis.uni.course3.ofedorova.constants.MVCControllersCommonFunctions;
 import ru.innopolis.uni.course3.ofedorova.models.Decision;
 import ru.innopolis.uni.course3.ofedorova.models.Task;
@@ -21,7 +20,6 @@ import ru.innopolis.uni.course3.ofedorova.services.tasks.MainServiceForTasks;
  * @since 09.01.2017
  */
 @Controller
-@SessionAttributes("userSession")
 public class MVCControllerForTasks {
     /**
      * Объект-сервис для работы с данными заданий.
@@ -47,7 +45,7 @@ public class MVCControllerForTasks {
     @RequestMapping(value = "/main/tasks/view")
     public String viewTasks(Model model) {
         String view = "";
-        User user = MVCControllersCommonFunctions.getUserFromSession(model);
+        User user = MVCControllersCommonFunctions.getUserFromSession();
         model.addAttribute("tasks", this.mainService.values(user.getId()));
         view = "main/tasks/TasksView";
         return view;
@@ -63,7 +61,7 @@ public class MVCControllerForTasks {
     @RequestMapping(value = "/main/tasks/select", method = RequestMethod.GET)
     public String selectTask(Model model, @RequestParam("id") Integer id) {
         String view = "";
-        User user = MVCControllersCommonFunctions.getUserFromSession(model);
+        User user = MVCControllersCommonFunctions.getUserFromSession();
         Task task = this.mainService.getById(id, user.getId());
         model.addAttribute("task", task);
         if (task.getDecision() == null) {

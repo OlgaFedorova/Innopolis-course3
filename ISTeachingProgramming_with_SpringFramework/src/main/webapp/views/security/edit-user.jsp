@@ -11,7 +11,7 @@
         <tr>
             <td align="right" >Имя пользователя: </td>
             <td>
-                ${user.getName()}
+                ${user.getUsername()}
             </td>
         </tr>
         <tr>

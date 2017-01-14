@@ -92,13 +92,13 @@ public class JdbcOfDAOtoUsers extends JdbcDaoSupport implements DAOtoUsers {
             public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
                 final PreparedStatement ps = con.prepareStatement(SQLQueries.ADD_NEW_USER,
                         Statement.RETURN_GENERATED_KEYS);
-                ps.setString(1, user.getName());
+                ps.setString(1, user.getUsername());
                 ps.setString(2, user.getPassword());
                 ps.setString(3, user.getSalt());
                 return ps;
             }
         }, keyHolder);
-        return new User((Integer) keyHolder.getKeyList().get(0).get("id"), user.getName(), user.getPassword(), user.getSalt());
+        return new User((Integer) keyHolder.getKeyList().get(0).get("id"), user.getUsername(), user.getPassword(), user.getSalt());
     }
 
     /**

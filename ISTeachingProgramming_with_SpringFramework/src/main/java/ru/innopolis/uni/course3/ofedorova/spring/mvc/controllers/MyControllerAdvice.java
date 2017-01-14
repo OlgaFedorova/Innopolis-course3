@@ -16,10 +16,11 @@ public class MyControllerAdvice {
 
     /**
      * Метод возвращает представление для отображения информации об ошибки NullPointerException.
+     *
      * @return представление для отображения информации об ошибки.
      */
     @ExceptionHandler(NullPointerException.class)
-    public ModelAndView catchNullPointerException(Exception e){
+    public ModelAndView catchNullPointerException(Exception e) {
         ModelAndView mv = new ModelAndView();
         mv.setViewName("/error");
         mv.addObject("exception", e);

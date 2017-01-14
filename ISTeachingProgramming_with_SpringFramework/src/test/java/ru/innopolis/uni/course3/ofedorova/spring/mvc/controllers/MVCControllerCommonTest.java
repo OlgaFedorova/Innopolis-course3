@@ -23,7 +23,7 @@ public class MVCControllerCommonTest {
         final String expected = "index";
         final String actual = mvcControllerCommon.showHomePage((Model) model);
         assertTrue(expected.equals(actual)
-                && ((User)model.asMap().get("usersession")).getName().equals(model.asMap().get("username")));
+                && ((User)model.asMap().get("usersession")).getUsername().equals(model.asMap().get("username")));
                 */
     }
 

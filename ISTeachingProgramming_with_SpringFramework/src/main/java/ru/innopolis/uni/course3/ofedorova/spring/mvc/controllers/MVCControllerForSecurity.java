@@ -4,12 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.support.SessionStatus;
 import ru.innopolis.uni.course3.ofedorova.constants.MVCControllersCommonFunctions;
 import ru.innopolis.uni.course3.ofedorova.models.User;
 import ru.innopolis.uni.course3.ofedorova.services.users.MainServiceForUsers;
-
-import java.util.IllegalFormatCodePointException;
 
 /**
  * Spring-контроллер для работы с авторизацией пользователей.
@@ -19,7 +16,6 @@ import java.util.IllegalFormatCodePointException;
  * @since 09.01.2017
  */
 @Controller
-@SessionAttributes("userSession")
 public class MVCControllerForSecurity {
     /**
      * Объект-сервис для работы с данными пользователя.
@@ -39,36 +35,15 @@ public class MVCControllerForSecurity {
     /**
      * Метод отображает страницу для авторизации пользователя.
      *
-     * @param model объект модели, связанный с формой.
      * @return view для отображения.
      */
-    @RequestMapping(value = "/security/logon", method = RequestMethod.GET)
-    public String logonUser(Model model) {
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String logonUser() {
         String view = "";
-        if (MVCControllersCommonFunctions.getUserFromSession(model) == null) {
-            model.addAttribute("user", new User());
+        if (MVCControllersCommonFunctions.getUserFromSession() == null) {
             view = "/security/logon";
         } else {
             view = MVCControllersCommonFunctions.redirectInfoAboutAuthorization();
-        }
-        return view;
-    }
-
-    /**
-     * Метод получает данные с формы, необходимые для авторизации пользователя.
-     *
-     * @param user объект пользователя, связанный с формой.
-     * @return view для отображения.
-     */
-    @RequestMapping(value = "/security/logon", method = RequestMethod.POST)
-    public String logonUserFromForm(Model model, User user) {
-        String view = "";
-        User userCheck = this.mainService.validateLogin(user.getName(), user.getPassword());
-        if (userCheck == null) {
-            view = "/security/logonError";
-        } else {
-            MVCControllersCommonFunctions.setUserInSession(model, userCheck);
-            view = "redirect:/security/success-logon";
         }
         return view;
     }
@@ -81,33 +56,28 @@ public class MVCControllerForSecurity {
      */
     @RequestMapping(value = "/info-about-authorization")
     public String infoAboutAuthorization(Model model) {
-        User user = MVCControllersCommonFunctions.getUserFromSession(model);
-        model.addAttribute("username", user == null ? "не авторизован" : user.getName());
+        User user = MVCControllersCommonFunctions.getUserFromSession();
+        model.addAttribute("username", user == null ? "не авторизован" : user.getUsername());
         return "/security/info-about-authorization";
-    }
-
-    /**
-     * Метод возвращает страницу о том, что пользователь успешно авторизован.
-     *
-     * @param model объект модели, связанный с формой.
-     * @return view для отображения.
-     */
-    @RequestMapping(value = "/security/success-logon")
-    public String logonSuccess(Model model) {
-        User user = MVCControllersCommonFunctions.getUserFromSession(model);
-        model.addAttribute("username", user == null ? "не авторизован" : user.getName());
-        return "/security/success-logon";
     }
 
     /**
      * Метод осуществляет выход пользователя из системы.
      *
-     * @param sessionStatus статус сессии.
      * @return view для отображения.
      */
-    @RequestMapping(value = "/logout")
-    public String logout(SessionStatus sessionStatus) {
-        sessionStatus.setComplete();
+    @RequestMapping(value = "/success-logout")
+    public String logout() {
         return "/security/success-logout";
+    }
+
+    /**
+     * Метод информирует об ошибке входа.
+     *
+     * @return view для отображения.
+     */
+    @RequestMapping(value = "/logonError")
+    public String logonError() {
+        return "/security/logonError";
     }
 }

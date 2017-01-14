@@ -30,7 +30,7 @@
         <tr>
             <td align="right" >Студент : </td>
             <td>
-                <select name="idStudent">
+                <select name="student">
                     <option value="${selected.getId()}" selected>${selected.toString()}</option>
                     <c:forEach items="${students}" var="student">
                         <c:if test="${student != selected}">

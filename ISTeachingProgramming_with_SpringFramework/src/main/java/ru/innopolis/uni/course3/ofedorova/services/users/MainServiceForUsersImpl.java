@@ -76,9 +76,7 @@ public class MainServiceForUsersImpl implements MainServiceForUsers {
     @Override
     public User addNewUser(User user) throws DAOtoUsersException {
         Map<String, String> hashAndSalt = this.serviceOfUsers.hashPasswordAndReturnWithSalt(user.getPassword());
-        user.setPassword(hashAndSalt.get("password"));
-        user.setSalt(hashAndSalt.get("salt"));
-        return this.daOtoUsers.addNewUser(user);
+        return this.daOtoUsers.addNewUser(new User(user.getUsername(), hashAndSalt.get("password"), hashAndSalt.get("salt")));
     }
 
     /**
@@ -163,5 +161,4 @@ public class MainServiceForUsersImpl implements MainServiceForUsers {
     public boolean checkDataForEdid(int id, String inputCurrentPassword, String newPassword, String confirmPassword) throws DAOtoUsersException {
         return this.serviceOfUsers.checkDataForEdid(inputCurrentPassword, this.getPasswordAndSalt(id), newPassword, confirmPassword);
     }
-
 }

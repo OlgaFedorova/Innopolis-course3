@@ -1,5 +1,11 @@
 package ru.innopolis.uni.course3.ofedorova.models;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.List;
+
 /**
  * Класс реализует модель "Пользователь системы".
  *
@@ -7,11 +13,11 @@ package ru.innopolis.uni.course3.ofedorova.models;
  * @version 1.0
  * @since 25.12.2016
  */
-public class User extends Base {
+public class User extends Base implements UserDetails {
     /**
      * Имя пользователя.
      */
-    private String name;
+    private String username;
     /**
      * Пароль пользователя.
      */
@@ -40,6 +46,26 @@ public class User extends Base {
      * Общий балл.
      */
     private int mark;
+    /**
+     * Поле для Spring-security, список доступных ролей.
+     */
+    private List<Role> authorities;
+    /**
+     * Поле для Spring-security.
+     */
+    private boolean accountNonExpired = true;
+    /**
+     * Поле для Spring-security.
+     */
+    private boolean accountNonLocked = true;
+    /**
+     * Поле для Spring-security.
+     */
+    private boolean credentialsNonExpired = true;
+    /**
+     * Поле для Spring-security.
+     */
+    private boolean enabled = true;
 
     /**
      * Создает новый {@code User}.
@@ -52,13 +78,13 @@ public class User extends Base {
      * Создает новый {@code User}.
      *
      * @param id       значение для поля "id".
-     * @param name     значение для поля "name".
+     * @param userName значение для поля "username".
      * @param password значение для поля "password".
      * @param salt     значение для поля "salt".
      */
-    public User(int id, String name, String password, String salt) {
+    public User(int id, String userName, String password, String salt) {
         super(id);
-        this.name = name;
+        this.username = userName;
         this.password = password;
         this.salt = salt;
     }
@@ -66,34 +92,34 @@ public class User extends Base {
     /**
      * Создает новый {@code User}.
      *
-     * @param name     значение для поля "name".
+     * @param userName значение для поля "username".
      * @param password значение для поля "password".
      * @param salt     значение для поля "salt".
      */
-    public User(String name, String password, String salt) {
-        this(-1, name, password, salt);
+    public User(String userName, String password, String salt) {
+        this(-1, userName, password, salt);
     }
 
     /**
      * Создает новый {@code User}.
      *
-     * @param id   значение для поля "id".
-     * @param name значение для поля "name".
-     * @param mark значение поля "mark".
+     * @param id       значение для поля "id".
+     * @param userName значение для поля "username".
+     * @param mark     значение поля "mark".
      */
-    public User(int id, String name, int mark) {
+    public User(int id, String userName, int mark) {
         super(id);
-        this.name = name;
+        this.username = userName;
         this.mark = mark;
     }
 
     /**
-     * Метод возвращает значение поля "name".
+     * Метод возвращает значение поля "username".
      *
-     * @return значение поля "name".
+     * @return значение поля "username".
      */
-    public String getName() {
-        return this.name;
+    public String getUsername() {
+        return this.username;
     }
 
     /**
@@ -115,12 +141,12 @@ public class User extends Base {
     }
 
     /**
-     * Метод устанавливает новое значение для поля "name".
+     * Метод устанавливает новое значение для поля "username".
      *
-     * @param name новое значение для поля "name".
+     * @param username новое значение для поля "username".
      */
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     /**
@@ -226,7 +252,7 @@ public class User extends Base {
      * Compares this object to the specified object.  The result is
      * {@code true} if and only if the argument is not
      * {@code null} and is an {@code Item} object that
-     * contains the same values of field "id", "mark", "name", "password", "salt" as this object.
+     * contains the same values of field "id", "mark", "username", "password", "salt" as this object.
      *
      * @param o the object to compare with.
      * @return {@code true} if the objects are the same;
@@ -241,7 +267,7 @@ public class User extends Base {
 
         if (this.getId() != user.getId()) return false;
         if (mark != user.mark) return false;
-        if (name != null ? !name.equals(user.name) : user.name != null) return false;
+        if (username != null ? !username.equals(user.username) : user.username != null) return false;
         if (password != null ? !password.equals(user.password) : user.password != null) return false;
         return salt != null ? salt.equals(user.salt) : user.salt == null;
 
@@ -254,11 +280,106 @@ public class User extends Base {
      */
     @Override
     public int hashCode() {
-        int result = name != null ? name.hashCode() : 0;
+        int result = username != null ? username.hashCode() : 0;
         result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (salt != null ? salt.hashCode() : 0);
         result = 31 * result + mark;
         result = 31 * result + this.getId();
         return result;
+    }
+
+    /**
+     * Метод возвращает значение поля "authorities".
+     *
+     * @return значение поля "authorities".
+     */
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.authorities;
+    }
+
+    /**
+     * Метод возвращает значение поля "accountNonExpired".
+     *
+     * @return значение поля "accountNonExpired".
+     */
+    @Override
+    public boolean isAccountNonExpired() {
+        return this.accountNonExpired;
+    }
+
+    /**
+     * Метод возвращает значение поля "accountNonExpired".
+     *
+     * @return значение поля "accountNonExpired".
+     */
+    @Override
+    public boolean isAccountNonLocked() {
+        return this.accountNonExpired;
+    }
+
+    /**
+     * Метод возвращает значение поля "credentialsNonExpired".
+     *
+     * @return значение поля "credentialsNonExpired".
+     */
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return this.credentialsNonExpired;
+    }
+
+    /**
+     * Метод возвращает значение поля "enabled".
+     *
+     * @return значение поля "enabled".
+     */
+    @Override
+    public boolean isEnabled() {
+        return this.enabled;
+    }
+
+    /**
+     * Метод устанавливает новое значение поля "authorities".
+     *
+     * @param authorities новое значение поля "authorities".
+     */
+    public void setAuthorities(List<Role> authorities) {
+        this.authorities = authorities;
+    }
+
+    /**
+     * Метод устанавливает новое значение поля "accountNonExpired".
+     *
+     * @param accountNonExpired новое значение поля "accountNonExpired".
+     */
+    public void setAccountNonExpired(boolean accountNonExpired) {
+        this.accountNonExpired = accountNonExpired;
+    }
+
+    /**
+     * Метод устанавливает новое значение поля "accountNonLocked".
+     *
+     * @param accountNonLocked новое значение поля "accountNonLocked".
+     */
+    public void setAccountNonLocked(boolean accountNonLocked) {
+        this.accountNonLocked = accountNonLocked;
+    }
+
+    /**
+     * Метод устанавливает новое значение поля "credentialsNonExpired".
+     *
+     * @param credentialsNonExpired новое значение поля "credentialsNonExpired".
+     */
+    public void setCredentialsNonExpired(boolean credentialsNonExpired) {
+        this.credentialsNonExpired = credentialsNonExpired;
+    }
+
+    /**
+     * Метод устанавливает новое значение поля "enabled".
+     *
+     * @param enabled новое значение поля "enabled".
+     */
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }

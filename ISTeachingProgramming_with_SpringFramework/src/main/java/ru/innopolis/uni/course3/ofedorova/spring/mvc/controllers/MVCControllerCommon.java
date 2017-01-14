@@ -3,11 +3,8 @@ package ru.innopolis.uni.course3.ofedorova.spring.mvc.controllers;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import ru.innopolis.uni.course3.ofedorova.constants.MVCControllersCommonFunctions;
 import ru.innopolis.uni.course3.ofedorova.models.User;
-
-import javax.servlet.http.HttpSession;
 
 /**
  * Spring-контроллер для отображения основных страниц приложения.
@@ -17,7 +14,6 @@ import javax.servlet.http.HttpSession;
  * @since 09.01.2017
  */
 @Controller
-@SessionAttributes("userSession")
 public class MVCControllerCommon {
 
     /**
@@ -28,8 +24,8 @@ public class MVCControllerCommon {
      */
     @RequestMapping("/index")
     public String showHomePage(Model model) {
-        User user = MVCControllersCommonFunctions.getUserFromSession(model);
-        model.addAttribute("username", user == null ? "не авторизован" : user.getName());
+        User user = MVCControllersCommonFunctions.getUserFromSession();
+        model.addAttribute("username", user == null ? "не авторизован" : user.getUsername());
         return "index";
     }
 
@@ -41,5 +37,15 @@ public class MVCControllerCommon {
     @RequestMapping("/error")
     public String showPageError() {
         return "/error";
+    }
+
+    /**
+     * Метод возвращает представление для страницы с ошибкой 403 "Отсутствие доступа".
+     *
+     * @return view для отображения.
+     */
+    @RequestMapping("/notaccess")
+    public String page403() {
+        return "notaccess";
     }
 }

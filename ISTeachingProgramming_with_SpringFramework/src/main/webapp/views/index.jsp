@@ -8,7 +8,7 @@
 <body>
 <p>Текущий пользователь: ${username}</p>
 <p><a href="${pageContext.servletContext.contextPath}/registration">Регистрация</a></p>
-<p><a href="${pageContext.servletContext.contextPath}/security/logon">Вход</a></p>
+<p><a href="${pageContext.servletContext.contextPath}/login">Вход</a></p>
 <p><a href="${pageContext.servletContext.contextPath}/logout">Выход</a></p>
 <p><a href="${pageContext.servletContext.contextPath}/main/edit-user">Редактирование профиля</a></p>
 <p><a href="${pageContext.servletContext.contextPath}/main/tasks/view">Задания</a></p>

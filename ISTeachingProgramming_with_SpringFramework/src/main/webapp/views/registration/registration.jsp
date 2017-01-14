@@ -11,7 +11,7 @@
         <tr>
             <td align="right" >Имя пользователя: </td>
             <td>
-                <sf:input path="name" type="text" size="25" id="name" value="${username}"/>
+                <sf:input path="username" type="text" size="25" id="username" value="${username}"/>
             </td>
         </tr>
         <tr>

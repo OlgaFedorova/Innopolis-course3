@@ -1,31 +1,26 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
-
 <html>
-<head>
-    <title>Вход</title>
-</head>
-
-<h2>Введите учетные данные:</h2>
-<br><br>
-<sf:form method="POST" modelAttribute="user">
+<head></head>
+<body>
+<h1>Login in system "Teaching of programming":</h1>
+<form name='f' action="/login" method='POST'>
     <table>
         <tr>
-            <td>Введите имя пользователя:</td>
-            <td><sf:input path="name" type="text" id="username" size="25"/></td>
+            <td>User:</td>
+            <td><input type='text' name='username' value=''></td>
         </tr>
         <tr>
-            <td>Введите пароль:</td>
-            <td><sf:input path="password" type="password" size="15" id="user_password"/></td>
+            <td>Password:</td>
+            <td><input type='password' name='password' /></td>
         </tr>
         <tr>
-            <td><input type="submit" align="center" value="Вход"/></td>
-        </tr>
-        <tr>
-            <td><input type="reset" align="center" value="Очистить"/></td>
+            <td>
+                <input name="submit" type="submit" value="login"/>
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+            </td>
         </tr>
     </table>
-</sf:form>
-<p><a href="/index">НА ГЛАВНУЮ</a></p>
+</form>
+<p><a href="${pageContext.servletContext.contextPath}/index">НА ГЛАВНУЮ</a></p>
+</body>
 </html>

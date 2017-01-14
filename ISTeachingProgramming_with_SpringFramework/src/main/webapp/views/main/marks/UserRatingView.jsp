@@ -13,7 +13,7 @@
     </tr>
     <c:forEach items="${users}" var="user" varStatus="status">
         <tr valign="top">
-            <td>${user.getName()}</td>
+            <td>${user.getUsername()}</td>
             <td>${user.getMark()}</td>
         </tr>
     </c:forEach>

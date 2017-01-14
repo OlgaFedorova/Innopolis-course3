@@ -19,4 +19,8 @@ dependencies {
     compile group: 'org.aspectj', name: 'aspectjrt', version: '1.8.9'
     compile group: 'org.springframework', name: 'spring-web', version: '4.3.5.RELEASE'
     compile group: 'org.springframework', name: 'spring-webmvc', version: '4.3.5.RELEASE'
+    compile group: 'org.springframework.security', name: 'spring-security-core', version: '4.1.3.RELEASE'
+    compile group: 'org.springframework.security', name: 'spring-security-web', version: '4.1.3.RELEASE'
+    compile group: 'org.springframework.security', name: 'spring-security-config', version: '4.1.3.RELEASE'
+    compile group: 'org.springframework.security', name: 'spring-security-taglibs', version: '4.1.3.RELEASE'
 }
