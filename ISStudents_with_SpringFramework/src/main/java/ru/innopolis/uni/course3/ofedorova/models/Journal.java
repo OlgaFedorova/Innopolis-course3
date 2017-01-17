@@ -1,5 +1,7 @@
 package ru.innopolis.uni.course3.ofedorova.models;
 
+import javax.persistence.*;
+
 /**
  * Created by Olga on 22.12.2016.
  */

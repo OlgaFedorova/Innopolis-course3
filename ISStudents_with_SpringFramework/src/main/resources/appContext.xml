@@ -13,6 +13,8 @@
     <bean id = "journal_controller" class="ru.innopolis.uni.course3.ofedorova.controllers.JournalController" scope="singleton">
         <constructor-arg ref="dao_journal"/>
     </bean>
+    <bean id="dao_journal" class="ru.innopolis.uni.course3.ofedorova.dao.journal.HibernateDAOForJournal" scope="singleton"/>
+    <!--
     <bean id="dao_journal" class="ru.innopolis.uni.course3.ofedorova.dao.journal.JdbcDAOForJournal" scope="singleton">
         <property name="jdbcTemplate" ref="jdbcTemplate"/>
         <property name="basicDAOForLecture" ref="basic_dao_for_lecture"/>
@@ -23,6 +25,7 @@
             </bean>
         </property>
     </bean>
+    -->
 
     <bean id = "lecture_controller" class="ru.innopolis.uni.course3.ofedorova.controllers.LectureController"
           scope="singleton"
@@ -36,6 +39,7 @@
             </bean>
         </property>
     </bean>
+
 
     <bean id="students_controller" class="ru.innopolis.uni.course3.ofedorova.controllers.StudentController" scope="singleton">
         <property name="daoForStudent" ref="dao_students"/>
