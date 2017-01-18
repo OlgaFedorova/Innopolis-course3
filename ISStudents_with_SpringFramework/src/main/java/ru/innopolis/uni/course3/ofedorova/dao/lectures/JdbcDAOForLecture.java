@@ -18,7 +18,7 @@ import java.util.Collection;
  */
 public class JdbcDAOForLecture extends JdbcDaoSupport implements DAOForLecture {
 
-    private JdbcBasicDAOForLecture basicDAOForLecture;
+    private BasicDAOForLecture basicDAOForLecture;
     private TransactionTemplate transactionTemplate;
 
     public void setBasicDAOForLecture(JdbcBasicDAOForLecture basicDAOForLecture) {

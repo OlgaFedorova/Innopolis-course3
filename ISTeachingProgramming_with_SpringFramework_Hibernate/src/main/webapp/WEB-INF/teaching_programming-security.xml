@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
+       xmlns="http://www.springframework.org/schema/security"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/security
+       http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <http auto-config="true" use-expressions="true">
+        <access-denied-handler error-page="/notaccess"/>
+        <intercept-url pattern="/registration" access="isAnonymous() or isAuthenticated()"/>
+        <intercept-url pattern="/login" access="isAnonymous() or isAuthenticated()"/>
+        <intercept-url pattern="/index" access="isAnonymous() or isAuthenticated()" />
+        <intercept-url pattern="/success-logout" access="isAnonymous()" />
+        <intercept-url pattern="/logonError" access="isAnonymous() or isAuthenticated()" />
+        <intercept-url pattern="/**" access="isAuthenticated()" />
+
+        <form-login login-page="/login"
+                    default-target-url="/index"
+                    login-processing-url="/login"
+                    authentication-failure-url="/logonError"/>
+        <logout logout-url="/logout" logout-success-url="/index"/>
+
+        <csrf disabled="true"/>
+    </http>
+
+
+
+    <authentication-manager>
+        <authentication-provider ref="authenticationProvider"/>
+            <!--
+            <jdbc-user-service data-source-ref="dataSource"
+                               users-by-username-query= "select username, password, true from users where username=?"
+                               authorities-by-username-query= "select username,'ROLE_USER' from users where username=?" />-->
+    </authentication-manager>
+
+</beans:beans>

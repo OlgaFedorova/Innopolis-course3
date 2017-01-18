@@ -30,6 +30,7 @@
     <bean id = "lecture_controller" class="ru.innopolis.uni.course3.ofedorova.controllers.LectureController"
           scope="singleton"
           p:daoForLecture-ref="dao_lecture"/>
+    <!--
     <bean id="dao_lecture" class="ru.innopolis.uni.course3.ofedorova.dao.lectures.JdbcDAOForLecture" scope="singleton">
         <property name="jdbcTemplate" ref="jdbcTemplate"/>
         <property name="basicDAOForLecture" ref="basic_dao_for_lecture"/>
@@ -38,6 +39,9 @@
                 <property name="transactionManager" ref="transactionManager"/>
             </bean>
         </property>
+    </bean>-->
+    <bean id="dao_lecture" class="ru.innopolis.uni.course3.ofedorova.dao.lectures.HibernateDAOForLecture" scope="singleton">
+        <constructor-arg ref="basic_dao_for_lecture"/>
     </bean>
 
 
@@ -49,8 +53,9 @@
         <property name="basicDAOForStudent" ref="basic_dao_for_student"/>
     </bean>
 
-    <bean name="basic_dao_for_lecture" class="ru.innopolis.uni.course3.ofedorova.dao.lectures.JdbcBasicDAOForLecture" scope="singleton"
-        p:jdbcTemplate-ref="jdbcTemplate"/>
+    <!--<bean name="basic_dao_for_lecture" class="ru.innopolis.uni.course3.ofedorova.dao.lectures.JdbcBasicDAOForLecture" scope="singleton"
+        p:jdbcTemplate-ref="jdbcTemplate"/>-->
+    <bean name="basic_dao_for_lecture" class="ru.innopolis.uni.course3.ofedorova.dao.lectures.HibernateBasicDAOForLecture" scope="singleton"/>
     <bean name="basic_dao_for_student" class="ru.innopolis.uni.course3.ofedorova.dao.students.JdbcBasicDAOForStudent" scope="singleton"
           p:jdbcTemplate-ref="jdbcTemplate"/>
 

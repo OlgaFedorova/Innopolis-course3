@@ -7,9 +7,9 @@ import org.hibernate.cfg.Configuration;
 import ru.innopolis.uni.course3.ofedorova.models.Journal;
 import ru.innopolis.uni.course3.ofedorova.models.Lecture;
 import ru.innopolis.uni.course3.ofedorova.models.Student;
-import ru.innopolis.uni.course3.ofedorova.services.HibernateSessionFactory;
 
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  * Created by Olga on 16.01.2017.
@@ -45,14 +45,16 @@ public class HibernateDAOForJournal implements DAOForJournal {
 
     @Override
     public Collection<Journal> values() {
+        Collection<Journal> result = Collections.EMPTY_LIST;
         final Session session = this.factory.openSession();;
         Transaction tx = session.beginTransaction();
         try {
-            return session.createQuery("from Journal").list();
+            result = session.createQuery("from Journal").list();
         } finally {
             tx.commit();
             session.close();
         }
+        return result;
     }
 
     @Override
