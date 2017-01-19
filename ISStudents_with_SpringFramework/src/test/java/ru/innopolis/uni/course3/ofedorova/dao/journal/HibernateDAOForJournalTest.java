@@ -2,8 +2,6 @@ package ru.innopolis.uni.course3.ofedorova.dao.journal;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by Olga on 17.01.2017.
  */

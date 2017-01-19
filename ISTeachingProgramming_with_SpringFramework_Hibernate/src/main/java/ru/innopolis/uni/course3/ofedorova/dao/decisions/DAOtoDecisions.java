@@ -14,6 +14,15 @@ import ru.innopolis.uni.course3.ofedorova.models.Decision;
 public interface DAOtoDecisions {
 
     /**
+     * Метод возвращает объект "Решение".
+     *
+     * @param idUser идентификатор пользователя.
+     * @param idTask идентификатор задания.
+     * @return объект "Решение".
+     */
+    Decision getDecision(int idUser, int idTask);
+
+    /**
      * Метод добавляет решение пользователя в систему.
      *
      * @param decision решениe пользователя.

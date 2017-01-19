@@ -43,12 +43,11 @@ public class MainServiceForTasksImpl implements MainServiceForTasks {
     /**
      * Метод возвращает задание по переданному id.
      *
-     * @param id     идентификатор задания.
-     * @param idUser идентификатор пользователя.
+     * @param id идентификатор задания.
      * @return задание найденное по id.
      */
     @Override
-    public Task getById(int id, int idUser) throws DAOtoTasksException {
-        return this.daOtoTasks.getById(id, idUser);
+    public Task getById(int id) throws DAOtoTasksException {
+        return this.daOtoTasks.getById(id);
     }
 }

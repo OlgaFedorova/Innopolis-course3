@@ -43,6 +43,30 @@ public class MainServiceForHandlerDecisionsImpl implements MainServiceForHandler
     }
 
     /**
+     * Метод возвращает объект "Решение".
+     *
+     * @param idUser идентификатор пользователя.
+     * @param idTask идентификатор задания.
+     * @return объект "Решение".
+     */
+    @Override
+    public Decision getDecision(int idUser, int idTask) {
+        return this.daOtoDecisions.getDecision(idUser, idTask);
+    }
+
+    /**
+     * Метод возвращает объект "Оценку".
+     *
+     * @param idUser идентификатор пользователя.
+     * @param idTask идентификатор задания.
+     * @return объект "Оценка".
+     */
+    @Override
+    public Mark getMark(int idUser, int idTask) {
+        return this.daOtoMarks.getMark(idUser, idTask);
+    }
+
+    /**
      * Метод добавляет решение пользователя в систему и выставляет оценку..
      *
      * @param decision решениe пользователя.

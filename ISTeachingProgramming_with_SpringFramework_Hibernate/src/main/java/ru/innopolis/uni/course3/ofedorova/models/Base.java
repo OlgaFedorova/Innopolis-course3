@@ -1,7 +1,5 @@
 package ru.innopolis.uni.course3.ofedorova.models;
 
-import javax.persistence.*;
-
 /**
  * Класс реализует базовую модель системы.
  *

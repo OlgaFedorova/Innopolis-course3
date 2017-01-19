@@ -2,8 +2,6 @@ package ru.innopolis.uni.course3.ofedorova.dao.students;
 
 import ru.innopolis.uni.course3.ofedorova.models.Student;
 
-import java.util.Collection;
-
 /**
  * Created by Olga on 22.12.2016.
  */

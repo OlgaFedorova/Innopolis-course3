@@ -25,9 +25,8 @@ public interface DAOtoTasks {
     /**
      * Метод возвращает задание по переданному id.
      *
-     * @param id     идентификатор задания.
-     * @param idUser идентификатор пользователя.
+     * @param id идентификатор задания.
      * @return задание найденное по id.
      */
-    Task getById(int id, int idUser) throws DAOtoTasksException;
+    Task getById(int id) throws DAOtoTasksException;
 }

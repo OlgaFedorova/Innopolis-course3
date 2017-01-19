@@ -2,9 +2,6 @@ package ru.innopolis.uni.course3.ofedorova.models;
 
 import org.springframework.security.core.GrantedAuthority;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-
 /**
  * Класс реализует модель "Роль пользователя", необходимый для Spring Security.
  *

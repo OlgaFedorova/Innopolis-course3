@@ -4,14 +4,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.support.JdbcDaoSupport;
-import ru.innopolis.uni.course3.ofedorova.models.Journal;
 import ru.innopolis.uni.course3.ofedorova.models.Lecture;
-import ru.innopolis.uni.course3.ofedorova.services.SQLQueries;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Collections;
 

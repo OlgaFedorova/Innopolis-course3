@@ -14,10 +14,10 @@
     </tr>
     <c:forEach items="${tasks}" var="task" varStatus="status">
         <tr valign="top">
-            <td>${task.getName()}</td>
-            <td>${task.getMark().getMark()}</td>
+            <td>${task[0].getName()}</td>
+            <td>${task[1].getMark()}</td>
             <td>
-                <a href="${pageContext.servletContext.contextPath}/main/tasks/select?id=${task.getId()}">Выбрать</a>
+                <a href="${pageContext.servletContext.contextPath}/main/tasks/select?id=${task[0].getId()}">Выбрать</a>
             </td>
         </tr>
     </c:forEach>

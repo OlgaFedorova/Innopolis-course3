@@ -13,6 +13,15 @@ import ru.innopolis.uni.course3.ofedorova.models.Mark;
 public interface DAOtoMarks {
 
     /**
+     * Метод возвращает объект "Оценку".
+     *
+     * @param idUser идентификатор пользователя.
+     * @param idTask идентификатор задания.
+     * @return объект "Оценка".
+     */
+    public Mark getMark(int idUser, int idTask);
+
+    /**
      * Метод добавляет оценку за решение пользователя в БД.
      *
      * @param mark оценка за задание.

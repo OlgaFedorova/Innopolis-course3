@@ -43,7 +43,7 @@ public class MVCControllerForDecisions {
      * @return view для отображения.
      */
     @RequestMapping(value = "/main/tasks/select", method = RequestMethod.POST)
-    public String sendDecision(Decision decision, @RequestParam("task") Task task) {
+    public String sendDecision(Decision decision, Task task) {
         String view = "";
         User user = MVCControllersCommonFunctions.getUserFromSession();
         if (decision.getDecision() != null && !decision.getDecision().isEmpty()) {

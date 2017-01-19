@@ -49,7 +49,7 @@ public class HibernateOfDAOtoUsers implements DAOtoUsers {
                     "from Mark M right outer join M.user U group by U.username order by mark desc").list();
         } catch (Exception e) {
             throw new DAOtoUsersException(e.getMessage(), e);
-        }finally {
+        } finally {
             tx.commit();
             session.close();
         }
@@ -70,12 +70,12 @@ public class HibernateOfDAOtoUsers implements DAOtoUsers {
         try {
             Query query = session.createQuery("from User where name = :name");
             query.setParameter("name", name);
-            user = (User)query.getSingleResult();
-        } catch (NoResultException e){
+            user = (User) query.getSingleResult();
+        } catch (NoResultException e) {
             user = null;
-        } catch (Exception e){
-            throw new DAOtoUsersException(e.getMessage(),e);
-        }  finally {
+        } catch (Exception e) {
+            throw new DAOtoUsersException(e.getMessage(), e);
+        } finally {
             tx.commit();
             session.close();
         }
@@ -96,10 +96,10 @@ public class HibernateOfDAOtoUsers implements DAOtoUsers {
         try {
             Query query = session.createQuery("from User where id = :id");
             query.setParameter("id", id);
-            user = (User)query.getSingleResult();
-        } catch (Exception e){
-            throw new DAOtoUsersException(e.getMessage(),e);
-        }  finally {
+            user = (User) query.getSingleResult();
+        } catch (Exception e) {
+            throw new DAOtoUsersException(e.getMessage(), e);
+        } finally {
             tx.commit();
             session.close();
         }
@@ -118,9 +118,9 @@ public class HibernateOfDAOtoUsers implements DAOtoUsers {
         Transaction tx = session.beginTransaction();
         try {
             session.save(user);
-        } catch (Exception e){
-            throw new DAOtoUsersException(e.getMessage(),e);
-        }  finally {
+        } catch (Exception e) {
+            throw new DAOtoUsersException(e.getMessage(), e);
+        } finally {
             tx.commit();
             session.close();
         }
@@ -157,13 +157,13 @@ public class HibernateOfDAOtoUsers implements DAOtoUsers {
         Transaction tx = session.beginTransaction();
         try {
             Query query = session.createQuery("update User set password = :password, salt = :salt where id = :id");
-            query.setParameter("password",user.getPassword());
+            query.setParameter("password", user.getPassword());
             query.setParameter("salt", user.getSalt());
             query.setParameter("id", user.getId());
             query.executeUpdate();
-        } catch (Exception e){
-            throw new DAOtoUsersException(e.getMessage(),e);
-        }  finally {
+        } catch (Exception e) {
+            throw new DAOtoUsersException(e.getMessage(), e);
+        } finally {
             tx.commit();
             session.close();
         }

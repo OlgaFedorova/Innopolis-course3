@@ -33,8 +33,8 @@ public class Decision extends Base {
      * Создает новый {@code Decision}.
      *
      * @param id       идентификатор решения.
-     * @param task   идентификатор задачи.
-     * @param user   идентификатор пользователя.
+     * @param task     идентификатор задачи.
+     * @param user     идентификатор пользователя.
      * @param decision решение.
      */
     public Decision(int id, Task task, User user, String decision) {

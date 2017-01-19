@@ -44,7 +44,7 @@ public class Mark extends Base {
      *
      * @param task значение поля "task".
      * @param user значение поля "user".
-     * @param mark   значение поля "mark".
+     * @param mark значение поля "mark".
      */
     public Mark(Task task, User user, int mark) {
         super(1);
