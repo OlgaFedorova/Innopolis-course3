@@ -14,7 +14,7 @@ public class Singlton5 {
     private Singlton5() {
     }
 
-    public static synchronized Singlton5 getInstance(){
+    public static Singlton5 getInstance(){
         if (instance == null) {
             synchronized (Singlton5.class) {
                 if (instance == null) {
