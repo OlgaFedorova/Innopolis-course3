@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.innopolis.uni.course3.ofedorova.constants.SQLQueries;
 import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoUsersException;
-import ru.innopolis.uni.course3.ofedorova.common.models.User;
+import ru.innopolis.uni.course3.ofedorova.models.User;
 
 import java.sql.*;
 import java.util.*;

@@ -5,8 +5,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoTasksException;
-import ru.innopolis.uni.course3.ofedorova.common.models.Mark;
-import ru.innopolis.uni.course3.ofedorova.common.models.Task;
+import ru.innopolis.uni.course3.ofedorova.models.Mark;
+import ru.innopolis.uni.course3.ofedorova.models.Task;
 
 import javax.persistence.NoResultException;
 import javax.persistence.Query;

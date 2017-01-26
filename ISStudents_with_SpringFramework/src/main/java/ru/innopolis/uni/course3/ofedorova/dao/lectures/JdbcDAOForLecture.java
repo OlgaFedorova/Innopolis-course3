@@ -7,7 +7,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
-import ru.innopolis.uni.course3.ofedorova.common.models.Lecture;
+import ru.innopolis.uni.course3.ofedorova.models.Lecture;
 import ru.innopolis.uni.course3.ofedorova.services.SQLQueries;
 
 import java.sql.*;

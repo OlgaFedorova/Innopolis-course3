@@ -2,8 +2,8 @@ package ru.innopolis.uni.course3.ofedorova.services.handlerdecisions;
 
 import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoDecisionsException;
 import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoMarksException;
-import ru.innopolis.uni.course3.ofedorova.common.models.Decision;
-import ru.innopolis.uni.course3.ofedorova.common.models.Mark;
+import ru.innopolis.uni.course3.ofedorova.models.Decision;
+import ru.innopolis.uni.course3.ofedorova.models.Mark;
 
 /**
  * Интерфейс реализует главный сервис для работы с моделью данных "Decision".

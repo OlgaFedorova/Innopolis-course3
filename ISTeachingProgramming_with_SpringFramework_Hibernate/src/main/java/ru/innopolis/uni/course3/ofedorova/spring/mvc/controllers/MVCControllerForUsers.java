@@ -11,7 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import ru.innopolis.uni.course3.ofedorova.constants.MVCControllersCommonFunctions;
-import ru.innopolis.uni.course3.ofedorova.common.models.User;
+import ru.innopolis.uni.course3.ofedorova.models.User;
 import ru.innopolis.uni.course3.ofedorova.services.users.MainServiceForUsers;
 
 import javax.servlet.http.HttpServletRequest;

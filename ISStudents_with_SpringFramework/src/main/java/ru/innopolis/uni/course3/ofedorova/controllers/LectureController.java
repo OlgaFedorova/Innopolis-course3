@@ -1,17 +1,14 @@
 package ru.innopolis.uni.course3.ofedorova.controllers;
 
-import ru.innopolis.uni.course3.ofedorova.common.controllers.AbstractLectureController;
-import ru.innopolis.uni.course3.ofedorova.common.models.Lecture;
 import ru.innopolis.uni.course3.ofedorova.dao.lectures.DAOForLecture;
+import ru.innopolis.uni.course3.ofedorova.models.Lecture;
 
 import java.util.Collection;
 
 /**
  * Created by Olga on 22.12.2016.
  */
-public class LectureController implements AbstractLectureController {
-
-    static final long SerialVersionUID = 1L;
+public class LectureController implements DAOForLecture {
 
     private DAOForLecture daoForLecture;
 

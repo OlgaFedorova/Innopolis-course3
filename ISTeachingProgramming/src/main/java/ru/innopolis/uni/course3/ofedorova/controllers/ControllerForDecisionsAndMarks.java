@@ -1,4 +1,4 @@
-package ru.innopolis.uni.course3.ofedorova.common.controllers;
+package ru.innopolis.uni.course3.ofedorova.controllers;
 
 import ru.innopolis.uni.course3.ofedorova.dao.decisions.DAOtoDecisions;
 import ru.innopolis.uni.course3.ofedorova.dao.decisions.JdbcOfDAOtoDecisions;

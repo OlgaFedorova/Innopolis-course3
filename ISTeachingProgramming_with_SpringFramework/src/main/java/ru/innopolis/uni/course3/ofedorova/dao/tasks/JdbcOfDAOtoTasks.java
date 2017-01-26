@@ -8,9 +8,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.innopolis.uni.course3.ofedorova.constants.SQLQueries;
 import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoTasksException;
-import ru.innopolis.uni.course3.ofedorova.common.models.Decision;
-import ru.innopolis.uni.course3.ofedorova.common.models.Mark;
-import ru.innopolis.uni.course3.ofedorova.common.models.Task;
+import ru.innopolis.uni.course3.ofedorova.models.Decision;
+import ru.innopolis.uni.course3.ofedorova.models.Mark;
+import ru.innopolis.uni.course3.ofedorova.models.Task;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

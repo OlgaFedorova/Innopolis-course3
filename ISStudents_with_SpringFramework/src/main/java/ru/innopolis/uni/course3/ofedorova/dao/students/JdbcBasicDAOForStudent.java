@@ -2,7 +2,7 @@ package ru.innopolis.uni.course3.ofedorova.dao.students;
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
-import ru.innopolis.uni.course3.ofedorova.common.models.Student;
+import ru.innopolis.uni.course3.ofedorova.models.Student;
 import ru.innopolis.uni.course3.ofedorova.services.SQLQueries;
 
 import java.sql.*;

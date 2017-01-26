@@ -1,6 +1,5 @@
-package ru.innopolis.uni.course3.ofedorova.controllers;
+package ru.innopolis.uni.course3.ofedorova.common.controllers;
 
-import ru.innopolis.uni.course3.ofedorova.common.controllers.AbstractJournalController;
 import ru.innopolis.uni.course3.ofedorova.common.models.Journal;
 import ru.innopolis.uni.course3.ofedorova.common.models.Lecture;
 import ru.innopolis.uni.course3.ofedorova.common.models.Student;

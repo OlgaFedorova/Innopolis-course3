@@ -1,9 +1,9 @@
-package ru.innopolis.uni.course3.ofedorova.common.controllers;
+package ru.innopolis.uni.course3.ofedorova.controllers;
 
 import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoUsersException;
 import ru.innopolis.uni.course3.ofedorova.dao.users.DAOtoUsers;
 import ru.innopolis.uni.course3.ofedorova.dao.users.JdbcOfDAOtoUsers;
-import ru.innopolis.uni.course3.ofedorova.common.models.User;
+import ru.innopolis.uni.course3.ofedorova.models.User;
 import ru.innopolis.uni.course3.ofedorova.services.users.ServiceOfUsers;
 import ru.innopolis.uni.course3.ofedorova.services.users.ServiceOfUsersImpl;
 

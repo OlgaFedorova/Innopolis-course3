@@ -1,6 +1,5 @@
-package ru.innopolis.uni.course3.ofedorova.controllers;
+package ru.innopolis.uni.course3.ofedorova.common.controllers;
 
-import ru.innopolis.uni.course3.ofedorova.common.controllers.AbstractStudentController;
 import ru.innopolis.uni.course3.ofedorova.common.models.Student;
 import ru.innopolis.uni.course3.ofedorova.dao.students.DAOForStudent;
 

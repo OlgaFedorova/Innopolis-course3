@@ -1,9 +1,9 @@
-package ru.innopolis.uni.course3.ofedorova.common.controllers;
+package ru.innopolis.uni.course3.ofedorova.controllers;
 
 import ru.innopolis.uni.course3.ofedorova.dao.journal.DAOForJournal;
-import ru.innopolis.uni.course3.ofedorova.common.models.Journal;
-import ru.innopolis.uni.course3.ofedorova.common.models.Lecture;
-import ru.innopolis.uni.course3.ofedorova.common.models.Student;
+import ru.innopolis.uni.course3.ofedorova.models.Journal;
+import ru.innopolis.uni.course3.ofedorova.models.Lecture;
+import ru.innopolis.uni.course3.ofedorova.models.Student;
 
 import java.util.Collection;
 

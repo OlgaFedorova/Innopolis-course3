@@ -1,7 +1,7 @@
 package ru.innopolis.uni.course3.ofedorova.dao.marks;
 
 import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoMarksException;
-import ru.innopolis.uni.course3.ofedorova.common.models.Mark;
+import ru.innopolis.uni.course3.ofedorova.models.Mark;
 
 /**
  * Интерфейс реализует модель доступа к данным модели "Mark".

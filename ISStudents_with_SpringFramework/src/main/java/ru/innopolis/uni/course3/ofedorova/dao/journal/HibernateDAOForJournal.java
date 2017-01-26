@@ -4,9 +4,9 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
-import ru.innopolis.uni.course3.ofedorova.common.models.Journal;
-import ru.innopolis.uni.course3.ofedorova.common.models.Lecture;
-import ru.innopolis.uni.course3.ofedorova.common.models.Student;
+import ru.innopolis.uni.course3.ofedorova.models.Journal;
+import ru.innopolis.uni.course3.ofedorova.models.Lecture;
+import ru.innopolis.uni.course3.ofedorova.models.Student;
 
 import java.util.Collection;
 import java.util.Collections;

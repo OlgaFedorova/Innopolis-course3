@@ -2,7 +2,7 @@ package ru.innopolis.uni.course3.ofedorova.dao.journal;
 
 import ru.innopolis.uni.course3.ofedorova.dao.lectures.BasicDAOForLecture;
 import ru.innopolis.uni.course3.ofedorova.dao.students.BasicDAOForStudent;
-import ru.innopolis.uni.course3.ofedorova.common.models.Journal;
+import ru.innopolis.uni.course3.ofedorova.models.Journal;
 
 import java.util.Collection;
 

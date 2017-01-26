@@ -4,7 +4,7 @@ import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-import ru.innopolis.uni.course3.ofedorova.common.models.Student;
+import ru.innopolis.uni.course3.ofedorova.models.Student;
 import ru.innopolis.uni.course3.ofedorova.services.SQLQueries;
 
 import java.sql.*;

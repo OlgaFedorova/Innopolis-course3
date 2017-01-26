@@ -1,7 +1,7 @@
 package ru.innopolis.uni.course3.ofedorova.constants;
 
 import org.springframework.security.core.context.SecurityContextHolder;
-import ru.innopolis.uni.course3.ofedorova.common.models.User;
+import ru.innopolis.uni.course3.ofedorova.models.User;
 
 /**
  * Класс содержит общие методы для работы с Spring-контроллерами.

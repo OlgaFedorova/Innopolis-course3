@@ -2,7 +2,7 @@ package ru.innopolis.uni.course3.ofedorova.dao.lectures;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-import ru.innopolis.uni.course3.ofedorova.common.models.Lecture;
+import ru.innopolis.uni.course3.ofedorova.models.Lecture;
 
 import java.util.Collection;
 

@@ -3,9 +3,9 @@ package ru.innopolis.uni.course3.ofedorova.dao.tasks;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoTasksException;
-import ru.innopolis.uni.course3.ofedorova.common.models.Decision;
-import ru.innopolis.uni.course3.ofedorova.common.models.Mark;
-import ru.innopolis.uni.course3.ofedorova.common.models.Task;
+import ru.innopolis.uni.course3.ofedorova.models.Decision;
+import ru.innopolis.uni.course3.ofedorova.models.Mark;
+import ru.innopolis.uni.course3.ofedorova.models.Task;
 import ru.innopolis.uni.course3.ofedorova.services.ConnectionPoolFactory;
 
 import java.sql.Connection;

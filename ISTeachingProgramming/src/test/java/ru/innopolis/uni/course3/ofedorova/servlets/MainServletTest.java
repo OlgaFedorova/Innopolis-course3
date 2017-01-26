@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import ru.innopolis.uni.course3.ofedorova.common.controllers.ControllerForUsers;
+import ru.innopolis.uni.course3.ofedorova.controllers.ControllerForUsers;
 import ru.innopolis.uni.course3.ofedorova.dao.users.JdbcOfDAOtoUsers;
 import ru.innopolis.uni.course3.ofedorova.services.ConnectionPoolFactory;
 

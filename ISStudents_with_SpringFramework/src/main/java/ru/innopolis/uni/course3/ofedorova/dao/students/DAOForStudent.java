@@ -1,6 +1,6 @@
 package ru.innopolis.uni.course3.ofedorova.dao.students;
 
-import ru.innopolis.uni.course3.ofedorova.common.models.Student;
+import ru.innopolis.uni.course3.ofedorova.models.Student;
 
 /**
  * Created by Olga on 22.12.2016.

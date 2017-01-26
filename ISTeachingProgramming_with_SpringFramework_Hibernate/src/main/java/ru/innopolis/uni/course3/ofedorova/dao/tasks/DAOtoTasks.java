@@ -1,7 +1,7 @@
 package ru.innopolis.uni.course3.ofedorova.dao.tasks;
 
 import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoTasksException;
-import ru.innopolis.uni.course3.ofedorova.common.models.Task;
+import ru.innopolis.uni.course3.ofedorova.models.Task;
 
 import java.util.Collection;
 

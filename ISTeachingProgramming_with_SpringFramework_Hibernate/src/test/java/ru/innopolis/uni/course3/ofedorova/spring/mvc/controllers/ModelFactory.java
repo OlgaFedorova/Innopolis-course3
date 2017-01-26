@@ -1,7 +1,7 @@
 package ru.innopolis.uni.course3.ofedorova.spring.mvc.controllers;
 
 import org.springframework.ui.Model;
-import ru.innopolis.uni.course3.ofedorova.common.models.User;
+import ru.innopolis.uni.course3.ofedorova.models.User;
 
 import java.util.HashMap;
 import java.util.Map;

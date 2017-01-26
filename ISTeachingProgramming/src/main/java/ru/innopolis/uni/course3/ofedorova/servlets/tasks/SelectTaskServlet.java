@@ -1,9 +1,9 @@
 package ru.innopolis.uni.course3.ofedorova.servlets.tasks;
 
-import ru.innopolis.uni.course3.ofedorova.common.controllers.ControllerForTasks;
+import ru.innopolis.uni.course3.ofedorova.controllers.ControllerForTasks;
 import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoTasksException;
-import ru.innopolis.uni.course3.ofedorova.common.models.Task;
-import ru.innopolis.uni.course3.ofedorova.common.models.User;
+import ru.innopolis.uni.course3.ofedorova.models.Task;
+import ru.innopolis.uni.course3.ofedorova.models.User;
 import ru.innopolis.uni.course3.ofedorova.servlets.security.ServletsCommon;
 
 import javax.servlet.ServletException;

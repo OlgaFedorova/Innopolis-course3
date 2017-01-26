@@ -10,9 +10,9 @@ import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
 import ru.innopolis.uni.course3.ofedorova.dao.lectures.JdbcBasicDAOForLecture;
 import ru.innopolis.uni.course3.ofedorova.dao.students.JdbcBasicDAOForStudent;
-import ru.innopolis.uni.course3.ofedorova.common.models.Journal;
-import ru.innopolis.uni.course3.ofedorova.common.models.Lecture;
-import ru.innopolis.uni.course3.ofedorova.common.models.Student;
+import ru.innopolis.uni.course3.ofedorova.models.Journal;
+import ru.innopolis.uni.course3.ofedorova.models.Lecture;
+import ru.innopolis.uni.course3.ofedorova.models.Student;
 import ru.innopolis.uni.course3.ofedorova.services.SQLQueries;
 
 import java.sql.*;

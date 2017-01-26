@@ -10,7 +10,7 @@
        http://www.springframework.org/schema/tx
        http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
 
-    <bean id = "journal_controller" class="ru.innopolis.uni.course3.ofedorova.common.controllers.JournalController" scope="singleton">
+    <bean id = "journal_controller" class="JournalController" scope="singleton">
         <constructor-arg ref="dao_journal"/>
     </bean>
     <bean id="dao_journal" class="ru.innopolis.uni.course3.ofedorova.dao.journal.JdbcDAOForJournal" scope="singleton">
@@ -24,7 +24,7 @@
         </property>
     </bean>
 
-    <bean id = "lecture_controller" class="ru.innopolis.uni.course3.ofedorova.common.controllers.LectureController"
+    <bean id = "lecture_controller" class="LectureController"
           scope="singleton"
           p:daoForLecture-ref="dao_lecture"/>
     <bean id="dao_lecture" class="ru.innopolis.uni.course3.ofedorova.dao.lectures.JdbcDAOForLecture" scope="singleton">
@@ -37,7 +37,7 @@
         </property>
     </bean>
 
-    <bean id="students_controller" class="ru.innopolis.uni.course3.ofedorova.common.controllers.StudentController" scope="singleton">
+    <bean id="students_controller" class="StudentController" scope="singleton">
         <property name="daoForStudent" ref="dao_students"/>
     </bean>
     <bean id="dao_students" class="ru.innopolis.uni.course3.ofedorova.dao.students.JdbcDAOForStudent"  scope="singleton">

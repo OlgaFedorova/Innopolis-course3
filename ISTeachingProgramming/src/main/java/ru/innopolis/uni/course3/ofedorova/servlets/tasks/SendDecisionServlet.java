@@ -1,9 +1,9 @@
 package ru.innopolis.uni.course3.ofedorova.servlets.tasks;
 
-import ru.innopolis.uni.course3.ofedorova.common.controllers.ControllerForDecisionsAndMarks;
+import ru.innopolis.uni.course3.ofedorova.controllers.ControllerForDecisionsAndMarks;
 import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoDecisionsException;
 import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoMarksException;
-import ru.innopolis.uni.course3.ofedorova.common.models.User;
+import ru.innopolis.uni.course3.ofedorova.models.User;
 import ru.innopolis.uni.course3.ofedorova.servlets.security.ServletsCommon;
 
 import javax.servlet.ServletException;
