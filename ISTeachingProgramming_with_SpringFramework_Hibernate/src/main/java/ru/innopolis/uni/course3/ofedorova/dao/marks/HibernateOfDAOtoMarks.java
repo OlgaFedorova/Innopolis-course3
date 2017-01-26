@@ -5,7 +5,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoMarksException;
-import ru.innopolis.uni.course3.ofedorova.models.Mark;
+import ru.innopolis.uni.course3.ofedorova.common.models.Mark;
 
 import javax.persistence.NoResultException;
 import javax.persistence.Query;

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.innopolis.uni.course3.ofedorova.constants.MVCControllersCommonFunctions;
-import ru.innopolis.uni.course3.ofedorova.models.User;
+import ru.innopolis.uni.course3.ofedorova.common.models.User;
 import ru.innopolis.uni.course3.ofedorova.services.users.MainServiceForUsers;
 
 /**

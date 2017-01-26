@@ -1,6 +1,6 @@
 package ru.innopolis.uni.course3.ofedorova.security;
 
-import ru.innopolis.uni.course3.ofedorova.models.User;
+import ru.innopolis.uni.course3.ofedorova.common.models.User;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;

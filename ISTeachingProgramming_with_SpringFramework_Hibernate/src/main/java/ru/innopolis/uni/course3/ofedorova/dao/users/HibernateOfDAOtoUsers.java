@@ -5,7 +5,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoUsersException;
-import ru.innopolis.uni.course3.ofedorova.models.User;
+import ru.innopolis.uni.course3.ofedorova.common.models.User;
 
 import javax.persistence.NoResultException;
 import javax.persistence.Query;

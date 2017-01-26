@@ -1,6 +1,6 @@
 package ru.innopolis.uni.course3.ofedorova.dao.students;
 
-import ru.innopolis.uni.course3.ofedorova.models.Student;
+import ru.innopolis.uni.course3.ofedorova.common.models.Student;
 
 import java.util.Collection;
 

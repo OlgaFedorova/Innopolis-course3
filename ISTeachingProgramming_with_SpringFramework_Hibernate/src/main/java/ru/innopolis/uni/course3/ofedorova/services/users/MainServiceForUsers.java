@@ -1,6 +1,6 @@
 package ru.innopolis.uni.course3.ofedorova.services.users;
 
-import ru.innopolis.uni.course3.ofedorova.models.User;
+import ru.innopolis.uni.course3.ofedorova.common.models.User;
 
 import java.util.Collection;
 import java.util.Map;

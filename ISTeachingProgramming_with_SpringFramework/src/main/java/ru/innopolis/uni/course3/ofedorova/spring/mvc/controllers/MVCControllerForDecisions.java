@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.innopolis.uni.course3.ofedorova.constants.MVCControllersCommonFunctions;
-import ru.innopolis.uni.course3.ofedorova.models.Decision;
-import ru.innopolis.uni.course3.ofedorova.models.User;
+import ru.innopolis.uni.course3.ofedorova.common.models.Decision;
+import ru.innopolis.uni.course3.ofedorova.common.models.User;
 import ru.innopolis.uni.course3.ofedorova.services.handlerdecisions.MainServiceForHandlerDecisions;
 
 /**

@@ -1,6 +1,6 @@
 package ru.innopolis.uni.course3.ofedorova.servlets.marks;
 
-import ru.innopolis.uni.course3.ofedorova.controllers.ControllerForUsers;
+import ru.innopolis.uni.course3.ofedorova.common.controllers.ControllerForUsers;
 import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoUsersException;
 
 import javax.servlet.ServletException;

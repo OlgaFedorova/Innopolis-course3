@@ -1,7 +1,7 @@
 package ru.innopolis.uni.course3.ofedorova.dao.lectures;
 
 import org.springframework.stereotype.Component;
-import ru.innopolis.uni.course3.ofedorova.models.Lecture;
+import ru.innopolis.uni.course3.ofedorova.common.models.Lecture;
 import ru.innopolis.uni.course3.ofedorova.services.ConnectionPoolFactory;
 
 import java.sql.*;

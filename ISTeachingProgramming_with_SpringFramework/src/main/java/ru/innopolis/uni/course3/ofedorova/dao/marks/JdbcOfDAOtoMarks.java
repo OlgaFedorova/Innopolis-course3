@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.innopolis.uni.course3.ofedorova.constants.SQLQueries;
 import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoMarksException;
-import ru.innopolis.uni.course3.ofedorova.models.Mark;
+import ru.innopolis.uni.course3.ofedorova.common.models.Mark;
 
 /**
  * Класс реализует модель доступа к данным модели "Mark" с помощью Jdbc.

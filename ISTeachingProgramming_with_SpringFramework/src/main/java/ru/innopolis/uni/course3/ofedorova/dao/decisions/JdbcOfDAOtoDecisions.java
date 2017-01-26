@@ -6,7 +6,7 @@ import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.innopolis.uni.course3.ofedorova.constants.SQLQueries;
-import ru.innopolis.uni.course3.ofedorova.models.Decision;
+import ru.innopolis.uni.course3.ofedorova.common.models.Decision;
 
 /**
  * Класс реализует модель доступа к данным модели "Decision"  с помощью JDBC.

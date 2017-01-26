@@ -1,11 +1,8 @@
 package ru.innopolis.uni.course3.ofedorova.spring.mvc.controllers;
 
 import org.junit.Test;
-import org.springframework.ui.Model;
-import ru.innopolis.uni.course3.ofedorova.models.User;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
 
 /**
  * Created by Olga on 11.01.2017.

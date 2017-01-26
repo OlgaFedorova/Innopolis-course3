@@ -1,7 +1,7 @@
 package ru.innopolis.uni.course3.ofedorova.dao.users;
 
 import ru.innopolis.uni.course3.ofedorova.dao.exceptions.DAOtoUsersException;
-import ru.innopolis.uni.course3.ofedorova.models.User;
+import ru.innopolis.uni.course3.ofedorova.common.models.User;
 
 import java.util.Collection;
 import java.util.Map;

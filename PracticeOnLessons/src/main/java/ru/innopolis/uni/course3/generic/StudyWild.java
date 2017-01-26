@@ -66,7 +66,7 @@ public class StudyWild {
 
 
         SimpleArray<? super B> list4 = new SimpleArray<>(3);
-        //list4.add(new A()); exception
+        //list4.add(new A()); //exception
         list4.add(new B());
         list4.add(new C());
         this.printAll(list4);

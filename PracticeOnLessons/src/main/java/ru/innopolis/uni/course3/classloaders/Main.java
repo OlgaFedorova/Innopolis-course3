@@ -21,6 +21,29 @@ public class Main {
         compiler.run(null, null, null, outputDir.getPath());
     }
 
+    static class A{
+        public A() {
+            System.out.println("");
+            //super();
+        }
+
+        public void tA(){}
+    }
+
+    static class B extends A{
+        public B() {
+            super();
+        }
+
+        @Override
+        public void tA() {
+            super.tA();
+        }
+
+        public void tB() {
+        }
+    }
+
     public static void main(String[] args) {
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -68,6 +91,8 @@ public class Main {
                 e.printStackTrace();
             }
         }
+
+        B b = ((B)new A());
     }
 
 }

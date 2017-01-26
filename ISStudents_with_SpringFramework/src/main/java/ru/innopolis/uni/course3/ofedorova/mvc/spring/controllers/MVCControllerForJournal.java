@@ -6,8 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import ru.innopolis.uni.course3.ofedorova.controllers.JournalController;
-import ru.innopolis.uni.course3.ofedorova.models.Journal;
+import ru.innopolis.uni.course3.ofedorova.common.controllers.JournalController;
+import ru.innopolis.uni.course3.ofedorova.common.models.Journal;
 
 /**
  * Created by Olga on 07.01.2017.
