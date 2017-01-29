@@ -23,6 +23,7 @@
         </param-value>
     </context-param>
 
+    <!--
     <servlet>
         <servlet-name>lectureExporter</servlet-name>
         <servlet-class>org.springframework.web.context.support.HttpRequestHandlerServlet</servlet-class>
@@ -49,7 +50,7 @@
         <servlet-name>journalExporter</servlet-name>
         <url-pattern>/remoting/JournalService</url-pattern>
     </servlet-mapping>
-
+    -->
 
 
 </web-app>

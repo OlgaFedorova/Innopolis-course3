@@ -16,7 +16,7 @@
 
     <bean name="journalExporter" class="org.springframework.remoting.caucho.HessianServiceExporter">
         <property name="service" ref="journal_controller"/>
-        <property name="serviceInterface" value="AbstractJournalController"/>
+        <property name="serviceInterface" value="ru.innopolis.uni.course3.ofedorova.common.controllers.AbstractJournalController"/>
     </bean>
 
     <bean id="dao_journal" class="ru.innopolis.uni.course3.ofedorova.dao.journal.JdbcDAOForJournal" scope="singleton">
@@ -37,7 +37,7 @@
 
     <bean name="lectureExporter" class="org.springframework.remoting.caucho.HessianServiceExporter">
         <property name="service" ref="lecture_controller"/>
-        <property name="serviceInterface" value="AbstractLectureController"/>
+        <property name="serviceInterface" value="ru.innopolis.uni.course3.ofedorova.common.controllers.AbstractLectureController"/>
     </bean>
 
     <bean id="dao_lecture" class="ru.innopolis.uni.course3.ofedorova.dao.lectures.JdbcDAOForLecture" scope="singleton">
@@ -56,7 +56,7 @@
 
     <bean name="studentExporter" class="org.springframework.remoting.caucho.HessianServiceExporter">
         <property name="service" ref="students_controller"/>
-        <property name="serviceInterface" value="AbstractStudentController"/>
+        <property name="serviceInterface" value="ru.innopolis.uni.course3.ofedorova.common.controllers.AbstractStudentController"/>
     </bean>
 
     <bean id="dao_students" class="ru.innopolis.uni.course3.ofedorova.dao.students.JdbcDAOForStudent"  scope="singleton">

@@ -24,17 +24,17 @@
 
     <bean id="journalController" class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
         <property name="serviceUrl" value="http://localhost:8081/remoting/JournalService"></property>
-        <property name="serviceInterface" value="AbstractJournalController"></property>
+        <property name="serviceInterface" value="ru.innopolis.uni.course3.ofedorova.common.controllers.AbstractJournalController"></property>
     </bean>
 
     <bean id="lectureController" class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
         <property name="serviceUrl" value="http://localhost:8081/remoting/LectureService"></property>
-        <property name="serviceInterface" value="AbstractLectureController"></property>
+        <property name="serviceInterface" value="ru.innopolis.uni.course3.ofedorova.common.controllers.AbstractLectureController"></property>
     </bean>
 
     <bean id="studentsController" class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
         <property name="serviceUrl" value="http://localhost:8081/remoting/StudentService"></property>
-        <property name="serviceInterface" value="AbstractStudentController"></property>
+        <property name="serviceInterface" value="ru.innopolis.uni.course3.ofedorova.common.controllers.AbstractStudentController"></property>
     </bean>
 
 </beans>
