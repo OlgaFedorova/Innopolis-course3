@@ -1,8 +1,6 @@
-package ru.innopolis.uni.course3.sort_algoritm;
+package ru.innopolis.uni.course3.tasksforsobes.sort_algoritm;
 
-import java.awt.dnd.InvalidDnDOperationException;
 import java.util.Arrays;
-import java.util.Random;
 
 /**
  * Created by Olga on 29.01.2017.
